@@ -1,6 +1,5 @@
-import { createGlobalStyle, ThemeProvider } from "styled-components"
-import { defaultTheme } from "./design/theme";
-
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import defaultTheme from './design/theme';
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -16,12 +15,12 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+margin: 0;
+padding: 0;
+border: 0;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
 }
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
@@ -49,7 +48,7 @@ html, body {
 	height: 100%;
 }
 body {
-  background-color: ${(props)=>props.theme.mainWhite};
+  background-color: ${props => props.theme.mainWhite};
   max-width: 76.8rem;
   margin: 0 auto;
 }
