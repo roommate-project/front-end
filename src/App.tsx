@@ -1,6 +1,5 @@
-import { createGlobalStyle, ThemeProvider } from "styled-components"
-import { defaultTheme } from "./design/theme";
-
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { defaultTheme } from './design/theme';
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -49,7 +48,7 @@ html, body {
 	height: 100%;
 }
 body {
-  background-color: ${(props)=>props.theme.mainWhite};
+  background-color: ${props => props.theme.mainWhite};
   max-width: 76.8rem;
   margin: 0 auto;
 }
