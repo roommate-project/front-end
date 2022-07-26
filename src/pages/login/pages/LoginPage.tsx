@@ -6,7 +6,7 @@ import {
   LoginButton,
   SignUpButton,
   LoginDivs,
-} from 'pages/login/LoginPageStyles';
+} from 'pages/login/styles/LoginPageStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
