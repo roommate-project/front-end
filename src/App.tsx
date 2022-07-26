@@ -1,3 +1,5 @@
+import SignUpEmail from 'pages/SignUpEmail';
+import SignUpMain from 'pages/SignUpMain';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { defaultTheme } from './design/theme';
 
@@ -46,9 +48,10 @@ table {
 }
 html, body {
 	height: 100%;
+	font-size: 62.5%;
 }
 body {
-  background-color: ${props => props.theme.mainWhite};
+  background-color: ${props => props.theme.backgroundGrey};
   max-width: 76.8rem;
   margin: 0 auto;
 }
@@ -62,7 +65,8 @@ function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
-      <div>roommate</div>
+      <SignUpEmail />
+      <SignUpMain />
     </ThemeProvider>
   );
 }
