@@ -1,5 +1,5 @@
-import SignUpEmail from 'pages/SignUpEmail';
-import SignUpMain from 'pages/SignUpMain';
+import SignUpEmail from 'pages/signup/SignUpEmailPage';
+import SignUpMain from 'pages/signup/SignUpMainPage';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { defaultTheme } from './design/theme';
 

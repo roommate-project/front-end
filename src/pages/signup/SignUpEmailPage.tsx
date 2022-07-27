@@ -1,4 +1,10 @@
-import { Box, Container, Input, NextBtn, Title } from 'design/SignUpStyle';
+import {
+  Box,
+  Container,
+  Input,
+  NextBtn,
+  Title,
+} from 'pages/signup/SignUpStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 

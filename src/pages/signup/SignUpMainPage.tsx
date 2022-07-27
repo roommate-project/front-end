@@ -7,7 +7,7 @@ import {
   KakaoSingupBtn,
   NaverSingupBtn,
   Title,
-} from 'design/SignUpStyle';
+} from 'pages/signup/SignUpStyle';
 
 function SignUpMain() {
   return (
