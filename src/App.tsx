@@ -9,6 +9,7 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
       <EmailLoginPage />
+      {/* <LoginPage /> */}
     </ThemeProvider>
   );
 }
