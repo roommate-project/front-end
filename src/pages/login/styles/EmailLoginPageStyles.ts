@@ -18,6 +18,6 @@ export const LoginDiv = styled.div`
 `;
 
 export const LoginCheckButton = styled(FontAwesomeIcon)`
-  font-size: 2rem;
+  font-size: 48px;
   margin: 10px;
 `;

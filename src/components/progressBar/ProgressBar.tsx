@@ -12,7 +12,7 @@ function ProgressBar({ width }: WidthProp) {
   return (
     <>
       <ProgressBarBackground>
-        <ProgressBarInner width={width}></ProgressBarInner>
+        <ProgressBarInner width={width} />
       </ProgressBarBackground>
     </>
   );

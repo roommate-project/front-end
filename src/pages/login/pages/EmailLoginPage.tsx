@@ -1,7 +1,6 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { faCircleCheck as faCircleCheckSolid } from '@fortawesome/free-regular-svg-icons';
 import {
   LoginInput,
   LoginDiv,
@@ -9,17 +8,22 @@ import {
 } from 'pages/login/styles/EmailLoginPageStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
 
+type FormValue = {
+  email: string;
+  password: string;
+};
+
 function EmailLoginPage() {
   const {
     register,
     handleSubmit,
     watch,
     formState: { isSubmitting, errors },
-  } = useForm({ mode: 'onBlur' });
+  } = useForm<FormValue>({ mode: 'onBlur' });
 
-  const [isEmail, setIsEmail] = React.useState(false);
-  const [isPassword, setIsPassword] = React.useState(false);
-  const [isActive, setIsActive] = React.useState(false);
+  const [isEmail, setIsEmail] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
   const isEmailOn = () => {
     watch('email').length !== 0 ? setIsEmail(true) : setIsEmail(false);
@@ -35,7 +39,7 @@ function EmailLoginPage() {
     isEmail && isPassword ? setIsActive(true) : setIsActive(false);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     isEmailOn();
     isPasswordOn();
     isActiveOn();
@@ -56,21 +60,21 @@ function EmailLoginPage() {
             placeholder="이메일을 입력해주세요."
             {...register('email', {
               required: true,
-              pattern:
-                /^[0-9a-zA-Z]([-.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/,
+              pattern: {
+                value:
+                  /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+                message: '이메일 형식이 올바르지 않습니다.',
+              },
             })}
             onChange={isEmailOn}
           />
 
           <LoginCheckButton
-            icon={
-              isEmail && !errors?.email?.type
-                ? faCircleCheck
-                : faCircleCheckSolid
-            }
+            icon={faCircleCheck}
+            color={isEmail && !errors?.email?.type ? '#000000' : '#ffffff'}
           />
         </LoginDiv>
-        <p>{errors?.email?.type && '이메일을 입력해주세요.'}</p>
+        <p>{errors?.email?.message}</p>
         <label htmlFor="password">비밀번호</label>
         <LoginDiv>
           <LoginInput
@@ -79,22 +83,20 @@ function EmailLoginPage() {
             placeholder="비밀번호를 입력해주세요."
             {...register('password', {
               required: true,
-              pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
+              pattern: {
+                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
+                message:
+                  '비밀번호는 영문과 숫자를 합쳐 8글자 이상 입력해주세요.',
+              },
             })}
             onChange={isPasswordOn}
           />
           <LoginCheckButton
-            icon={
-              isPassword && !errors?.password?.type
-                ? faCircleCheck
-                : faCircleCheckSolid
-            }
+            icon={faCircleCheck}
+            color={isEmail && !errors?.password?.type ? '#000000' : '#ffffff'}
           />
         </LoginDiv>
-        <p>
-          {errors?.password?.type &&
-            '비밀번호는 영문자와 숫자를 포함한 8글자 이상압니다.'}
-        </p>
+        <p>{errors?.password?.message}</p>
         <button
           type="submit"
           disabled={isSubmitting}

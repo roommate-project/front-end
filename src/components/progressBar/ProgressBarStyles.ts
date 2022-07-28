@@ -12,6 +12,7 @@ export const ProgressBarBackground = styled.div`
   position: relative;
   margin-top: 100px;
 `;
+
 export const ProgressBarInner = styled('div')<ProgressBarStyled>`
   background-color: #000000;
   width: ${props => `${props.width}px`};
