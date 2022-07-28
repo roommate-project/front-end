@@ -112,6 +112,8 @@ export const ReSendBtn = styled(Button)`
 
 export const AuthBtn = styled(SendBtn)``;
 
+export const SubmitBtn = styled(SendBtn)<{ isActive: boolean }>``;
+
 /* export const NextBtn = styled.button<{ isActive: boolean }>`
   font-size: 50px;
   color: ${prop =>

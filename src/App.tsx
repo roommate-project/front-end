@@ -1,5 +1,6 @@
 import SignUpEmailAuthPage from 'pages/signup/SignUpEmailAuthPage';
 import SignUpEmail from 'pages/signup/SignUpEmailPage';
+import SignUpLastPage from 'pages/signup/SignUpLastPage';
 import SignUpMain from 'pages/signup/SignUpMainPage';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { defaultTheme } from './design/theme';
@@ -69,6 +70,7 @@ function App() {
       <SignUpMain />
       <SignUpEmail />
       <SignUpEmailAuthPage />
+      <SignUpLastPage />
     </ThemeProvider>
   );
 }

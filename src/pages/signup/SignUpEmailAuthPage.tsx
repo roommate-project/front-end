@@ -43,6 +43,7 @@ function SignUpEmailAuthPage() {
       <Form onSubmit={handleSubmit(onValid)}>
         <TimerContainer>
           <Input
+            type="text"
             {...register('emailAuth', {
               required: true,
               valueAsNumber: true,

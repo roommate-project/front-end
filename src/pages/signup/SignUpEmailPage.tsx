@@ -19,7 +19,6 @@ function SignUpEmail() {
     formState: { errors },
     clearErrors,
   } = useForm<FormValue>();
-  //email input => active
   const [isActive, setIsActive] = useState(false);
   //watch()는 함수가 종료되고 재렌더링 되기 때문에 event를 통해 input변화를 체크
   const onChangeEmail = (event: React.FormEvent<HTMLInputElement>) => {
@@ -27,10 +26,10 @@ function SignUpEmail() {
     event.currentTarget.value ? null : clearErrors();
   };
   const onValid: SubmitHandler<FormValue> = data => {
-    //이메일 중복검사 api
+    //signup api
     console.log(data);
-    //중복된 이메일이면  -> alert, 오류메세지
-    //유효한 이메일이면 -> 인증번호 전송 api -> 다음페이지로
+    //오류 시 메세지 & focus
+    //유효한 data-> 성공로딩(선택) -> 마이페이지
   };
   return (
     <Container>
@@ -46,6 +45,7 @@ function SignUpEmail() {
       </Title>
       <Form onSubmit={handleSubmit(onValid)}>
         <Input
+          type="text"
           {...register('email', {
             required: true,
             pattern: {
