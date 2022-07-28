@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const PageContainer = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -8,24 +8,24 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${prop => prop.theme.mainWhite};
+  background-color: ${props => props.theme.mainWhite};
 `;
 
 export const Title = styled.h1`
   font-size: 48px;
   font-weight: 600;
   text-align: center;
-  color: ${prop => prop.theme.mainRed};
+  color: ${props => props.theme.mainRed};
   div {
     margin-top: 30px;
     margin-bottom: 40px;
     font-size: 20px;
     font-weight: 300;
-    color: ${prop => prop.theme.mainBlack};
+    color: ${props => props.theme.mainBlack};
   }
 `;
 
-export const Box = styled.div`
+export const BtnBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -40,7 +40,7 @@ export const Form = styled.form`
   padding: 20px;
   span {
     font-size: 18px;
-    color: ${prop => prop.theme.mainRed};
+    color: ${props => props.theme.mainRed};
   }
 `;
 
@@ -53,30 +53,19 @@ export const Button = styled.div`
   line-height: 48px;
 `;
 
-export const EmailSingupBtn = styled(Button)`
-  background-color: ${prop => prop.theme.mainWhite};
-  color: ${prop => prop.theme.mainRed};
-  box-shadow: 0 0 0 2px ${prop => prop.theme.mainRed} inset;
+export const EmailSignUpBtn = styled(Button)`
+  background-color: ${props => props.theme.mainWhite};
+  color: ${props => props.theme.mainRed};
+  box-shadow: 0 0 0 2px ${props => props.theme.mainRed} inset;
 `;
 
-export const KakaoSingupBtn = styled(Button)`
+export const SocialSignUpBtn = styled(Button)<{ types: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fee500;
-  color: #191919;
-  img {
-    width: 20px;
-    margin-right: 10px;
-  }
-`;
-
-export const NaverSingupBtn = styled(Button)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #03c75a;
-  color: white;
+  background-color: ${props =>
+    props.types === 'kakao' ? '#fee500' : '#03c75a'};
+  color: ${props => (props.types === 'kakao' ? '#191919' : 'white')};
   img {
     width: 20px;
     margin-right: 10px;
@@ -99,26 +88,17 @@ export const SendBtn = styled.button<{ isActive: boolean }>`
   font-size: 18px;
   line-height: 48px;
   margin-top: 20px;
-  background-color: ${prop =>
-    prop.isActive ? prop.theme.mainRed : prop.theme.mainGrey};
-  color: ${prop => prop.theme.mainWhite};
+  background-color: ${props =>
+    props.isActive ? props.theme.mainRed : props.theme.mainGrey};
+  color: ${props => props.theme.mainWhite};
 `;
 
 export const ReSendBtn = styled(Button)`
-  background-color: ${prop => prop.theme.mainRed};
-  color: ${prop => prop.theme.mainWhite};
+  background-color: ${props => props.theme.mainRed};
+  color: ${props => props.theme.mainWhite};
   margin-top: 40px;
 `;
 
 export const AuthBtn = styled(SendBtn)``;
 
 export const SubmitBtn = styled(SendBtn)<{ isActive: boolean }>``;
-
-/* export const NextBtn = styled.button<{ isActive: boolean }>`
-  font-size: 50px;
-  color: ${prop =>
-    prop.isActive ? prop.theme.mainRed : prop.theme.backgroundGrey};
-  margin-top: 60px;
-  background-color: transparent;
-  border-style: none;
-`; */

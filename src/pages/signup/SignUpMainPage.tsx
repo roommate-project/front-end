@@ -1,17 +1,16 @@
-import kakao from 'assets/kakao.png';
-import naver from 'assets/naver.png';
+import kakaoImg from 'assets/kakaoImg.png';
+import naverImg from 'assets/naverImg.png';
 import {
-  Box,
-  Container,
-  EmailSingupBtn,
-  KakaoSingupBtn,
-  NaverSingupBtn,
+  BtnBox,
+  PageContainer,
+  EmailSignUpBtn,
   Title,
+  SocialSignUpBtn,
 } from 'pages/signup/SignUpStyle';
 
 function SignUpMain() {
   return (
-    <Container>
+    <PageContainer>
       <Title>
         ROOMMATE
         <div>
@@ -22,18 +21,18 @@ function SignUpMain() {
           룸메이트찾기 어쩌고 저쩌고
         </div>
       </Title>
-      <Box>
-        <KakaoSingupBtn>
-          <img src={kakao} />
+      <BtnBox>
+        <SocialSignUpBtn types="kakao">
+          <img src={kakaoImg} />
           카카오로 시작하기
-        </KakaoSingupBtn>
-        <NaverSingupBtn>
-          <img src={naver} />
+        </SocialSignUpBtn>
+        <SocialSignUpBtn types="naver">
+          <img src={naverImg} />
           네이버로 시작하기
-        </NaverSingupBtn>
-        <EmailSingupBtn>이메일로 가입하기</EmailSingupBtn>
-      </Box>
-    </Container>
+        </SocialSignUpBtn>
+        <EmailSignUpBtn>이메일로 가입하기</EmailSignUpBtn>
+      </BtnBox>
+    </PageContainer>
   );
 }
 

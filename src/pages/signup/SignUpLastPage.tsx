@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Container, Form, Input, SubmitBtn } from './SignUpStyle';
+import { PageContainer, Form, Input, SubmitBtn } from './SignUpStyle';
 
 type FormValue = {
   name: string;
   nickName: string;
   password: string;
   passwordCheck: string;
-  representImage: File; // <- 대표사진 1장
-  /*   images: File; // 추가사진 */
+  representImage: File;
+  /* images: File; // 추가사진 */
 };
 
 function SignUpLastPage() {
@@ -67,10 +67,9 @@ function SignUpLastPage() {
         { shouldFocus: true }
       );
     }
-    console.log(data);
   };
   return (
-    <Container>
+    <PageContainer>
       <Form onSubmit={handleSubmit(onValid)}>
         <Input
           type="file"
@@ -99,7 +98,7 @@ function SignUpLastPage() {
           })}
           onChange={onChangeNickName}
         />
-        {errors.nickName?.message}
+        <span>{errors.nickName?.message}</span>
         <Input
           type="password"
           {...register('password', {
@@ -120,7 +119,7 @@ function SignUpLastPage() {
         <span>{errors.passwordCheck?.message}</span>
         <SubmitBtn isActive={isActive}>회원가입</SubmitBtn>
       </Form>
-    </Container>
+    </PageContainer>
   );
 }
 

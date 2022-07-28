@@ -1,5 +1,5 @@
 import {
-  Container,
+  PageContainer,
   Form,
   Input,
   SendBtn,
@@ -20,19 +20,16 @@ function SignUpEmail() {
     clearErrors,
   } = useForm<FormValue>();
   const [isActive, setIsActive] = useState(false);
-  //watch()는 함수가 종료되고 재렌더링 되기 때문에 event를 통해 input변화를 체크
+  //watch()는 함수가 종료되고 재렌더링 되기 때문에 event를 통해 input변화 체크
   const onChangeEmail = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value ? setIsActive(true) : setIsActive(false);
     event.currentTarget.value ? null : clearErrors();
   };
   const onValid: SubmitHandler<FormValue> = data => {
-    //signup api
     console.log(data);
-    //오류 시 메세지 & focus
-    //유효한 data-> 성공로딩(선택) -> 마이페이지
   };
   return (
-    <Container>
+    <PageContainer>
       <Title>
         ROOMMATE
         <div>
@@ -59,7 +56,7 @@ function SignUpEmail() {
         <span>{errors?.email?.message}</span>
         <SendBtn isActive={isActive}>인증번호 전송</SendBtn>
       </Form>
-    </Container>
+    </PageContainer>
   );
 }
 

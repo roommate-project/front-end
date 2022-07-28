@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   AuthBtn,
-  Container,
+  PageContainer,
   Form,
   Input,
   ReSendBtn,
@@ -29,13 +29,9 @@ function SignUpEmailAuthPage() {
     event.currentTarget.value ? setIsActive(true) : setIsActive(false);
     event.currentTarget.value ? null : clearErrors();
   };
-  const onClickResend = () => {
-    //인증번호 전송 api
-    //timer reset
-    console.log('인증번호 재전송!');
-  };
+  const onClickResend = () => {};
   return (
-    <Container>
+    <PageContainer>
       <Title>
         ROOMMATE
         <div>"입력한이메일"로 인증번호를 전송하였습니다. </div>
@@ -49,9 +45,8 @@ function SignUpEmailAuthPage() {
               valueAsNumber: true,
               validate: {
                 value: value =>
-                  value.toString().length !== 6
-                    ? '인증번호 형식이 올바르지 않습니다.'
-                    : undefined,
+                  value.toString().length !== 6 &&
+                  '인증번호 형식이 올바르지 않습니다.',
               },
             })}
             onChange={event => onChangeAuthNum(event)}
@@ -62,7 +57,7 @@ function SignUpEmailAuthPage() {
         <ReSendBtn onClick={onClickResend}>인증번호 재전송</ReSendBtn>
         <AuthBtn isActive={isActive}>인증하기</AuthBtn>
       </Form>
-    </Container>
+    </PageContainer>
   );
 }
 
