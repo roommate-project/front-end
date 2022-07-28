@@ -29,8 +29,19 @@ export const Box = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 40px;
+  padding: 20px;
   gap: 20px;
+`;
+
+export const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  span {
+    font-size: 18px;
+    color: ${prop => prop.theme.mainRed};
+  }
 `;
 
 export const Button = styled.div`
@@ -76,13 +87,36 @@ export const Input = styled.input`
   width: 100%;
   height: 48px;
   border-radius: 12px;
-  text-align: center;
   font-size: 18px;
   line-height: 48px;
+  padding: 0px 16px;
 `;
 
-export const NextBtn = styled.div`
-  font-size: 50px;
-  color: ${prop => prop.theme.mainRed};
-  margin-top: 60px;
+export const SendBtn = styled.button<{ isActive: boolean }>`
+  height: 48px;
+  border-radius: 12px;
+  border-style: none;
+  font-size: 18px;
+  line-height: 48px;
+  margin-top: 20px;
+  background-color: ${prop =>
+    prop.isActive ? prop.theme.mainRed : prop.theme.mainGrey};
+  color: ${prop => prop.theme.mainWhite};
 `;
+
+export const ReSendBtn = styled(Button)`
+  background-color: ${prop => prop.theme.mainRed};
+  color: ${prop => prop.theme.mainWhite};
+  margin-top: 40px;
+`;
+
+export const AuthBtn = styled(SendBtn)``;
+
+/* export const NextBtn = styled.button<{ isActive: boolean }>`
+  font-size: 50px;
+  color: ${prop =>
+    prop.isActive ? prop.theme.mainRed : prop.theme.backgroundGrey};
+  margin-top: 60px;
+  background-color: transparent;
+  border-style: none;
+`; */

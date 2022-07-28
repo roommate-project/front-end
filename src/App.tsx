@@ -1,3 +1,4 @@
+import SignUpEmailAuthPage from 'pages/signup/SignUpEmailAuthPage';
 import SignUpEmail from 'pages/signup/SignUpEmailPage';
 import SignUpMain from 'pages/signup/SignUpMainPage';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -65,8 +66,9 @@ function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
-      <SignUpEmail />
       <SignUpMain />
+      <SignUpEmail />
+      <SignUpEmailAuthPage />
     </ThemeProvider>
   );
 }
