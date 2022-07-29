@@ -27,7 +27,7 @@ function SignUpLastPage() {
     watch('password') &&
     watch('passwordCheck')
       ? setIsActive(true)
-      : setIsActive(true);
+      : setIsActive(false);
     event.currentTarget.value ? null : clearErrors();
   };
   const onChangeNickName = (event: React.FormEvent<HTMLInputElement>) => {
