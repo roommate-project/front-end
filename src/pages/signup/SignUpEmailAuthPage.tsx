@@ -1,14 +1,15 @@
-import AuthTimer, { TimerContainer } from 'components/signup/AuthTimer';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-  AuthBtn,
+  EmailAuthSubmiBtn,
   PageContainer,
-  Form,
-  Input,
-  ReSendBtn,
+  SignUpForm,
+  SignUpInput,
+  EmailReSendBtn,
   Title,
-} from './SignUpStyle';
+} from 'design/signupStyles/SignUpStyle';
+import AuthTimer from 'components/authTimer/AuthTimer';
+import { TimerContainer } from 'components/authTimer/AuthTimerStyles';
 
 type FormValue = {
   emailAuth: number;
@@ -27,7 +28,7 @@ function SignUpEmailAuthPage() {
   };
   const onChangeAuthNum = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value ? setIsActive(true) : setIsActive(false);
-    event.currentTarget.value ? null : clearErrors();
+    !event.currentTarget.value && clearErrors();
   };
   const onClickResend = () => {};
   return (
@@ -36,9 +37,9 @@ function SignUpEmailAuthPage() {
         ROOMMATE
         <div>"입력한이메일"로 인증번호를 전송하였습니다. </div>
       </Title>
-      <Form onSubmit={handleSubmit(onValid)}>
+      <SignUpForm onSubmit={handleSubmit(onValid)}>
         <TimerContainer>
-          <Input
+          <SignUpInput
             type="text"
             {...register('emailAuth', {
               required: true,
@@ -54,9 +55,9 @@ function SignUpEmailAuthPage() {
           <AuthTimer />
         </TimerContainer>
         <span>{errors?.emailAuth?.message}</span>
-        <ReSendBtn onClick={onClickResend}>인증번호 재전송</ReSendBtn>
-        <AuthBtn isActive={isActive}>인증하기</AuthBtn>
-      </Form>
+        <EmailReSendBtn onClick={onClickResend}>인증번호 재전송</EmailReSendBtn>
+        <EmailAuthSubmiBtn isActive={isActive}>인증하기</EmailAuthSubmiBtn>
+      </SignUpForm>
     </PageContainer>
   );
 }

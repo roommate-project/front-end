@@ -33,7 +33,7 @@ export const BtnBox = styled.div`
   gap: 20px;
 `;
 
-export const Form = styled.form`
+export const SignUpForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -44,7 +44,7 @@ export const Form = styled.form`
   }
 `;
 
-export const Button = styled.div`
+export const SignUpButton = styled.div`
   width: 100%;
   height: 48px;
   border-radius: 12px;
@@ -53,13 +53,13 @@ export const Button = styled.div`
   line-height: 48px;
 `;
 
-export const EmailSignUpBtn = styled(Button)`
+export const EmailSignUpBtn = styled(SignUpButton)`
   background-color: ${props => props.theme.mainWhite};
   color: ${props => props.theme.mainRed};
   box-shadow: 0 0 0 2px ${props => props.theme.mainRed} inset;
 `;
 
-export const SocialSignUpBtn = styled(Button)<{ types: string }>`
+export const SocialSignUpBtn = styled(SignUpButton)<{ types: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,7 +72,7 @@ export const SocialSignUpBtn = styled(Button)<{ types: string }>`
   }
 `;
 
-export const Input = styled.input`
+export const SignUpInput = styled.input`
   width: 100%;
   height: 48px;
   border-radius: 12px;
@@ -81,7 +81,7 @@ export const Input = styled.input`
   padding: 0px 16px;
 `;
 
-export const SendBtn = styled.button<{ isActive: boolean }>`
+export const EmailSendBtn = styled.button<{ isActive: boolean }>`
   height: 48px;
   border-radius: 12px;
   border-style: none;
@@ -93,12 +93,12 @@ export const SendBtn = styled.button<{ isActive: boolean }>`
   color: ${props => props.theme.mainWhite};
 `;
 
-export const ReSendBtn = styled(Button)`
+export const EmailReSendBtn = styled(SignUpButton)`
   background-color: ${props => props.theme.mainRed};
   color: ${props => props.theme.mainWhite};
   margin-top: 40px;
 `;
 
-export const AuthBtn = styled(SendBtn)``;
+export const EmailAuthSubmiBtn = styled(EmailSendBtn)``;
 
-export const SubmitBtn = styled(SendBtn)<{ isActive: boolean }>``;
+export const SignUpBtn = styled(EmailSendBtn)<{ isActive: boolean }>``;

@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { PageContainer, Form, Input, SubmitBtn } from './SignUpStyle';
+import {
+  PageContainer,
+  SignUpForm,
+  SignUpInput,
+  SignUpBtn,
+} from 'design/signupStyles/SignUpStyle';
 
 type FormValue = {
   name: string;
@@ -70,15 +75,15 @@ function SignUpLastPage() {
   };
   return (
     <PageContainer>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <Input
+      <SignUpForm onSubmit={handleSubmit(onValid)}>
+        <SignUpInput
           type="file"
           {...register('representImage', {
             required: '프로필 혹은 집 대표 사진은 필수입니다.',
           })}
         />
         <span>{errors.representImage?.message}</span>
-        <Input
+        <SignUpInput
           type="text"
           {...register('name', {
             required: true,
@@ -87,7 +92,7 @@ function SignUpLastPage() {
           onChange={onChangeName}
         />
         <span>{errors.name?.message}</span>
-        <Input
+        <SignUpInput
           type="text"
           {...register('nickName', {
             required: true,
@@ -99,7 +104,7 @@ function SignUpLastPage() {
           onChange={onChangeNickName}
         />
         <span>{errors.nickName?.message}</span>
-        <Input
+        <SignUpInput
           type="password"
           {...register('password', {
             required: true,
@@ -111,14 +116,14 @@ function SignUpLastPage() {
           onChange={onChangePassword}
         />
         <span>{errors.password?.message}</span>
-        <Input
+        <SignUpInput
           type="password"
           {...register('passwordCheck', { required: true })}
           onChange={onChangePasswordCheck}
         />
         <span>{errors.passwordCheck?.message}</span>
-        <SubmitBtn isActive={isActive}>회원가입</SubmitBtn>
-      </Form>
+        <SignUpBtn isActive={isActive}>회원가입</SignUpBtn>
+      </SignUpForm>
     </PageContainer>
   );
 }

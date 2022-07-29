@@ -11,9 +11,3 @@ export const TimerContainer = styled.div`
     right: 30px;
   }
 `;
-
-function AuthTimer() {
-  return <div>8분 30초</div>;
-}
-
-export default AuthTimer;

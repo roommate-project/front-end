@@ -6,9 +6,9 @@ import {
   EmailSignUpBtn,
   Title,
   SocialSignUpBtn,
-} from 'pages/signup/SignUpStyle';
+} from 'design/signupStyles/SignUpStyle';
 
-function SignUpMain() {
+function SignUpMainPage() {
   return (
     <PageContainer>
       <Title>
@@ -36,4 +36,4 @@ function SignUpMain() {
   );
 }
 
-export default SignUpMain;
+export default SignUpMainPage;
