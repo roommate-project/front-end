@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import MatchingPage from 'pages/MatchingPage';
-import LoginPage from 'pages/login/pages/LoginPage';
-import EmailLoginPage from 'pages/login/pages/EmailLoginPage';
+import LoginPage from 'pages/login/LoginPage';
+import EmailLoginPage from 'pages/login/EmailLoginPage';
 import SignUpMain from 'pages/signup/SignUpMainPage';
 import SignUpEmail from 'pages/signup/SignUpEmailPage';
 import SignUpEmailAuthPage from 'pages/signup/SignUpEmailAuthPage';

@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import {
   LoginInput,
   LoginDiv,
   LoginCheckButton,
-} from 'pages/login/styles/EmailLoginPageStyles';
+} from 'design/loginStyles/EmailLoginPageStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
+import { PageContainer } from '../../design/commonStyles';
 
 type FormValue = {
   email: string;
@@ -25,13 +26,17 @@ function EmailLoginPage() {
   const [isPassword, setIsPassword] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
-  const isEmailOn = () => {
-    watch('email').length !== 0 ? setIsEmail(true) : setIsEmail(false);
+  const isEmailOn = (event: React.FormEvent<HTMLInputElement>) => {
+    event.currentTarget.value && watch('email').length !== 0
+      ? setIsEmail(true)
+      : setIsEmail(false);
     isActiveOn();
   };
 
-  const isPasswordOn = () => {
-    watch('password').length !== 0 ? setIsPassword(true) : setIsPassword(false);
+  const isPasswordOn = (event: React.FormEvent<HTMLInputElement>) => {
+    event.currentTarget.value && watch('password').length !== 0
+      ? setIsPassword(true)
+      : setIsPassword(false);
     isActiveOn();
   };
 
@@ -39,14 +44,8 @@ function EmailLoginPage() {
     isEmail && isPassword ? setIsActive(true) : setIsActive(false);
   };
 
-  useEffect(() => {
-    isEmailOn();
-    isPasswordOn();
-    isActiveOn();
-  }, [watch('email'), watch('password')]);
-
   return (
-    <>
+    <PageContainer>
       <form
         onSubmit={handleSubmit(async data => {
           await new Promise(r => setTimeout(r, 1000));
@@ -106,7 +105,7 @@ function EmailLoginPage() {
         </button>
       </form>
       <ProgressBar width={50} />
-    </>
+    </PageContainer>
   );
 }
 

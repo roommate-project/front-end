@@ -1,7 +1,4 @@
 import styled from 'styled-components';
-interface TitleStyled {
-  marginTop: number;
-}
 
 interface ButtonStyled {
   types: string;
@@ -11,9 +8,18 @@ export const LoginMainDiv = styled.div`
   text-align: center;
 `;
 
-export const LoginMarginTopTitle = styled('div')<TitleStyled>`
-  margin-top: ${props => `${props.marginTop}%`};
-  font-size: 1.5rem;
+export const LoginMarginTopTitle = styled('div')`
+  font-size: 48px;
+  font-weight: 600;
+  text-align: center;
+  color: ${props => props.theme.mainRed};
+  div {
+    margin-top: 30px;
+    margin-bottom: 40px;
+    font-size: 20px;
+    font-weight: 300;
+    color: ${props => props.theme.mainBlack};
+  }
 `;
 
 export const LoginSubTitle = styled.p`
@@ -48,6 +54,10 @@ export const LoginButton = styled('button')<ButtonStyled>`
 export const SignUpButton = styled.p`
   color: ${props => props.theme.mainBlack};
   margin-top: 20px;
-  font-size: 0.9rem;
+  font-size: 18px;
   text-decoration: underline;
+`;
+
+export const LoginIcon = styled.span`
+  margin-right: 10px;
 `;
