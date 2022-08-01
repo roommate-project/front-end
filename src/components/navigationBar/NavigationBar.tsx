@@ -47,9 +47,9 @@ const tabInfo = [
   { path: '/my-page', title: '마이페이지', icon: faUser },
 ];
 
-function Footer() {
+function NavigationBar() {
   const [activePage, setActivePage] = useState([true, false, false]);
-  const isActive = (path: string, indexs: number) => {
+  const isActive = (indexs: number) => {
     let newActivPage = [...activePage];
     setActivePage(
       newActivPage.map((i, index) => (index !== indexs ? false : true))
@@ -66,7 +66,7 @@ function Footer() {
             icon={info.icon}
             isActive={activePage[index]}
             onClickBtn={() => {
-              isActive(info.path, index);
+              isActive(index);
             }}
           />
         );
@@ -75,4 +75,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default NavigationBar;
