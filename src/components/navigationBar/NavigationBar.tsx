@@ -1,47 +1,30 @@
-import React from 'react';
-import styled from 'styled-components';
+import {
+  NavigationDiv,
+  NavigationTabIconStyle,
+  NavigationIcon,
+  NavigationIconTitle,
+} from './navigationBarStyles';
 import {
   faMagnifyingGlass,
   faCommentDots,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition, IconProp } from '@fortawesome/fontawesome-svg-core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
-const NavigationDiv = styled.nav`
-  width: 100%;
-  height: 60px;
-  background-color: ${props => props.theme.mainWhite};
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: space-evenly;
-`;
+type NavigationProps = {
+  title: string;
+  icon: IconProp;
+  isActive: boolean;
+};
 
-const NavigationIcon = styled.span`
-  font-size: 22px;
-`;
-
-const NavigationIconTitle = styled.span`
-  font-size: 18px;
-`;
-
-const NavigationTabIconStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  text-align: center;
-  color: ${props => props.theme.mainGrey};
-`;
-
-const NavigationTabIcon = (icon: IconDefinition, title: string) => {
+const NavigationTabIcon = ({ title, icon, isActive }: NavigationProps) => {
   return (
     <NavigationTabIconStyle>
-      <NavigationIcon>
-        <FontAwesomeIcon icon={icon as IconProp} />
+      <NavigationIcon isActive={isActive}>
+        <FontAwesomeIcon icon={icon} />
       </NavigationIcon>
-      <NavigationIconTitle>{title}</NavigationIconTitle>
+      <NavigationIconTitle isActive={isActive}>{title}</NavigationIconTitle>
     </NavigationTabIconStyle>
   );
 };
@@ -49,10 +32,13 @@ const NavigationTabIcon = (icon: IconDefinition, title: string) => {
 function Footer() {
   return (
     <NavigationDiv>
-      {/* FIXME 아이콘 type 맞추기 */}
-      {/* <NavigationTabIcon icon={faMagnifyingGlass} title={'매칭'} />
-      <NavigationTabIcon icon={faCommentDots} title={'채팅'} />
-      <NavigationTabIcon icon={faUser} title={'마이페이지'} /> */}
+      <NavigationTabIcon
+        title={'매칭'}
+        icon={faMagnifyingGlass}
+        isActive={true}
+      />
+      <NavigationTabIcon title={'채팅'} icon={faCommentDots} isActive={false} />
+      <NavigationTabIcon title={'마이페이지'} icon={faUser} isActive={false} />
     </NavigationDiv>
   );
 }
