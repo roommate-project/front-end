@@ -11,34 +11,66 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { Link } from 'react-router-dom';
+import { MouseEventHandler, useState } from 'react';
 
 type NavigationProps = {
   title: string;
   icon: IconProp;
   isActive: boolean;
+  path: string;
+  onClickBtn: MouseEventHandler;
 };
 
-const NavigationTabIcon = ({ title, icon, isActive }: NavigationProps) => {
+const NavigationTabIcon = ({
+  title,
+  icon,
+  isActive,
+  path,
+  onClickBtn,
+}: NavigationProps) => {
   return (
-    <NavigationTabIconStyle>
-      <NavigationIcon isActive={isActive}>
-        <FontAwesomeIcon icon={icon} />
-      </NavigationIcon>
-      <NavigationIconTitle isActive={isActive}>{title}</NavigationIconTitle>
-    </NavigationTabIconStyle>
+    <Link to={path}>
+      <NavigationTabIconStyle>
+        <NavigationIcon isActive={isActive}>
+          <FontAwesomeIcon icon={icon} onClick={onClickBtn} />
+        </NavigationIcon>
+        <NavigationIconTitle isActive={isActive}>{title}</NavigationIconTitle>
+      </NavigationTabIconStyle>
+    </Link>
   );
 };
 
+const tabInfo = [
+  { path: '/', title: '매칭', icon: faMagnifyingGlass },
+  { path: '/chat-list', title: '채팅', icon: faCommentDots },
+  { path: '/my-page', title: '마이페이지', icon: faUser },
+];
+
 function Footer() {
+  const [activePage, setActivePage] = useState([true, false, false]);
+  const isActive = (path: string, indexs: number) => {
+    let newActivPage = [...activePage];
+    setActivePage(
+      newActivPage.map((i, index) => (index !== indexs ? false : true))
+    );
+  };
   return (
     <NavigationDiv>
-      <NavigationTabIcon
-        title={'매칭'}
-        icon={faMagnifyingGlass}
-        isActive={true}
-      />
-      <NavigationTabIcon title={'채팅'} icon={faCommentDots} isActive={false} />
-      <NavigationTabIcon title={'마이페이지'} icon={faUser} isActive={false} />
+      {tabInfo.map((info, index) => {
+        return (
+          <NavigationTabIcon
+            key={info.path}
+            path={info.path}
+            title={info.title}
+            icon={info.icon}
+            isActive={activePage[index]}
+            onClickBtn={() => {
+              isActive(info.path, index);
+            }}
+          />
+        );
+      })}
     </NavigationDiv>
   );
 }
