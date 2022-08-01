@@ -33,11 +33,24 @@ export const BtnBox = styled.div`
   gap: 20px;
 `;
 
+export const SubmitBtn = styled.button<{ isActive: boolean }>`
+  height: 48px;
+  border-radius: 12px;
+  border-style: none;
+  font-size: 18px;
+  line-height: 48px;
+  background-color: ${props =>
+    props.isActive ? props.theme.mainRed : props.theme.mainGrey};
+  color: ${props => props.theme.mainWhite};
+  margin-top: 20px;
+`;
+
 export const SignUpForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
   padding: 20px;
+  gap: 10px;
   span {
     font-size: 18px;
     color: ${props => props.theme.mainRed};
@@ -76,29 +89,75 @@ export const SignUpInput = styled.input`
   width: 100%;
   height: 48px;
   border-radius: 12px;
+  border-style: none;
+  border: solid 2px ${props => props.theme.mainGrey};
   font-size: 18px;
   line-height: 48px;
   padding: 0px 16px;
-`;
-
-export const EmailSendBtn = styled.button<{ isActive: boolean }>`
-  height: 48px;
-  border-radius: 12px;
-  border-style: none;
-  font-size: 18px;
-  line-height: 48px;
-  margin-top: 20px;
-  background-color: ${props =>
-    props.isActive ? props.theme.mainRed : props.theme.mainGrey};
-  color: ${props => props.theme.mainWhite};
+  &:focus {
+    outline-color: ${props => props.theme.mainRed};
+  }
 `;
 
 export const EmailReSendBtn = styled(SignUpButton)`
   background-color: ${props => props.theme.mainRed};
   color: ${props => props.theme.mainWhite};
-  margin-top: 40px;
+  margin-bottom: 10px;
 `;
 
-export const EmailAuthSubmiBtn = styled(EmailSendBtn)``;
+export const EmailSendBtn = styled(SubmitBtn)``;
 
-export const SignUpBtn = styled(EmailSendBtn)<{ isActive: boolean }>``;
+export const EmailAuthSubmiBtn = styled(SubmitBtn)``;
+
+export const SignUpBtn = styled(SubmitBtn)<{ isActive: boolean }>`
+  margin-bottom: 50px;
+`;
+
+export const SignUpImgUploader = styled.div`
+  position: relative;
+  margin: auto;
+  align-self: center;
+  margin-bottom: 30px;
+`;
+
+export const ProfileThumbNail = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background-color: ${props => props.theme.mainGrey};
+  svg {
+    font-size: 70px;
+    color: white;
+  }
+`;
+
+export const ProfileThumbNailImg = styled.img`
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+`;
+
+export const ProfileImgSelect = styled.div`
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  overflow: hidden;
+  svg {
+    font-size: 42px;
+    color: ${props => props.theme.mainRed};
+  }
+`;
+
+export const SignUpImgInput = styled.input`
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 44px;
+  transform: scale(2.1);
+  line-height: 40px;
+  opacity: 0;
+`;

@@ -10,6 +10,7 @@ import {
 } from 'design/signupStyles/SignUpStyle';
 import AuthTimer from 'components/authTimer/AuthTimer';
 import { TimerContainer } from 'components/authTimer/AuthTimerStyles';
+import ProgressBar from 'components/progressBar/ProgressBar';
 
 type FormValue = {
   emailAuth: number;
@@ -58,6 +59,7 @@ function SignUpEmailAuthPage() {
         <EmailReSendBtn onClick={onClickResend}>인증번호 재전송</EmailReSendBtn>
         <EmailAuthSubmiBtn isActive={isActive}>인증하기</EmailAuthSubmiBtn>
       </SignUpForm>
+      <ProgressBar width={66} />
     </PageContainer>
   );
 }

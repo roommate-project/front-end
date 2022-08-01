@@ -7,6 +7,7 @@ import {
   Title,
   SocialSignUpBtn,
 } from 'design/signupStyles/SignUpStyle';
+import { Link } from 'react-router-dom';
 
 function SignUpMainPage() {
   return (
@@ -30,7 +31,9 @@ function SignUpMainPage() {
           <img src={naverImg} />
           네이버로 시작하기
         </SocialSignUpBtn>
-        <EmailSignUpBtn>이메일로 가입하기</EmailSignUpBtn>
+        <Link to="/sign-up/email">
+          <EmailSignUpBtn>이메일로 가입하기</EmailSignUpBtn>
+        </Link>
       </BtnBox>
     </PageContainer>
   );

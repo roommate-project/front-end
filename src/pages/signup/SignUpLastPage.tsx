@@ -1,19 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   PageContainer,
   SignUpForm,
   SignUpInput,
   SignUpBtn,
+  ProfileThumbNail,
+  SignUpImgUploader,
+  ProfileImgSelect,
+  SignUpImgInput,
+  ProfileThumbNailImg,
 } from 'design/signupStyles/SignUpStyle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlus, faUser } from '@fortawesome/free-solid-svg-icons';
+import ProgressBar from 'components/progressBar/ProgressBar';
 
 type FormValue = {
   name: string;
   nickName: string;
   password: string;
   passwordCheck: string;
-  representImage: File;
-  /* images: File; // 추가사진 */
+  representImage: FileList;
 };
 
 function SignUpLastPage() {
@@ -26,6 +33,14 @@ function SignUpLastPage() {
     watch,
   } = useForm<FormValue>();
   const [isActive, setIsActive] = useState(false);
+  const [profilePreview, setProfilePreview] = useState('');
+  const profileImg = watch('representImage');
+  useEffect(() => {
+    if (profileImg && profileImg.length > 0) {
+      const file = profileImg[0];
+      setProfilePreview(URL.createObjectURL(file));
+    }
+  }, [profileImg]);
   const onChangeName = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value &&
     watch('nickName') &&
@@ -76,12 +91,25 @@ function SignUpLastPage() {
   return (
     <PageContainer>
       <SignUpForm onSubmit={handleSubmit(onValid)}>
-        <SignUpInput
-          type="file"
-          {...register('representImage', {
-            required: '프로필 혹은 집 대표 사진은 필수입니다.',
-          })}
-        />
+        <SignUpImgUploader>
+          {profilePreview ? (
+            <ProfileThumbNailImg src={profilePreview} />
+          ) : (
+            <ProfileThumbNail>
+              <FontAwesomeIcon icon={faUser} />
+            </ProfileThumbNail>
+          )}
+          <ProfileImgSelect>
+            <FontAwesomeIcon icon={faCirclePlus} />
+            <SignUpImgInput
+              type="file"
+              accept="image/*"
+              {...register('representImage', {
+                required: '프로필 혹은 집 대표 사진은 필수입니다.',
+              })}
+            />
+          </ProfileImgSelect>
+        </SignUpImgUploader>
         <span>{errors.representImage?.message}</span>
         <SignUpInput
           type="text"
@@ -124,6 +152,7 @@ function SignUpLastPage() {
         <span>{errors.passwordCheck?.message}</span>
         <SignUpBtn isActive={isActive}>회원가입</SignUpBtn>
       </SignUpForm>
+      <ProgressBar width={100} />
     </PageContainer>
   );
 }

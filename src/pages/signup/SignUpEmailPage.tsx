@@ -1,3 +1,4 @@
+import ProgressBar from 'components/progressBar/ProgressBar';
 import {
   PageContainer,
   SignUpForm,
@@ -56,6 +57,7 @@ function SignUpEmailPage() {
         <span>{errors?.email?.message}</span>
         <EmailSendBtn isActive={isActive}>인증번호 전송</EmailSendBtn>
       </SignUpForm>
+      <ProgressBar width={33} />
     </PageContainer>
   );
 }
