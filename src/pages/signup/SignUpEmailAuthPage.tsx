@@ -31,12 +31,15 @@ function SignUpEmailAuthPage() {
     event.currentTarget.value ? setIsActive(true) : setIsActive(false);
     !event.currentTarget.value && clearErrors();
   };
-  const onClickResend = () => {};
+  const onClickResend = () => {
+    location.reload();
+  };
+  const savedEmail = sessionStorage.getItem('email');
   return (
     <PageContainer>
       <Title>
         ROOMMATE
-        <div>"입력한이메일"로 인증번호를 전송하였습니다. </div>
+        <div>{savedEmail}로 인증번호를 전송하였습니다. </div>
       </Title>
       <SignUpForm onSubmit={handleSubmit(onValid)}>
         <TimerContainer>

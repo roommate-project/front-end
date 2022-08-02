@@ -34,6 +34,7 @@ export const BtnBox = styled.div`
 `;
 
 export const SubmitBtn = styled.button<{ isActive: boolean }>`
+  width: 100%;
   height: 48px;
   border-radius: 12px;
   border-style: none;

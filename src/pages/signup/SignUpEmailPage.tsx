@@ -27,7 +27,7 @@ function SignUpEmailPage() {
     !event.currentTarget.value && clearErrors();
   };
   const onValid: SubmitHandler<FormValue> = data => {
-    console.log(data);
+    sessionStorage.setItem('email', JSON.stringify(data.email));
   };
   return (
     <PageContainer>
