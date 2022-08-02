@@ -51,6 +51,7 @@ body {
   background-color: ${props => props.theme.backgroundGrey};
   max-width: 76.8rem;
   margin: 0 auto;
+  margin-top:50px;
 }
 a {
   text-decoration: none;
