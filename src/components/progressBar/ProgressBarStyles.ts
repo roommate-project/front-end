@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-interface ProgressBarStyled {
-  width: number;
-}
-
 export const ProgressBarContainer = styled.div`
   position: fixed;
   width: 100%;
@@ -20,7 +16,7 @@ export const ProgressBarBackground = styled.div`
   margin: 0 auto;
 `;
 
-export const ProgressBarInner = styled('div')<ProgressBarStyled>`
+export const ProgressBarInner = styled('div')<{ width: number }>`
   position: absolute;
   width: ${props => `${props.width}%`};
   height: 20px;
