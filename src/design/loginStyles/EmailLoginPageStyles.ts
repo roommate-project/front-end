@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface SubmitStyled {
-  isActive: boolean;
-}
-
 export const LoginForm = styled.form`
   width: 95%;
 `;
@@ -35,7 +31,7 @@ export const LoginCheckButton = styled(FontAwesomeIcon)`
   margin: 10px;
 `;
 
-export const LoginSubmitButton = styled('button')<SubmitStyled>`
+export const LoginSubmitButton = styled.button<{ isActive: boolean }>`
   width: 100%;
   height: 48px;
   background-color: ${props =>

@@ -8,7 +8,11 @@ import ProgressBar from 'components/progressBar/ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { PageContainer } from 'design/commonStyles';
-import { SocialSignUpBtn, EmailSignUpBtn, BtnBox } from '../signup/SignUpStyle';
+import {
+  SocialSignUpBtn,
+  EmailSignUpBtn,
+  BtnBox,
+} from 'pages/signup/SignUpStyle';
 import kakaoImg from 'assets/kakaoImg.png';
 import naverImg from 'assets/naverImg.png';
 import { Link } from 'react-router-dom';

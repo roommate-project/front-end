@@ -9,7 +9,7 @@ import {
   LoginErrorMessage,
 } from 'design/loginStyles/EmailLoginPageStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
-import { PageContainer } from '../../design/commonStyles';
+import { PageContainer } from 'design/commonStyles';
 import { LoginMarginTopTitle } from 'design/loginStyles/LoginPageStyles';
 
 type FormValue = {

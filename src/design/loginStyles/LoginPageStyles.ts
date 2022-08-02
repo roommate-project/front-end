@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-interface ButtonStyled {
-  types: string;
-}
-
 export const LoginMainDiv = styled.div`
   text-align: center;
 `;
@@ -32,7 +28,7 @@ export const LoginDivs = styled.div`
   margin-top: 25px;
 `;
 
-export const LoginButton = styled('button')<ButtonStyled>`
+export const LoginButton = styled('button')<{ types: string }>`
   width: 20vw;
   height: 42px;
   display: block;

@@ -3,7 +3,7 @@ import {
   NavigationTabIconStyle,
   NavigationIcon,
   NavigationIconTitle,
-} from './navigationBarStyles';
+} from 'components/navigationBar/navigationBarStyles';
 import {
   faMagnifyingGlass,
   faCommentDots,

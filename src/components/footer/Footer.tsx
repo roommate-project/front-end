@@ -7,7 +7,7 @@ import {
   FooterTitle,
   FooterContentBox,
   FooterContainer,
-} from './footerStyles';
+} from 'components/footer/footerStyles';
 
 function Footer() {
   return (
