@@ -6,6 +6,7 @@ import SignUpMain from 'pages/signup/SignUpMainPage';
 import SignUpEmail from 'pages/signup/SignUpEmailPage';
 import SignUpEmailAuthPage from 'pages/signup/SignUpEmailAuthPage';
 import SignUpLastPage from 'pages/signup/SignUpLastPage';
+import MatchingDetailPage from 'pages/matchingDetails/MatchingDetailPage';
 
 function RoutePage() {
   return (
@@ -17,6 +18,7 @@ function RoutePage() {
       <Route path="/sign-up/email" element={<SignUpEmail />} />
       <Route path="/sign-up/email-auth" element={<SignUpEmailAuthPage />} />
       <Route path="/sign-up/email-auth/last" element={<SignUpLastPage />} />
+      <Route path="/matching/detail/:userId" element={<MatchingDetailPage />} />
     </Routes>
   );
 }
