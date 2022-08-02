@@ -11,6 +11,8 @@ import { PageContainer } from 'design/commonStyles';
 import { SocialSignUpBtn, EmailSignUpBtn, BtnBox } from '../signup/SignUpStyle';
 import kakaoImg from 'assets/kakaoImg.png';
 import naverImg from 'assets/naverImg.png';
+import { Link } from 'react-router-dom';
+
 function LoginPage() {
   return (
     <PageContainer>
@@ -33,14 +35,18 @@ function LoginPage() {
           <img src={naverImg} />
           네이버로 로그인
         </SocialSignUpBtn>
-        <EmailSignUpBtn>
-          <LoginIcon>
-            <FontAwesomeIcon icon={faEnvelope} />
-          </LoginIcon>
-          <span style={{ margin: '0 auto' }}>이메일로 로그인</span>
-        </EmailSignUpBtn>
+        <Link to={'/login/email'}>
+          <EmailSignUpBtn>
+            <LoginIcon>
+              <FontAwesomeIcon icon={faEnvelope} />
+            </LoginIcon>
+            <span style={{ margin: '0 auto' }}>이메일로 로그인</span>
+          </EmailSignUpBtn>
+        </Link>
       </BtnBox>
-      <SignUpButton>여기를 눌러 회원가입하기</SignUpButton>
+      <Link to={'/sign-up'}>
+        <SignUpButton>여기를 눌러 회원가입하기</SignUpButton>
+      </Link>
       <ProgressBar width={30} />
     </PageContainer>
   );

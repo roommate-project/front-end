@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import {
   LoginInput,
   LoginDiv,
-  LoginCheckButton,
+  LoginSubmitButton,
+  LoginLabel,
+  LoginForm,
+  LoginErrorMessage,
 } from 'design/loginStyles/EmailLoginPageStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import { PageContainer } from '../../design/commonStyles';
+import { LoginMarginTopTitle } from 'design/loginStyles/LoginPageStyles';
 
 type FormValue = {
   email: string;
@@ -46,13 +49,25 @@ function EmailLoginPage() {
 
   return (
     <PageContainer>
-      <form
+      <LoginMarginTopTitle>
+        ROOM-MATE
+        <div>
+          룸메이트찾기 어쩌고 저쩌고
+          <br />
+          룸메이트찾기 어쩌고 저쩌고
+          <br />
+          룸메이트찾기 어쩌고 저쩌고
+        </div>
+      </LoginMarginTopTitle>
+
+      <LoginForm
+        style={{ width: '95%' }}
         onSubmit={handleSubmit(async data => {
           await new Promise(r => setTimeout(r, 1000));
           alert(JSON.stringify(data));
         })}
       >
-        <label htmlFor="email">이메일</label>
+        <LoginLabel>이메일</LoginLabel>
         <LoginDiv>
           <LoginInput
             id="email"
@@ -67,14 +82,9 @@ function EmailLoginPage() {
             })}
             onChange={isEmailOn}
           />
-
-          <LoginCheckButton
-            icon={faCircleCheck}
-            color={isEmail && !errors?.email?.type ? '#000000' : '#ffffff'}
-          />
         </LoginDiv>
-        <p>{errors?.email?.message}</p>
-        <label htmlFor="password">비밀번호</label>
+        <LoginErrorMessage>{errors?.email?.message}</LoginErrorMessage>
+        <LoginLabel>비밀번호</LoginLabel>
         <LoginDiv>
           <LoginInput
             id="password"
@@ -90,20 +100,16 @@ function EmailLoginPage() {
             })}
             onChange={isPasswordOn}
           />
-          <LoginCheckButton
-            icon={faCircleCheck}
-            color={isEmail && !errors?.password?.type ? '#000000' : '#ffffff'}
-          />
         </LoginDiv>
-        <p>{errors?.password?.message}</p>
-        <button
+        <LoginErrorMessage>{errors?.password?.message}</LoginErrorMessage>
+        <LoginSubmitButton
           type="submit"
           disabled={isSubmitting}
-          style={{ backgroundColor: isActive ? '#ff0000' : '#ffffff' }}
+          isActive={isActive}
         >
           로그인
-        </button>
-      </form>
+        </LoginSubmitButton>
+      </LoginForm>
       <ProgressBar width={50} />
     </PageContainer>
   );

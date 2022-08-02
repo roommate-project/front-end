@@ -32,4 +32,5 @@ export const HeaderIcon = styled('span')<IconStyled>`
   position: absolute;
   right: ${props => props.rights && '30px'};
   left: ${props => props.left && '30px'};
+  cursor: pointer;
 `;

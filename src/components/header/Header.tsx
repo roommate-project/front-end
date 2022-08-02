@@ -7,13 +7,20 @@ import {
   HeaderStyle,
   HeaderTitle,
 } from './headerStyles';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
   return (
     <HeaderDiv>
       <HeaderStyle>
         <HeaderIcon rights={false} left={true}>
-          <FontAwesomeIcon icon={faArrowLeft} />
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
         </HeaderIcon>
         <HeaderTitle>ROOM-MATE</HeaderTitle>
         <HeaderIcon rights={true} left={false}>

@@ -4,19 +4,27 @@ interface ProgressBarStyled {
   width: number;
 }
 
+export const ProgressBarContainer = styled.div`
+  position: fixed;
+  width: 100%;
+  bottom: 100px;
+`;
+
 export const ProgressBarBackground = styled.div`
-  background-color: #e7e3e3;
-  width: 300px;
-  margin: 0 auto;
-  height: 20px;
   position: relative;
-  margin-top: 100px;
+  width: 50%;
+  max-width: 400px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: ${props => props.theme.backgroundGrey};
+  margin: 0 auto;
 `;
 
 export const ProgressBarInner = styled('div')<ProgressBarStyled>`
-  background-color: #000000;
-  width: ${props => `${props.width}px`};
-  margin: 0 auto;
-  height: 20px;
   position: absolute;
+  width: ${props => `${props.width}%`};
+  height: 20px;
+  border-radius: 10px;
+  background-color: ${props => props.theme.mainRed};
+  margin: 0 auto;
 `;
