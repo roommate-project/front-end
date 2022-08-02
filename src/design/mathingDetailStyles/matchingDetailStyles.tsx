@@ -58,10 +58,6 @@ export const DetailContentTitle = styled.p`
   font-weight: 700;
 `;
 
-export const DetailTestDiv = styled.div`
-  display: flex;
-`;
-
 export const DetailContent = styled.p`
   font-size: 16px;
   line-height: 28px;
