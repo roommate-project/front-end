@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { PageContainer } from 'design/commonStyles';
 import {
-  DetailImgWrapper,
-  DetailImg,
   DetailTabButton,
   DetailTabButtonDiv,
-  DetailContentTitle,
-  DetailTestDiv,
-  DetailContent,
-  DetailImgInfoWrapper,
-  DetailImgInfoContent,
-  DetailImgInfoDiv,
 } from 'design/mathingDetailStyles/matchingDetailStyles';
+import UserIntroduction from 'components/mathingDetail/UserIntroduction';
+import HouseIntroduction from 'components/mathingDetail/HouseIntroduction';
+import DetailPhotos from 'components/mathingDetail/DetailPhotos';
 
 const userTestResult = [true, true, false, true, false, false];
 
 const selfIntroduction = {
-  name: '김원희',
+  userBasicInfo: {
+    name: '김원희',
+    age: 26,
+    address: '마포구',
+    sex: '여자',
+  },
   desiredResidencePeriod: 180,
   userMessage:
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem saepe dolorum excepturi aperiam ad id esse at fugit quos eius! Et labore ipsum, quo earum quae pariatur nesciunt iste assumenda?',
@@ -33,74 +33,35 @@ const houseIntroduction = {
 
 function MatchingDetailPage() {
   const [introductionType, setIntroductionType] = useState(true);
-  const setType = () => {
-    setIntroductionType(!introductionType);
+
+  const setTypePerson = () => {
+    return setIntroductionType(true);
   };
+
+  const setTypeHouse = () => {
+    return setIntroductionType(false);
+  };
+
   return (
     <PageContainer>
-      <DetailImgWrapper>
-        <DetailImg
-          src="https://image.kmib.co.kr/online_image/2020/0902/611817110014970749_1.jpg"
-          alt="사진1"
-        />
-        <DetailImgInfoWrapper>
-          <DetailImgInfoDiv>
-            <DetailImgInfoContent>워니 | 동거 경험: 3개월</DetailImgInfoContent>
-            <DetailImgInfoContent>마포구 | 26 | 여성</DetailImgInfoContent>
-          </DetailImgInfoDiv>
-        </DetailImgInfoWrapper>
-      </DetailImgWrapper>
+      <DetailPhotos />
       <DetailTabButtonDiv>
-        <DetailTabButton isTap={true} onClick={setType}>
+        <DetailTabButton isTap={introductionType} onClick={setTypePerson}>
           유저 소개
         </DetailTabButton>
-        <DetailTabButton isTap={true} onClick={setType}>
+        <DetailTabButton isTap={!introductionType} onClick={setTypeHouse}>
           집 소개
         </DetailTabButton>
       </DetailTabButtonDiv>
       <div>
         {introductionType && (
-          <>
-            <DetailContentTitle>이름</DetailContentTitle>
-            <DetailContent>{selfIntroduction.name}</DetailContent>
-            <DetailContentTitle>거주 희망 기간</DetailContentTitle>
-            <DetailContent>
-              {parseInt(
-                (selfIntroduction.desiredResidencePeriod / 30).toString()
-              )}
-              개월
-            </DetailContent>
-            <DetailContentTitle>
-              이런 사람과 함께 살고 싶어요
-            </DetailContentTitle>
-            <DetailContent>{selfIntroduction.userMessage}</DetailContent>
-            <DetailContentTitle>거주 성향 테스트</DetailContentTitle>
-            <DetailTestDiv>
-              {selfIntroduction.testResult.map((answer, index) => {
-                if (answer === userTestResult[index]) {
-                  return <div key={index.toString() + answer}>잘맞아요</div>;
-                }
-                return (
-                  <div key={index.toString() + answer}>이부분은 다르네요</div>
-                );
-              })}
-            </DetailTestDiv>
-          </>
+          <UserIntroduction
+            selfIntroduction={selfIntroduction}
+            userTestResult={userTestResult}
+          />
         )}
         {!introductionType && (
-          <>
-            <DetailContentTitle>방 개수</DetailContentTitle>
-            <DetailContent>{houseIntroduction.roomCount}개</DetailContent>
-            <DetailContentTitle>주거 타입 / 주거비용</DetailContentTitle>
-            <DetailContent>
-              {houseIntroduction.costType} /{' '}
-              {houseIntroduction.cost.toLocaleString('ko-KR')}원
-            </DetailContent>
-            <DetailContentTitle>
-              저희 집은 이런 특징을 가지고 있어요.
-            </DetailContentTitle>
-            <DetailContent>{houseIntroduction.houseMessage}</DetailContent>
-          </>
+          <HouseIntroduction houseIntroduction={houseIntroduction} />
         )}
       </div>
     </PageContainer>
