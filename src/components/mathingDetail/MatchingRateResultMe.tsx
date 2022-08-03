@@ -1,4 +1,4 @@
-import { residentialLifeQuestionList } from 'utils/ResidentialLifeQuestionList';
+import { residentialLifeQuestionList } from 'utils/residentialLifeQuestionList';
 import {
   DetailTestDiv,
   DetailPageResultCard,

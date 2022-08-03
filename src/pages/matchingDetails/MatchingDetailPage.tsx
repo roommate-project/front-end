@@ -13,9 +13,11 @@ const userTestResult = [true, true, false, true, false, false];
 const selfIntroduction = {
   userBasicInfo: {
     name: '김원희',
+    nickname: '워니',
     age: 26,
     address: '마포구',
     sex: '여자',
+    experience: 120,
   },
   desiredResidencePeriod: 180,
   userMessage:
@@ -44,20 +46,29 @@ function MatchingDetailPage() {
 
   return (
     <PageContainer>
-      <DetailPhotos />
-      <DetailTabButtonDiv>
-        <DetailTabButton isTap={introductionType} onClick={setTypePerson}>
-          유저 소개
-        </DetailTabButton>
-        <DetailTabButton isTap={!introductionType} onClick={setTypeHouse}>
-          집 소개
-        </DetailTabButton>
-      </DetailTabButtonDiv>
+      <div>
+        <DetailPhotos
+          userBasicInfo={selfIntroduction.userBasicInfo}
+          matchingRate={80}
+          photoUrls={['dd']}
+        />
+      </div>
+      <div>
+        <DetailTabButtonDiv>
+          <DetailTabButton isTap={introductionType} onClick={setTypePerson}>
+            유저 소개
+          </DetailTabButton>
+          <DetailTabButton isTap={!introductionType} onClick={setTypeHouse}>
+            집 소개
+          </DetailTabButton>
+        </DetailTabButtonDiv>
+      </div>
       <div>
         {introductionType && (
           <UserIntroduction
             selfIntroduction={selfIntroduction}
             userTestResult={userTestResult}
+            roomCount={houseIntroduction.roomCount}
           />
         )}
         {!introductionType && (
