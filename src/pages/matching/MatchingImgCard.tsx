@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   MatchingCircle,
   MatchingCircleBox,
@@ -15,10 +15,41 @@ import {
   /*   faMars,
   faVenus, */
 } from '@fortawesome/free-solid-svg-icons';
+import { useMotionValue } from 'framer-motion';
 
-function MachingImgCard() {
+function MachingImgCard({ children }: any) {
+  const x = useMotionValue(0);
+  const [constraint, setConstraint] = useState(true);
+  const [direction, setDirection] = useState<string | undefined>();
+  const [velocity, setVelocity] = useState(0);
+  //dragend는 마우스에서 붙잡고 있다가 놓는 순간임
+
+  const getDirection = () => {
+    return velocity > 0 ? 'right' : velocity < 0 ? 'left' : undefined;
+  };
+
+  const onDragHandler = () => {
+    setVelocity(x.getVelocity());
+    setDirection(getDirection());
+    console.log(direction, velocity);
+  };
+
+  const onDragEndHandler = () => {
+    if (direction && Math.abs(velocity) > 500) {
+      setConstraint(false);
+    }
+  };
+
   return (
-    <MatchingImgContainer>
+    <MatchingImgContainer
+      drag
+      dragConstraints={constraint && { top: 0, right: 0, bottom: 0, left: 0 }}
+      dragElastic={1}
+      onDrag={onDragHandler}
+      onDragEnd={() => onDragEndHandler()}
+      whileTap={{ scale: 1.05 }}
+      style={{ x }}
+    >
       <MatchingInfoBox>
         <MatchingUserInfo>
           {/*             {data.gender === 'male' ? (
@@ -42,6 +73,7 @@ function MachingImgCard() {
           <FontAwesomeIcon icon={faHeart} />
         </MatchingCircle>
       </MatchingCircleBox>
+      {children}
     </MatchingImgContainer>
   );
 }

@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { PageContainer } from 'design/commonStyles';
+import { MachingCardWrapper } from 'design/matchingStyles/MatchingPageStyles';
 import MachingImgCard from './MatchingImgCard';
 
 function MatchingPage() {
-  //이미지 컨테이너에 img/info모두 담고, 컨테이너에 고유 key주고 map하여 슬라이드
-  //이미지 url을 key를 가진 고유한 카드의 background-image속성에 넣기
+  const array = [0, 1, 2, 3, 4];
+  const cardRef = useRef<HTMLDivElement>(null);
   return (
     <PageContainer>
-      <MachingImgCard />
+      <MachingCardWrapper ref={cardRef}>
+        {array.map(index => (
+          <MachingImgCard key={index}>{index}</MachingImgCard>
+        ))}
+      </MachingCardWrapper>
     </PageContainer>
   );
 }

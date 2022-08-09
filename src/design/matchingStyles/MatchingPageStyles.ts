@@ -1,15 +1,17 @@
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-export const MatchingImgContainer = styled.div`
-  position: relative;
-  width: 90%;
-  height: 80%;
+export const MatchingImgContainer = styled(motion.div)`
+  position: absolute;
+  width: 85%;
+  height: 75%;
   border-radius: 50px;
   background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   overflow: hidden;
+  font-size: 50px;
 `;
 
 export const MatchingInfoBox = styled.div`
@@ -56,4 +58,14 @@ export const MatchingCircle = styled.div<{ types: string }>`
     color: ${props =>
       props.types === 'like' ? props.theme.mainRed : props.theme.mainPurple};
   }
+`;
+
+export const MachingCardWrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 `;
