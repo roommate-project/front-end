@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export const DetailImgWrapper = styled.div`
   width: 100%;
-  height: 360px;
+  height: auto;
 `;
 
 export const DetailImg = styled.img`
-  width: 100%;
+  min-width: 100%;
   height: 300px;
 `;
 
@@ -114,6 +114,7 @@ export const MatchingRateMessage = styled.div`
 
 export const RelativeDiv = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 export const LikeIconDiv = styled.div`

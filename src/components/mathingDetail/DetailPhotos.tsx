@@ -12,6 +12,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 type DetailPhotoProps = {
   userBasicInfo: {
@@ -21,18 +24,29 @@ type DetailPhotoProps = {
     sex: string;
     experience: number;
   };
-  matchingRate: number;
   photoUrls: Array<string>;
 };
 
-function DetailPhotos({ userBasicInfo }: DetailPhotoProps) {
+function DetailPhotos({ userBasicInfo, photoUrls }: DetailPhotoProps) {
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
   return (
     <DetailImgWrapper>
       <RelativeDiv>
-        <DetailImg
-          src="https://image.kmib.co.kr/online_image/2020/0902/611817110014970749_1.jpg"
-          alt="사진1"
-        />
+        <Slider {...settings}>
+          {photoUrls.map((photo, index) => (
+            <div>
+              <DetailImg src={photo} width="100%" key={index} />
+            </div>
+          ))}
+        </Slider>
+
         <LikeIconDiv>
           <FontAwesomeIcon icon={faHeart} />
         </LikeIconDiv>

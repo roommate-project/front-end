@@ -48,8 +48,12 @@ function MatchingDetailPage() {
     <PageContainer>
       <DetailPhotos
         userBasicInfo={selfIntroduction.userBasicInfo}
-        matchingRate={80}
-        photoUrls={['dd']}
+        photoUrls={[
+          'https://picsum.photos/800/600?random=1',
+          'https://picsum.photos/800/600?random=2',
+          'https://picsum.photos/800/600?random=3',
+          'https://picsum.photos/800/600?random=4',
+        ]}
       />
 
       <DetailTabButtonDiv>
