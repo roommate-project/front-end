@@ -60,7 +60,7 @@ export const DetailContent = styled.p`
   line-height: 28px;
   padding: 10px;
   background-color: ${props => props.theme.backgroundGrey};
-  width: 80%;
+  width: 100%;
   margin: 10px;
   border-radius: 8px;
 `;

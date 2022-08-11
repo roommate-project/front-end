@@ -3,6 +3,9 @@ import styled from 'styled-components';
 export const DetailTestDiv = styled.div`
   width: 100%;
   display: flex;
+  overflow: scroll;
+  width: 100%;
+  padding-bottom: 20px;
 `;
 
 export const DetailPageResultCard = styled.div<{ isMatching: boolean }>`

@@ -46,35 +46,31 @@ function MatchingDetailPage() {
 
   return (
     <PageContainer>
-      <div>
-        <DetailPhotos
-          userBasicInfo={selfIntroduction.userBasicInfo}
-          matchingRate={80}
-          photoUrls={['dd']}
+      <DetailPhotos
+        userBasicInfo={selfIntroduction.userBasicInfo}
+        matchingRate={80}
+        photoUrls={['dd']}
+      />
+
+      <DetailTabButtonDiv>
+        <DetailTabButton isTap={introductionType} onClick={setTypePerson}>
+          유저 소개
+        </DetailTabButton>
+        <DetailTabButton isTap={!introductionType} onClick={setTypeHouse}>
+          집 소개
+        </DetailTabButton>
+      </DetailTabButtonDiv>
+
+      {introductionType && (
+        <UserIntroduction
+          selfIntroduction={selfIntroduction}
+          userTestResult={userTestResult}
+          roomCount={houseIntroduction.roomCount}
         />
-      </div>
-      <div>
-        <DetailTabButtonDiv>
-          <DetailTabButton isTap={introductionType} onClick={setTypePerson}>
-            유저 소개
-          </DetailTabButton>
-          <DetailTabButton isTap={!introductionType} onClick={setTypeHouse}>
-            집 소개
-          </DetailTabButton>
-        </DetailTabButtonDiv>
-      </div>
-      <div>
-        {introductionType && (
-          <UserIntroduction
-            selfIntroduction={selfIntroduction}
-            userTestResult={userTestResult}
-            roomCount={houseIntroduction.roomCount}
-          />
-        )}
-        {!introductionType && (
-          <HouseIntroduction houseIntroduction={houseIntroduction} />
-        )}
-      </div>
+      )}
+      {!introductionType && (
+        <HouseIntroduction houseIntroduction={houseIntroduction} />
+      )}
     </PageContainer>
   );
 }
