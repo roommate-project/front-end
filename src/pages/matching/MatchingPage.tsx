@@ -1,18 +1,18 @@
-import React, { useRef } from 'react';
 import { PageContainer } from 'design/commonStyles';
-import { MachingCardWrapper } from 'design/matchingStyles/MatchingPageStyles';
-import MachingImgCard from './MatchingImgCard';
+import styled from 'styled-components';
+import MatchingCardInfo from './MatchingCardInfo';
+import MatchingStack from './MatchingStack';
+
+const Wrapper = styled(MatchingStack)`
+  background-color: red;
+`;
 
 function MatchingPage() {
-  const array = [0, 1, 2, 3, 4];
-  const cardRef = useRef<HTMLDivElement>(null);
   return (
     <PageContainer>
-      <MachingCardWrapper ref={cardRef}>
-        {array.map(index => (
-          <MachingImgCard key={index}>{index}</MachingImgCard>
-        ))}
-      </MachingCardWrapper>
+      <Wrapper onMove={() => {}}>
+        <MatchingCardInfo />
+      </Wrapper>
     </PageContainer>
   );
 }

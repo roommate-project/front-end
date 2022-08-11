@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import MatchingPage from 'pages/matching/MatchingPage';
 import LoginPage from 'pages/login/LoginPage';
 import EmailLoginPage from 'pages/login/EmailLoginPage';
 import SignUpMain from 'pages/signup/SignUpMainPage';
@@ -8,6 +7,7 @@ import SignUpEmailAuthPage from 'pages/signup/SignUpEmailAuthPage';
 import SignUpLastPage from 'pages/signup/SignUpLastPage';
 import ChatPage from 'pages/ChatPage';
 import MyPage from 'pages/MyPage';
+import MatchingPage from 'pages/matching/MatchingPage';
 
 function RoutePage() {
   return (
