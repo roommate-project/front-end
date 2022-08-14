@@ -5,7 +5,7 @@ import {
   MatchingRateMessage,
 } from 'design/mathingDetailStyles/matchingDetailStyles';
 import { comparisonTestResults } from 'utils/comparisonTestResults';
-import MatchingRateResultMe from './MatchingRateResultMe';
+import MatchingRateResultMe from 'components/mathingDetail/MatchingRateResultMe';
 
 type UserInformationProps = {
   selfIntroduction: {
