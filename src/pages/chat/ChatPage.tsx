@@ -10,7 +10,13 @@ import {
   ChatMarginDiv,
   ChatUserImg,
   ChatSendTime,
+  ChatReadStatus,
+  ChatSendBox,
+  ChatSendIcon,
+  ChatSendInput,
+  ChatSendIconButton,
 } from 'design/chatStyles/chatStyles';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 const chatDatas = {
   userInfo: {
@@ -81,16 +87,22 @@ function ChatPage() {
       {chatDatas.chats.map((chat, index) => (
         <div key={index}>
           <ChatFlexBox>
-            <p>{chat.isRead ? '' : '안읽음'}</p>
             <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <ChatSendTime isMe={chat.isMe}>
+                <ChatReadStatus>{chat.isRead ? '' : '안읽음'}</ChatReadStatus>
                 {convertUTCtoLocalTime(chat.sendTime)}
               </ChatSendTime>
             </div>
           </ChatFlexBox>
         </div>
       ))}
+      <ChatSendBox>
+        <ChatSendInput type="text" name="message" id="message" />
+        <ChatSendIconButton>
+          <ChatSendIcon icon={faPaperPlane} />
+        </ChatSendIconButton>
+      </ChatSendBox>
     </PageContainer>
   );
 }

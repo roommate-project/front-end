@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const ChatBackground = styled.div`
   width: 100%;
@@ -38,7 +39,7 @@ export const ChatFlexBox = styled.div`
 `;
 
 export const ChatBox = styled('p')<{ isMe: boolean }>`
-  width: 40%;
+  max-width: 40%;
   height: auto;
   margin: 10px;
   background-color: ${props =>
@@ -50,8 +51,48 @@ export const ChatBox = styled('p')<{ isMe: boolean }>`
   padding: 10px;
 `;
 
-export const ChatSendTime = styled('p')<{ isMe: boolean }>`
+export const ChatSendTime = styled('div')<{ isMe: boolean }>`
   margin-left: ${props => (props.isMe ? 'auto' : 10)};
   font-size: 12px;
   margin-right: 10px;
+`;
+
+export const ChatReadStatus = styled.p`
+  font-size: 10px;
+`;
+
+export const ChatSendBox = styled.div`
+  display: flex;
+  border: 1px solid #000000;
+  margin: 5px;
+  position: fixed;
+  bottom: 80px;
+  max-width: 700px;
+  width: 90%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 15px;
+  background-color: ${props => props.theme.mainWhite};
+`;
+
+export const ChatSendInput = styled.input`
+  border: none;
+  padding: 8px;
+  width: 80%;
+  margin: 0 auto;
+  :focus {
+    outline: none;
+  }
+`;
+
+export const ChatSendIconButton = styled.button`
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+export const ChatSendIcon = styled(FontAwesomeIcon)`
+  font-size: 20px;
+  margin: 5px;
 `;

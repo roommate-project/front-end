@@ -20,7 +20,7 @@ const chatList = [
     lastMessage: '룸메 하고 시퍼용',
     isRead: false,
     sendTime: '2022-08-14T11:45:30',
-    isLastMessage: true,
+    isLastMessageByMe: true,
     representativeImage:
       'http://img.segye.com/content/image/2020/05/28/20200528517713.jpg',
   },
@@ -30,7 +30,7 @@ const chatList = [
     lastMessage: '룸메 하실래요?',
     isRead: true,
     sendTime: '2022-08-11T13:25:30',
-    isLastMessage: false,
+    isLastMessageByMe: false,
     representativeImage:
       'https://acnhcdn.com/latest/NpcBromide/NpcNmlHam01.png',
   },
@@ -40,7 +40,7 @@ const chatList = [
     lastMessage: '룸메 하십시다.',
     isRead: false,
     sendTime: '2022-08-05T15:45:30',
-    isLastMessage: false,
+    isLastMessageByMe: false,
     representativeImage: 'https://pbs.twimg.com/media/EY1guBiUYAE_xBr.jpg',
   },
   {
@@ -49,7 +49,7 @@ const chatList = [
     lastMessage: '죄송해용 ㅜㅜ',
     isRead: false,
     sendTime: '2022-07-14T17:45:30',
-    isLastMessage: true,
+    isLastMessageByMe: true,
     representativeImage:
       'https://media.bunjang.co.kr/product/194450838_1_1658817566_w360.jpg',
   },
