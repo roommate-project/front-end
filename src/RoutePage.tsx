@@ -7,7 +7,7 @@ import SignUpEmail from 'pages/signup/SignUpEmailPage';
 import SignUpEmailAuthPage from 'pages/signup/SignUpEmailAuthPage';
 import SignUpLastPage from 'pages/signup/SignUpLastPage';
 import MatchingDetailPage from 'pages/matchingDetails/MatchingDetailPage';
-import ChatPage from 'pages/ChatPage';
+import ChatPage from 'pages/chat/ChatListPage';
 import MyPage from 'pages/MyPage';
 
 function RoutePage() {
