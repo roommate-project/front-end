@@ -7,7 +7,8 @@ import SignUpEmail from 'pages/signup/SignUpEmailPage';
 import SignUpEmailAuthPage from 'pages/signup/SignUpEmailAuthPage';
 import SignUpLastPage from 'pages/signup/SignUpLastPage';
 import MatchingDetailPage from 'pages/matchingDetails/MatchingDetailPage';
-import ChatPage from 'pages/ChatPage';
+import ChatListPage from 'pages/chat/ChatListPage';
+import ChatPage from 'pages/chat/ChatPage';
 import MyPage from 'pages/MyPage';
 
 function RoutePage() {
@@ -21,7 +22,8 @@ function RoutePage() {
       <Route path="/sign-up/email-auth" element={<SignUpEmailAuthPage />} />
       <Route path="/sign-up/email-auth/last" element={<SignUpLastPage />} />
       <Route path="/matching/detail/:userId" element={<MatchingDetailPage />} />
-      <Route path="/chat-list" element={<ChatPage />} />
+      <Route path="/chat-list" element={<ChatListPage />} />
+      <Route path="/chat-list/chat/:chatId" element={<ChatPage />} />
       <Route path="/my-page" element={<MyPage />} />
     </Routes>
   );
