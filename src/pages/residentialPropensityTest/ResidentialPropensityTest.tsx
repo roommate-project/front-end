@@ -30,6 +30,10 @@ function ResidentialPropensityTest() {
     };
   }, []);
 
+  const isSelectedAnswer = (answers: boolean) => {
+    return testResult[questionNumber]?.answer === answers;
+  };
+
   return (
     <PageContainer>
       <TestBackground>
@@ -49,7 +53,7 @@ function ResidentialPropensityTest() {
             </TestQuestion>
             <TestAnswerBox
               answerType={true}
-              selected={testResult[questionNumber].answer === true}
+              selected={isSelectedAnswer(true)}
               onClick={() => {
                 setTestResult(() => {
                   let temp = testResult;
@@ -72,7 +76,7 @@ function ResidentialPropensityTest() {
             </TestAnswerBox>
             <TestAnswerBox
               answerType={false}
-              selected={testResult[questionNumber].answer === false}
+              selected={isSelectedAnswer(false)}
               onClick={() => {
                 setTestResult(() => {
                   let temp = testResult;
@@ -98,6 +102,9 @@ function ResidentialPropensityTest() {
                 selected={isSelected}
                 icon={faCircleChevronRight}
                 onClick={() => {
+                  if (!isSelected) {
+                    return;
+                  }
                   setQuestionNumber(questionNumber + 1);
                   setIsSelected(false);
                 }}
@@ -107,6 +114,9 @@ function ResidentialPropensityTest() {
               <TestFinishedButton
                 selected={isSelected}
                 onClick={() => {
+                  if (!isSelected) {
+                    return;
+                  }
                   //TODO 페이지 띄울때 가입인지 or 수정인지 확인 후에 경로 설정 다시해주기
                   navigation('/');
                 }}
