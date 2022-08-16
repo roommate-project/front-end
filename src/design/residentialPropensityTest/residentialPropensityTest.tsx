@@ -28,15 +28,15 @@ export const TestQuestion = styled.p`
 `;
 
 export const TestAnswerBox = styled('p')<{
-  type: boolean;
-  isSelected: boolean;
+  answerType: boolean;
+  // selected: boolean;
 }>`
   width: 70%;
   height: auto;
   word-break: keep-all;
   background-color: ${props =>
-    props.type ? props.theme.mainOrange : props.theme.mainYellow};
-  background-color: ${props => props.isSelected && props.theme.mainGrey};
+    props.answerType ? props.theme.mainOrange : props.theme.mainYellow};
+
   border-radius: 30px;
   border: 1px solid ${props => props.theme.mainBlack};
   font-size: 18px;
@@ -44,25 +44,37 @@ export const TestAnswerBox = styled('p')<{
   align-items: center;
   text-align: center;
   justify-content: center;
-
   margin: 5px;
   padding: 15px;
+
+  :hover {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  }
+
+  :focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+
+  :focus-visible {
+    box-shadow: none;
+  }
 `;
 
-export const TestNextIcon = styled(FontAwesomeIcon)<{ isSelected: boolean }>`
+export const TestNextIcon = styled(FontAwesomeIcon)<{ selected: boolean }>`
   font-size: 38px;
   margin-top: 80px;
   color: ${props =>
-    props.isSelected ? props.theme.mainRed : props.theme.mainGrey};
+    props.selected ? props.theme.mainRed : props.theme.mainGrey};
 `;
 
-export const TestFinishedButton = styled('div')<{ isSelected: boolean }>`
+export const TestFinishedButton = styled('div')<{ selected: boolean }>`
   width: 70%;
   height: auto;
   border-radius: 20px;
   border: 1px solid ${props => props.theme.mainBlack};
   background-color: ${props =>
-    props.isSelected ? props.theme.mainYellow : props.theme.mainGrey};
+    props.selected ? props.theme.mainYellow : props.theme.mainGrey};
   margin: 20px;
   text-align: center;
   font-size: 20px;
