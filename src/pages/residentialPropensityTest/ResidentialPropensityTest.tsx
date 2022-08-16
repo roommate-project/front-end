@@ -49,7 +49,7 @@ function ResidentialPropensityTest() {
             </TestQuestion>
             <TestAnswerBox
               answerType={true}
-              // selected={testResult[questionNumber]}
+              selected={testResult[questionNumber].answer === true}
               onClick={() => {
                 setTestResult(() => {
                   let temp = testResult;
@@ -72,11 +72,11 @@ function ResidentialPropensityTest() {
             </TestAnswerBox>
             <TestAnswerBox
               answerType={false}
-              // selected={!testResult[questionNumber]}
+              selected={testResult[questionNumber].answer === false}
               onClick={() => {
                 setTestResult(() => {
                   let temp = testResult;
-                  temp.push({ questionNum: questionNumber, answer: true });
+                  temp.push({ questionNum: questionNumber, answer: false });
                   const newLen = temp
                     .slice()
                     .reverse()

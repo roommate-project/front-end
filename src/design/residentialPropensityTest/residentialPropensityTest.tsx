@@ -29,16 +29,16 @@ export const TestQuestion = styled.p`
 
 export const TestAnswerBox = styled('p')<{
   answerType: boolean;
-  // selected: boolean;
+  selected: boolean;
 }>`
   width: 70%;
   height: auto;
   word-break: keep-all;
   background-color: ${props =>
     props.answerType ? props.theme.mainOrange : props.theme.mainYellow};
-
   border-radius: 30px;
-  border: 1px solid ${props => props.theme.mainBlack};
+  border: ${props =>
+    props.selected ? `2px solid  ${props.theme.mainBlack}` : ''};
   font-size: 18px;
   display: flex;
   align-items: center;
