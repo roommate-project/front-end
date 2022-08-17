@@ -7,12 +7,76 @@ import {
   HeaderStyle,
   HeaderTitle,
 } from './headerStyles';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+//TODO 상세보기 설정하기
+const pageDatas = [
+  {
+    route: '/chat-list',
+    name: '채팅 목록',
+  },
+  {
+    route: '/',
+    name: '룸-메이트',
+  },
+  {
+    route: '/matching/detail',
+    name: '상세보기',
+  },
+  {
+    route: '/my-page',
+    name: '마이 페이지',
+  },
+];
 
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  console.log(location);
+
+  const noneHeader = () => {
+    if (
+      location.pathname ===
+      ('/login' ||
+        '/login/email' ||
+        '/sign-up' ||
+        '/sign-up/email' ||
+        '/sign-up/email-auth' ||
+        '/sign-up/email-auth/last' ||
+        '/matching-filter')
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const noneBackButton = () => {
+    if (location.pathname === '/' || '/chat-list' || '/my-page') {
+      return true;
+    }
+    return false;
+  };
+
+  const visibleFilterButton = () => {
+    if (location.pathname === '/') {
+      return true;
+    }
+    return false;
+  };
+
+  const setPageName = () => {
+    let pageName = '';
+    pageDatas.forEach(page => {
+      if (page.route === location.pathname) {
+        pageName = page.name;
+      }
+    });
+    return pageName;
+  };
+
   return (
-    <HeaderDiv>
+    <HeaderDiv visible={noneHeader()}>
       <HeaderStyle>
         <HeaderIcon rights={false} left={true}>
           <FontAwesomeIcon
@@ -20,11 +84,15 @@ function Header() {
             onClick={() => {
               navigate(-1);
             }}
+            style={{ display: `${noneBackButton() ? 'none' : ''}` }}
           />
         </HeaderIcon>
-        <HeaderTitle>ROOM-MATE</HeaderTitle>
+        <HeaderTitle>{setPageName()}</HeaderTitle>
         <HeaderIcon rights={true} left={false}>
-          <FontAwesomeIcon icon={faFilter} />
+          <FontAwesomeIcon
+            icon={faFilter}
+            style={{ display: `${visibleFilterButton() ? '' : 'none'} ` }}
+          />
         </HeaderIcon>
       </HeaderStyle>
     </HeaderDiv>
