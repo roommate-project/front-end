@@ -2,6 +2,7 @@ import { DefaultTheme } from 'styled-components';
 
 export const defaultTheme: DefaultTheme = {
   mainRed: '#FF4949',
+  mainPink: '#F7A9A9',
   mainOrange: '#FF8D29',
   mainYellow: '#FFCD38',
   mainPurple: '#541690',
