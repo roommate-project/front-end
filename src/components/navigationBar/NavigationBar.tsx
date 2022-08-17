@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useMatch } from 'react-router-dom';
 import { MouseEventHandler, useState } from 'react';
 
 type NavigationProps = {
@@ -50,6 +50,7 @@ const tabInfo = [
 function NavigationBar() {
   const [activePage, setActivePage] = useState([true, false, false]);
   const location = useLocation();
+  const chatPage = useMatch('chat-list/chat/:chatId');
 
   const isActive = (indexs: number) => {
     let newActivPage = [...activePage];
@@ -57,7 +58,7 @@ function NavigationBar() {
       newActivPage.map((i, index) => (index !== indexs ? false : true))
     );
   };
-  //TODO chatID 설정하기
+
   const isVisible = () => {
     if (
       location.pathname ===
@@ -67,9 +68,11 @@ function NavigationBar() {
         '/sign-up/email' ||
         '/sign-up/email-auth' ||
         '/sign-up/email-auth/last' ||
-        '/matching-filter' ||
-        'chat-list/chat/:chatId')
+        '/matching-filter')
     ) {
+      return false;
+    }
+    if (chatPage) {
       return false;
     }
     return true;

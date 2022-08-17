@@ -7,9 +7,8 @@ import {
   HeaderStyle,
   HeaderTitle,
 } from './headerStyles';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useMatch } from 'react-router-dom';
 
-//TODO 상세보기 설정하기
 const pageDatas = [
   {
     route: '/chat-list',
@@ -32,6 +31,8 @@ const pageDatas = [
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const matchingDetail = useMatch('matching/detail/:userId');
+  const chatPage = useMatch('chat-list/chat/:chatId');
 
   console.log(location);
 
@@ -52,6 +53,9 @@ function Header() {
   };
 
   const noneBackButton = () => {
+    if (chatPage) {
+      return false;
+    }
     if (location.pathname === '/' || '/chat-list' || '/my-page') {
       return true;
     }
@@ -72,6 +76,12 @@ function Header() {
         pageName = page.name;
       }
     });
+    if (matchingDetail) {
+      pageName = '상세 페이지';
+    }
+    if (chatPage) {
+      pageName = '채팅 페이지';
+    }
     return pageName;
   };
 
