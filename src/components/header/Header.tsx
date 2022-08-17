@@ -34,8 +34,6 @@ function Header() {
   const matchingDetail = useMatch('matching/detail/:userId');
   const chatPage = useMatch('chat-list/chat/:chatId');
 
-  console.log(location);
-
   const noneHeader = () => {
     if (
       location.pathname ===
