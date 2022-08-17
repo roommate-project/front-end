@@ -1,76 +1,100 @@
+import React from 'react';
 import {
   DetailPageResultCard,
   DetailTestDiv,
   ResultCardAnswer,
   ResultCardQuestion,
 } from 'design/mathingDetailStyles/matchingRateResultMeStyles';
-import React from 'react';
 import { residentiailQuestionList } from 'utils/residentialQuestionList';
+import {
+  MyIntroduceBackground,
+  MyIntroduceContent,
+  MyIntroduceOptionBox,
+  MyIntroducePutButton,
+  MyIntroduceRowBox,
+  MyIntroduceSelectBox,
+  MyIntroduceTextArea,
+  MyIntroduceTitle,
+  MyIntroduceContentTitle,
+} from 'design/myPageStyles/myIntroduceSelfStyles';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 const period = [...new Array(14)].map((_, i) => i);
 
+const dummyUserData = {
+  experience: '10',
+  want_long: '24',
+  info: '시끄러운 사람 ㄴㄴ',
+  test_result: [
+    { questionId: 1, answer: true },
+    { questionId: 2, answer: false },
+    { questionId: 3, answer: true },
+    { questionId: 4, answer: false },
+    { questionId: 5, answer: false },
+    { questionId: 6, answer: true },
+  ],
+};
+
 function MyIntroduceSelf() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'start',
-        margin: '10px',
-      }}
-    >
-      <p style={{ fontSize: '24px', marginBottom: '10px' }}>내 정보</p>
-      <p style={{ fontSize: '18px', margin: '10px 0' }}> 동거 경험 기간</p>
+    <MyIntroduceBackground>
+      <MyIntroduceTitle>내 정보</MyIntroduceTitle>
+      <MyIntroduceContentTitle> 동거 경험 기간</MyIntroduceContentTitle>
       <div>
-        <p style={{ fontSize: '14px', marginBottom: '5px' }}>
-          다른 사람과 {/* TODO 디폴트값 정하기 */}
-          <select name="period" id="period">
+        <MyIntroduceContent>
+          다른 사람과
+          <MyIntroduceSelectBox
+            name="period"
+            id="period"
+            defaultValue={dummyUserData.experience}
+          >
             {period.map(period => (
-              <option value={period}>
+              <MyIntroduceOptionBox value={period}>
                 {period < 13 ? `${period}개월` : '1년 이상'}
-              </option>
+              </MyIntroduceOptionBox>
             ))}
-          </select>{' '}
+          </MyIntroduceSelectBox>{' '}
           살았어요.
-        </p>
+        </MyIntroduceContent>
       </div>
-      <p style={{ fontSize: '18px', margin: '10px 0' }}> 희망 거주 기간</p>
+      <MyIntroduceContentTitle> 희망 거주 기간</MyIntroduceContentTitle>
       <div style={{ marginBottom: '10px' }}>
-        <select name="period" id="period">
+        <MyIntroduceSelectBox
+          name="period"
+          id="period"
+          defaultValue={
+            parseInt(dummyUserData.want_long) >= 12
+              ? 13
+              : dummyUserData.want_long
+          }
+        >
           {period.map(period => (
-            <option value={period}>
+            <MyIntroduceOptionBox value={period}>
               {period < 13 ? `${period}개월` : '1년 이상'}
-            </option>
+            </MyIntroduceOptionBox>
           ))}
-        </select>{' '}
+        </MyIntroduceSelectBox>{' '}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <p style={{ fontSize: '18px', margin: '10px 0' }}>
+      <MyIntroduceRowBox>
+        <MyIntroduceContentTitle>
           {' '}
           이런 사람과 함께 살고 싶어요
-        </p>
-        <button>수정</button>
-      </div>
-      <div
-        style={{
-          marginBottom: '10px',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'start',
-        }}
-      >
-        <textarea
+          <MyIntroducePutButton icon={faPencil} />
+        </MyIntroduceContentTitle>
+      </MyIntroduceRowBox>
+      <MyIntroduceRowBox>
+        <MyIntroduceTextArea
+          defaultValue={dummyUserData.info}
           name="etcMessage"
           id="etcMessage"
-          style={{
-            width: '60%',
-            height: '100px',
-            borderRadius: '10px',
-            padding: '5px',
-          }}
         />
-      </div>
-      <p style={{ fontSize: '18px', margin: '10px' }}>성향 테스트</p>
+      </MyIntroduceRowBox>
+      <MyIntroduceRowBox>
+        <MyIntroduceContentTitle>
+          성향 테스트
+          <MyIntroducePutButton icon={faPencil} />
+        </MyIntroduceContentTitle>
+      </MyIntroduceRowBox>
 
       <DetailTestDiv>
         {residentiailQuestionList.map((list, index) => {
@@ -79,14 +103,16 @@ function MyIntroduceSelf() {
               <ResultCardQuestion>
                 Q{index + 1}.{list.question}
               </ResultCardQuestion>
-              {/* TODO 내가 답변한거 티나게 바꾸기 */}
-              <ResultCardAnswer>A.{list.answer1}</ResultCardAnswer>
-              <ResultCardAnswer>B.{list.answer2}</ResultCardAnswer>
+              {dummyUserData.test_result[index].answer ? (
+                <ResultCardAnswer>A.{list.answer1}</ResultCardAnswer>
+              ) : (
+                <ResultCardAnswer>B.{list.answer2}</ResultCardAnswer>
+              )}
             </DetailPageResultCard>
           );
         })}
       </DetailTestDiv>
-    </div>
+    </MyIntroduceBackground>
   );
 }
 
