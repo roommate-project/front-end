@@ -9,7 +9,7 @@ import SignUpLastPage from 'pages/signup/SignUpLastPage';
 import MatchingDetailPage from 'pages/matchingDetails/MatchingDetailPage';
 import ChatListPage from 'pages/chat/ChatListPage';
 import ChatPage from 'pages/chat/ChatPage';
-import MyPage from 'pages/MyPage';
+import MyPage from 'pages/myPage/MyPage';
 import ResidentialPropensityTest from 'pages/residentialPropensityTest/ResidentialPropensityTest';
 
 function RoutePage() {
