@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PageContainer } from 'pages/signup/SignUpStyle';
+import { PageContainer } from 'design/commonStyles';
 import {
   MyPageBackground,
   MyPageBasicInfo,

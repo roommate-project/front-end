@@ -69,7 +69,7 @@ const dummyLikeListData = [
 
 function MyLikeList() {
   return (
-    <MyLikeListGridBox len={dummyLikeListData.length}>
+    <MyLikeListGridBox len={dummyLikeListData.length / 2}>
       {dummyLikeListData.map(list => (
         <MyLikeListBox key={list.representImage}>
           <MyLikeListImg
