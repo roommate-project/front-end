@@ -6,7 +6,7 @@ import {
   MyLikeListHeartButton,
   MyLikeListImg,
   MyLikeListInfo,
-} from 'design/myPageStyles/MyLikeListStyles';
+} from 'design/myPageStyles/myLikeListStyles';
 
 const dummyLikeListData = [
   {

@@ -52,4 +52,5 @@ export const MyPageMenuButton = styled('div')<{ menuSelected: boolean }>`
   min-width: 33%;
   height: 50px;
   margin: 5px;
+  cursor: pointer;
 `;
