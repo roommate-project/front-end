@@ -24,7 +24,12 @@ function Header() {
         </HeaderIcon>
         <HeaderTitle>ROOM-MATE</HeaderTitle>
         <HeaderIcon rights={true} left={false}>
-          <FontAwesomeIcon icon={faFilter} />
+          <FontAwesomeIcon
+            icon={faFilter}
+            onClick={() => {
+              navigate('/filter');
+            }}
+          />
         </HeaderIcon>
       </HeaderStyle>
     </HeaderDiv>

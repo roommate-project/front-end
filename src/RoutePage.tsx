@@ -8,6 +8,7 @@ import SignUpLastPage from 'pages/signup/SignUpLastPage';
 import ChatPage from 'pages/ChatPage';
 import MyPage from 'pages/MyPage';
 import MatchingPage from 'pages/matching/MatchingPage';
+import MatchingFilter from 'pages/matching/MatchingFilter';
 
 function RoutePage() {
   return (
@@ -21,6 +22,7 @@ function RoutePage() {
       <Route path="/sign-up/last" element={<SignUpLastPage />} />
       <Route path="/chat-list" element={<ChatPage />} />
       <Route path="/my-page" element={<MyPage />} />
+      <Route path="/filter" element={<MatchingFilter />} />
     </Routes>
   );
 }
