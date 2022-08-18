@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useMatch } from 'react-router-dom';
 import { MouseEventHandler, useState } from 'react';
 
 type NavigationProps = {
@@ -49,14 +49,37 @@ const tabInfo = [
 
 function NavigationBar() {
   const [activePage, setActivePage] = useState([true, false, false]);
+  const location = useLocation();
+  const chatPage = useMatch('chat-list/chat/:chatId');
+
   const isActive = (indexs: number) => {
     let newActivPage = [...activePage];
     setActivePage(
       newActivPage.map((i, index) => (index !== indexs ? false : true))
     );
   };
+
+  const isVisible = () => {
+    if (
+      location.pathname ===
+      ('/login' ||
+        '/login/email' ||
+        '/sign-up' ||
+        '/sign-up/email' ||
+        '/sign-up/email-auth' ||
+        '/sign-up/email-auth/last' ||
+        '/matching-filter')
+    ) {
+      return false;
+    }
+    if (chatPage) {
+      return false;
+    }
+    return true;
+  };
+
   return (
-    <NavigationDiv>
+    <NavigationDiv visible={isVisible()}>
       {tabInfo.map((info, index) => {
         return (
           <NavigationTabIcon

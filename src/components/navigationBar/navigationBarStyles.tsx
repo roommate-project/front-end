@@ -4,14 +4,14 @@ interface IconStyled {
   isActive: boolean;
 }
 
-export const NavigationDiv = styled.nav`
+export const NavigationDiv = styled('nav')<{ visible: boolean }>`
   width: 100%;
   height: 60px;
   background-color: ${props => props.theme.mainWhite};
   position: fixed;
   left: 0;
   bottom: 0;
-  display: flex;
+  display: ${props => (props.visible ? 'flex' : 'none')};
   justify-content: space-evenly;
 `;
 

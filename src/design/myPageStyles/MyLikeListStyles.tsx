@@ -10,7 +10,6 @@ export const MyLikeListGridBox = styled('div')<{ len: number }>`
   grid-row: 1 / 2;
   align-items: center;
   width: 100%;
-  height: auto;
   padding: 10px;
   margin: 10px;
 `;

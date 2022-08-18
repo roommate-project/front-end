@@ -19,7 +19,6 @@ export const MyPageRepresentiveImg = styled.img`
 export const MyPageBackground = styled.div`
   background-color: ${props => props.theme.mainWhite};
   width: 100%;
-  height: 100vh;
   display: flex;
   text-align: center;
   justify-content: start;
