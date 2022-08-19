@@ -9,23 +9,21 @@ import {
 interface ISliderProps {
   max: number;
   unit: number;
-  sliderMin: number;
-  sliderMax: number | string;
   setSliderMin: (value: number) => void;
   setSliderMax: (value: number | string) => void;
   defaultMin?: number;
   defaultMax?: number;
+  index: string;
 }
 
 function RangeSlider({
   max,
   unit,
-  sliderMin,
-  sliderMax,
   setSliderMin,
   setSliderMax,
   defaultMin,
   defaultMax,
+  index,
 }: ISliderProps) {
   const filterRef = useRef<HTMLDivElement>(null);
 
@@ -34,9 +32,9 @@ function RangeSlider({
     return Math.ceil(value / unit) * unit;
   };
 
+  const handleSize = 30;
   const trackWidth: number = 600;
   const trackHeight = 16;
-  const handleSize = 30;
   const minWidthBetweenHandle = handleSize * 2;
 
   const [minHandle, setMinHandle] = useState(
@@ -45,6 +43,12 @@ function RangeSlider({
   const [maxHandle, setMaxHandle] = useState(
     defaultMax ? getValue(defaultMax) : trackWidth
   );
+
+  const clibratedMinValue =
+    Math.ceil(max / (trackWidth / minHandle) / unit) * unit;
+
+  const clibratedMaxValue =
+    Math.ceil(max / (trackWidth / maxHandle) / unit) * unit;
 
   const onDragMinHandler = (info: any) => {
     const XminHandle =
@@ -69,19 +73,13 @@ function RangeSlider({
   };
 
   return (
-    <RangeSliderBox>
-      <input
-        type="hidden"
-        name={'min'}
-        value={(max / (trackWidth / minHandle)).toFixed(0)}
-      ></input>
-      <input
-        type="hidden"
-        name={'max'}
-        value={(max / (trackWidth / maxHandle)).toFixed(0)}
-      ></input>
+    <RangeSliderBox $trackWidth={trackWidth}>
+      <input type="hidden" name={'min'} value={clibratedMinValue}></input>
+      <input type="hidden" name={'max'} value={clibratedMaxValue}></input>
       <RangeLabel>
-        {sliderMin}~{sliderMax === max ? '무제한' : sliderMax}
+        {clibratedMinValue}
+        {index} ~ {clibratedMaxValue === max ? '무제한' : clibratedMaxValue}
+        {clibratedMaxValue === max ? null : index}
       </RangeLabel>
       <SliderTrack
         ref={filterRef}

@@ -21,11 +21,10 @@ function MatchingFilter() {
         나이
         <RangeSlider
           max={100}
-          unit={5}
-          sliderMin={sliderMin}
-          sliderMax={sliderMax}
+          unit={1}
           setSliderMin={setSliderMin}
           setSliderMax={setSliderMax}
+          index={' 세'}
         />
         <input type="hidden" name={'min'} defaultValue={sliderMin} />
         <input type="hidden" name={'max'} defaultValue={sliderMax} />

@@ -13,8 +13,13 @@ interface IHandleProps {
   $trackHeight: number;
 }
 
-export const RangeSliderBox = styled.div`
-  padding: 20px;
+export const RangeSliderBox = styled.div<{ $trackWidth: number }>`
+  width: ${props => props.$trackWidth}px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 `;
 
 export const SliderTrack = styled(motion.div)<ITrackProps>`
@@ -46,4 +51,8 @@ export const ValueHandle = styled(motion.div)<IHandleProps>`
   }
 `;
 
-export const RangeLabel = styled.p``;
+export const RangeLabel = styled.p`
+  color: ${props => props.theme.mainRed};
+  font-size: 16px;
+  align-self: flex-end;
+`;
