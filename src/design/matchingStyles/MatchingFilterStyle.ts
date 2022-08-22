@@ -21,6 +21,8 @@ export const FilterBox = styled.div`
   background-color: ${props => props.theme.mainWhite};
   font-size: 18px;
   font-weight: 500;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const FilterBtn = styled.button`
@@ -56,4 +58,24 @@ export const CheckBoxWrraper = styled.div`
   gap: 10px;
   margin-top: 20px;
   flex-wrap: wrap;
+`;
+
+export const Select = styled.select`
+  font-size: 48px;
+  padding: 10px;
+  color: ${props => props.theme.mainRed};
+  border: solid 2px ${props => props.theme.mainRed};
+  border-radius: 20px;
+  :focus {
+    outline: none;
+  }
+`;
+
+export const SelectBoxWrraper = styled.div`
+  margin: 20px;
+  p {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 22px;
+  }
 `;

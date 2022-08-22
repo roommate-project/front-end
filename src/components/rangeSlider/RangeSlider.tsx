@@ -34,7 +34,7 @@ function RangeSlider({
 
   const handleSize = 30;
   const trackWidth: number = 600;
-  const trackHeight = 16;
+  const trackHeight = 12;
   const minWidthBetweenHandle = handleSize * 2;
 
   const [minHandle, setMinHandle] = useState(

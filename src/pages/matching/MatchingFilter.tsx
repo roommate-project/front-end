@@ -5,6 +5,8 @@ import {
   FilterBox,
   FilterBtn,
   FilterModalContainer,
+  Select,
+  SelectBoxWrraper,
 } from 'design/matchingStyles/MatchingFilterStyle';
 import { BtnBox } from 'design/signupStyles/SignUpStyle';
 import { useState } from 'react';
@@ -24,7 +26,7 @@ function MatchingFilter() {
   const [isCheckRoom, setIsCheckRoom] = useState([true, true, true, true]);
 
   const onValid = (data: any) => {
-    console.log('filter apply');
+    console.log(data);
   };
 
   const genderCheckToggle = (index: number) => {
@@ -45,10 +47,23 @@ function MatchingFilter() {
 
   const checkItemGender = ['남자', '여자', '기타'];
   const checkItemRoom = ['기숙사', '원룸', '투룸', '쓰리룸이상'];
+  const matchingRate = [...new Array(10)].map((_, i) => 5 * i + 50);
 
   return (
     <FilterModalContainer onSubmit={handleSubmit(onValid)}>
-      <FilterBox>매칭률</FilterBox>
+      <FilterBox>
+        매칭률
+        <SelectBoxWrraper>
+          <Select {...register('matchingRate')}>
+            {matchingRate.map((value, index) => (
+              <option value={value} key={index}>
+                {value}%
+              </option>
+            ))}
+          </Select>
+          <p>이상</p>
+        </SelectBoxWrraper>
+      </FilterBox>
       <FilterBox>
         거주기간
         <RangeSlider

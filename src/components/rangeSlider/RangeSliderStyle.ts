@@ -18,7 +18,6 @@ export const RangeSliderBox = styled.div<{ $trackWidth: number }>`
   margin: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 20px;
 `;
 
