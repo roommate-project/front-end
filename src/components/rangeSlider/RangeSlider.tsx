@@ -105,6 +105,7 @@ function RangeSlider({
             right: maxHandle - minWidthBetweenHandle,
           }}
           dragMomentum={false}
+          dragElastic={0}
         />
         <ValueHandle
           $handleSize={handleSize}
@@ -123,6 +124,7 @@ function RangeSlider({
             right: trackWidth,
           }}
           dragMomentum={false}
+          dragElastic={0}
         />
       </SliderTrack>
     </RangeSliderBox>

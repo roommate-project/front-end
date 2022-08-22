@@ -31,8 +31,8 @@ export const SliderTrack = styled(motion.div)<ITrackProps>`
   background: linear-gradient(
     to right,
     #dfdfdf ${props => 100 * (props.$minHandle / props.$trackWidth)}%,
-    #ff4949 ${props => 100 * (props.$minHandle / props.$trackWidth) + 5}%,
-    #ff4949 ${props => 100 * (props.$maxHandle / props.$trackWidth) - 5}%,
+    #ff4949 ${props => 100 * (props.$minHandle / props.$trackWidth) + 2}%,
+    #ff4949 ${props => 100 * (props.$maxHandle / props.$trackWidth) - 2}%,
     #dfdfdf ${props => 100 * (props.$maxHandle / props.$trackWidth)}%
   );
 `;
