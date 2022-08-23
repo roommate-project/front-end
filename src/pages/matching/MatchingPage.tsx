@@ -1,7 +1,7 @@
 import { PageContainer } from 'design/commonStyles';
 import styled from 'styled-components';
-import MatchingCardInfo from './MatchingCardInfo';
-import MatchingStack from './MatchingStack';
+import MatchingCardInfo from 'pages/matching/MatchingCardInfo';
+import MatchingStack from 'pages/matching/MatchingStack';
 
 const Wrapper = styled(MatchingStack)`
   background-color: red;

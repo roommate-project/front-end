@@ -5,10 +5,13 @@ import SignUpMain from 'pages/signup/SignUpMainPage';
 import SignUpEmail from 'pages/signup/SignUpEmailPage';
 import SignUpEmailAuthPage from 'pages/signup/SignUpEmailAuthPage';
 import SignUpLastPage from 'pages/signup/SignUpLastPage';
-import ChatPage from 'pages/ChatPage';
-import MyPage from 'pages/MyPage';
 import MatchingPage from 'pages/matching/MatchingPage';
 import MatchingFilter from 'pages/matching/MatchingFilter';
+import MatchingDetailPage from 'pages/matchingDetails/MatchingDetailPage';
+import ChatListPage from 'pages/chat/ChatListPage';
+import ChatPage from 'pages/chat/ChatPage';
+import MyPage from 'pages/myPage/MyPage';
+import ResidentialPropensityTest from 'pages/residentialPropensityTest/ResidentialPropensityTest';
 
 function RoutePage() {
   return (
@@ -23,6 +26,12 @@ function RoutePage() {
       <Route path="/chat-list" element={<ChatPage />} />
       <Route path="/my-page" element={<MyPage />} />
       <Route path="/filter" element={<MatchingFilter />} />
+      <Route path="/sign-up/email-auth/last" element={<SignUpLastPage />} />
+      <Route path="/matching/detail/:userId" element={<MatchingDetailPage />} />
+      <Route path="/chat-list" element={<ChatListPage />} />
+      <Route path="/chat-list/chat/:chatId" element={<ChatPage />} />
+      <Route path="/my-page" element={<MyPage />} />
+      <Route path="/residential-test" element={<ResidentialPropensityTest />} />
     </Routes>
   );
 }
