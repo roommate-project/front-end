@@ -15,7 +15,7 @@ interface IHandleProps {
 
 export const RangeSliderBox = styled.div<{ $trackWidth: number }>`
   width: ${props => props.$trackWidth}px;
-  margin: 10px;
+  margin: 0px auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -30,8 +30,8 @@ export const SliderTrack = styled(motion.div)<ITrackProps>`
   background: linear-gradient(
     to right,
     #dfdfdf ${props => 100 * (props.$minHandle / props.$trackWidth)}%,
-    #ff4949 ${props => 100 * (props.$minHandle / props.$trackWidth) + 2}%,
-    #ff4949 ${props => 100 * (props.$maxHandle / props.$trackWidth) - 2}%,
+    #ff4949 ${props => 100 * (props.$minHandle / props.$trackWidth)}%,
+    #ff4949 ${props => 100 * (props.$maxHandle / props.$trackWidth)}%,
     #dfdfdf ${props => 100 * (props.$maxHandle / props.$trackWidth)}%
   );
 `;

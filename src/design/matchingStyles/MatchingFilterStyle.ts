@@ -25,6 +25,11 @@ export const FilterBox = styled.div`
   flex-direction: column;
 `;
 
+export const SliderFilterBox = styled(FilterBox)`
+  gap: 40px;
+  padding-bottom: 50px;
+`;
+
 export const FilterBtn = styled.button`
   bottom: 100px;
   width: 100%;
@@ -72,7 +77,7 @@ export const Select = styled.select`
 `;
 
 export const SelectBoxWrraper = styled.div`
-  margin: 20px;
+  margin: 20px auto;
   p {
     display: inline-block;
     margin-left: 10px;

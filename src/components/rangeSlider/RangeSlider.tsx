@@ -5,37 +5,48 @@ import {
   SliderTrack,
   ValueHandle,
 } from 'components/rangeSlider/RangeSliderStyle';
+import { useMediaQuery } from 'react-responsive';
 
 interface ISliderProps {
+  keyNum: number;
   max: number;
   unit: number;
-  setSliderMin: (value: number) => void;
-  setSliderMax: (value: number | string) => void;
+  sliderMin: number[];
+  sliderMax: (number | string)[];
+  setSliderMin: React.Dispatch<React.SetStateAction<number[]>>;
+  setSliderMax: React.Dispatch<React.SetStateAction<(number | string)[]>>;
   defaultMin?: number;
   defaultMax?: number;
   index: string;
 }
 
 function RangeSlider({
+  keyNum,
   max,
   unit,
+  sliderMin,
+  sliderMax,
   setSliderMin,
   setSliderMax,
   defaultMin,
   defaultMax,
   index,
 }: ISliderProps) {
+  const isMobile = useMediaQuery({ query: '(max-width:500px)' });
   const filterRef = useRef<HTMLDivElement>(null);
+
+  onresize = () => {
+    location.reload();
+  };
 
   const getValue = (handle: number) => {
     const value = parseInt((max / (trackWidth / handle)).toFixed(0), 10);
     return Math.ceil(value / unit) * unit;
   };
 
-  const handleSize = 30;
-  const trackWidth: number = 600;
-  const trackHeight = 12;
-  const minWidthBetweenHandle = handleSize * 2;
+  const handleSize = isMobile ? 26 : 30;
+  const trackWidth = isMobile ? 340 : 600;
+  const trackHeight = isMobile ? 10 : 16;
 
   const [minHandle, setMinHandle] = useState(
     defaultMin ? getValue(defaultMin) : 0
@@ -53,10 +64,7 @@ function RangeSlider({
   const onDragMinHandler = (info: any) => {
     const XminHandle =
       info.point.x - filterRef.current!.getBoundingClientRect().left;
-    const newValue =
-      XminHandle > maxHandle - minWidthBetweenHandle
-        ? maxHandle - minWidthBetweenHandle
-        : XminHandle;
+    const newValue = XminHandle > maxHandle ? maxHandle : XminHandle;
     setMinHandle(newValue < 0 ? 0 : Math.ceil(newValue / unit) * unit);
   };
 
@@ -66,8 +74,8 @@ function RangeSlider({
     const newValue =
       XmaxHandle > trackWidth
         ? trackWidth
-        : XmaxHandle < minHandle + minWidthBetweenHandle
-        ? minHandle + minWidthBetweenHandle
+        : XmaxHandle < minHandle
+        ? minHandle
         : XmaxHandle;
     setMaxHandle(Math.ceil(newValue / unit) * unit);
   };
@@ -77,9 +85,16 @@ function RangeSlider({
       <input type="hidden" name={'min'} value={clibratedMinValue}></input>
       <input type="hidden" name={'max'} value={clibratedMaxValue}></input>
       <RangeLabel>
-        {clibratedMinValue}
-        {index} ~ {clibratedMaxValue === max ? '무제한' : clibratedMaxValue}
-        {clibratedMaxValue === max ? null : index}
+        {Number(getValue(minHandle)) === Number(getValue(maxHandle))
+          ? null
+          : Number(getValue(minHandle))}
+        {Number(getValue(minHandle)) === Number(getValue(maxHandle))
+          ? null
+          : `${index} ~ `}
+        {Number(getValue(maxHandle)) === max
+          ? '무제한'
+          : Number(getValue(maxHandle))}
+        {Number(getValue(maxHandle)) === max ? null : index}
       </RangeLabel>
       <SliderTrack
         ref={filterRef}
@@ -98,11 +113,15 @@ function RangeSlider({
           onDrag={(e, info) => onDragMinHandler(info)}
           onDragEnd={() => {
             const minValue = Number(getValue(minHandle));
-            setSliderMin(minValue);
+            setSliderMin([
+              ...sliderMin.slice(0, keyNum),
+              minValue,
+              ...sliderMin.slice(1 + keyNum),
+            ]);
           }}
           dragConstraints={{
             left: 0,
-            right: maxHandle - minWidthBetweenHandle,
+            right: maxHandle - handleSize,
           }}
           dragMomentum={false}
           dragElastic={0}
@@ -117,10 +136,14 @@ function RangeSlider({
           onDrag={(e, info) => onDragMaxHandler(info)}
           onDragEnd={() => {
             const maxValue = Number(getValue(maxHandle));
-            setSliderMax(maxValue);
+            setSliderMax([
+              ...sliderMax.slice(0, keyNum),
+              maxValue,
+              ...sliderMax.slice(1 + keyNum),
+            ]);
           }}
           dragConstraints={{
-            left: minHandle + minWidthBetweenHandle,
+            left: minHandle + handleSize,
             right: trackWidth,
           }}
           dragMomentum={false}
