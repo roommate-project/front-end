@@ -11,6 +11,9 @@ import {
 import AuthTimer from 'components/authTimer/AuthTimer';
 import { TimerContainer } from 'components/authTimer/AuthTimerStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
+import { useMutation } from '@tanstack/react-query';
+import { fetchAuthNumValidation } from 'api/api';
+import { useNavigate } from 'react-router-dom';
 
 type FormValue = {
   emailAuth: number;
@@ -23,18 +26,31 @@ function SignUpEmailAuthPage() {
     formState: { errors },
     clearErrors,
   } = useForm<FormValue>();
+  const mutation = useMutation(fetchAuthNumValidation);
+  const navigation = useNavigate();
+  const savedEmail = sessionStorage.getItem('email');
   const [isActive, setIsActive] = useState(false);
+
   const onValid: SubmitHandler<FormValue> = data => {
-    console.log(data);
+    mutation.mutateAsync(data).then(res => {
+      if (res.data.code === 200) {
+        alert('인증이 완료되었습니다.');
+        navigation('/sign-up/last');
+      } else {
+        alert(res.data.message);
+      }
+    });
   };
+
   const onChangeAuthNum = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value ? setIsActive(true) : setIsActive(false);
     !event.currentTarget.value && clearErrors();
   };
+
   const onClickResend = () => {
     location.reload();
   };
-  const savedEmail = sessionStorage.getItem('email');
+
   return (
     <PageContainer>
       <Title>
