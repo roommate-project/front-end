@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useAnimation, useMotionValue } from 'framer-motion';
+import { PanInfo, useAnimation, useMotionValue } from 'framer-motion';
 import { MatchingImgContainer } from 'design/matchingStyles/MatchingPageStyles';
 
 function MachingCard({ onMove, children }: any) {
@@ -27,10 +27,10 @@ function MachingCard({ onMove, children }: any) {
     return velocity >= 1 ? 'right' : velocity <= -1 ? 'left' : undefined;
   };
 
-  const onDragHandler = () => {
-    setVelocity(x.getVelocity());
+  const onDragHandler = (info: PanInfo) => {
+    setVelocity(info.velocity.x);
     setDirection(getDirection());
-    console.log(velocity, direction);
+    //속도 넘어가면 날아가는게 아니라(콘스트레인트를 푸는게아니라), 배열순서가 바뀌도록 변경
   };
 
   const onDragEndHandler = () => {
@@ -68,7 +68,7 @@ function MachingCard({ onMove, children }: any) {
       drag
       dragConstraints={constraint && { top: 0, right: 0, bottom: 0, left: 0 }}
       dragElastic={1}
-      onDrag={onDragHandler}
+      onDrag={(_, info) => onDragHandler(info)}
       onDragEnd={() => onDragEndHandler()}
       whileTap={{ scale: 1.05 }}
       style={{ x }}
