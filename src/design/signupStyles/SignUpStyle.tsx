@@ -162,3 +162,9 @@ export const SignUpImgInput = styled.input`
   line-height: 40px;
   opacity: 0;
 `;
+
+export const LocationSelect = styled.select``;
+
+export const GenderRadio = styled.div`
+  display: flex;
+`;

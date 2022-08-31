@@ -10,10 +10,15 @@ import {
   ProfileImgSelect,
   SignUpImgInput,
   ProfileThumbNailImg,
+  LocationSelect,
+  GenderRadio,
 } from 'design/signupStyles/SignUpStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import ProgressBar from 'components/progressBar/ProgressBar';
+import { useMutation } from '@tanstack/react-query';
+import { fetchEmailRegister } from 'api/api';
+import { useNavigate } from 'react-router-dom';
 
 type FormValue = {
   name: string;
@@ -21,6 +26,10 @@ type FormValue = {
   password: string;
   passwordCheck: string;
   representImage: FileList;
+  age: string;
+  location: string;
+  gender: string;
+  domitory: string;
 };
 
 function SignUpLastPage() {
@@ -35,6 +44,48 @@ function SignUpLastPage() {
   const [isActive, setIsActive] = useState(false);
   const [profilePreview, setProfilePreview] = useState('');
   const profileImg = watch('representImage');
+  const navegation = useNavigate();
+  const locationData = [
+    '종로구',
+    '중구',
+    '용산구',
+    '성동구',
+    '광진구',
+    '동대문구',
+    '중랑구',
+    '성북구',
+    '강북구',
+    '도봉구',
+    '노원구',
+    '은평구',
+    '서대문구',
+    '마포구',
+    '양천구',
+    '강서구',
+    '구로구',
+    '금천구',
+    '영등포구',
+    '동작구',
+    '관악구',
+    '서초구',
+    '강남구',
+    '송파구',
+    '강동구',
+  ];
+
+  const mutation = useMutation(fetchEmailRegister, {
+    onSuccess: ({ data }) => {
+      if (data.code === 200) {
+        alert('회원가입이 완료되었습니다.');
+        navegation('/');
+      } else if (data.code === 400) {
+        alert('중복된 이메일 입니다.');
+      } else {
+        alert('회원가입에 실패하였습니다.');
+      }
+    },
+    onError: error => console.log(error),
+  });
 
   useEffect(() => {
     if (profileImg && profileImg.length > 0) {
@@ -93,6 +144,7 @@ function SignUpLastPage() {
         { shouldFocus: true }
       );
     }
+    mutation.mutate(data);
   };
   return (
     <PageContainer>
@@ -124,8 +176,45 @@ function SignUpLastPage() {
             minLength: { value: 2, message: '이름을 두글자 이상 입력해주세요' },
           })}
           onChange={onChangeName}
+          placeholder="이름"
         />
         <span>{errors.name?.message}</span>
+        <SignUpInput
+          type="text"
+          {...register('age', {
+            required: true,
+            valueAsNumber: true,
+          })}
+          placeholder="나이"
+        />
+        <span>{errors.age?.message}</span>
+        <GenderRadio>
+          <input type="radio" id="male" value="male" {...register('gender')} />
+          <label htmlFor="male">남자</label>
+          <input
+            type="radio"
+            id="female"
+            value="female"
+            {...register('gender')}
+          />
+          <label htmlFor="female">여자</label>
+          <input type="radio" id="etc" value="etc" {...register('gender')} />
+          <label htmlFor="etc">기타</label>
+        </GenderRadio>
+        <span>{errors.gender?.message}</span>
+        <LocationSelect {...register('location')}>
+          {locationData.map((data, index) => (
+            <option value={data} key={index}>
+              {data}
+            </option>
+          ))}
+        </LocationSelect>
+        <SignUpInput
+          type="domitory"
+          {...register('domitory', { required: true })}
+          placeholder="ex)숭실대학교"
+        />
+        <span>{errors.passwordCheck?.message}</span>
         <SignUpInput
           type="text"
           {...register('nickName', {
@@ -136,6 +225,7 @@ function SignUpLastPage() {
             },
           })}
           onChange={onChangeNickName}
+          placeholder="닉네임"
         />
         <span>{errors.nickName?.message}</span>
         <SignUpInput
@@ -148,12 +238,14 @@ function SignUpLastPage() {
             },
           })}
           onChange={onChangePassword}
+          placeholder="비밀번호"
         />
         <span>{errors.password?.message}</span>
         <SignUpInput
           type="password"
           {...register('passwordCheck', { required: true })}
           onChange={onChangePasswordCheck}
+          placeholder="비밀번호 확인"
         />
         <span>{errors.passwordCheck?.message}</span>
         <SignUpBtn isActive={isActive}>회원가입</SignUpBtn>
