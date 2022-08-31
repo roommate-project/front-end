@@ -35,12 +35,14 @@ function SignUpLastPage() {
   const [isActive, setIsActive] = useState(false);
   const [profilePreview, setProfilePreview] = useState('');
   const profileImg = watch('representImage');
+
   useEffect(() => {
     if (profileImg && profileImg.length > 0) {
       const file = profileImg[0];
       setProfilePreview(URL.createObjectURL(file));
     }
   }, [profileImg]);
+
   const onChangeName = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value &&
     watch('nickName') &&
@@ -50,6 +52,7 @@ function SignUpLastPage() {
       : setIsActive(false);
     event.currentTarget.value ? null : clearErrors();
   };
+
   const onChangeNickName = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value &&
     watch('name') &&
@@ -59,6 +62,7 @@ function SignUpLastPage() {
       : setIsActive(false);
     event.currentTarget.value ? null : clearErrors();
   };
+
   const onChangePassword = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value &&
     watch('nickName') &&
@@ -68,6 +72,7 @@ function SignUpLastPage() {
       : setIsActive(false);
     event.currentTarget.value ? null : clearErrors();
   };
+
   const onChangePasswordCheck = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value &&
     watch('nickName') &&
@@ -77,6 +82,7 @@ function SignUpLastPage() {
       : setIsActive(false);
     event.currentTarget.value ? null : clearErrors();
   };
+
   const onValid: SubmitHandler<FormValue> = data => {
     if (data.password !== data.passwordCheck) {
       setError(

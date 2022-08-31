@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { fetchEmailValidation, fetchSendEmailAuth } from 'api/api';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import {
@@ -23,7 +23,32 @@ function SignUpEmailPage() {
     formState: { errors },
     clearErrors,
   } = useForm<FormValue>();
-  const mutation = useMutation(fetchEmailValidation);
+
+  const { refetch: refetchSendEmail } = useQuery(
+    ['sendEmail'],
+    fetchSendEmailAuth,
+    {
+      refetchOnWindowFocus: false,
+      enabled: false,
+      retry: 0,
+      onSuccess: () => navigation('/sign-up/email-auth'),
+    }
+  );
+
+  const mutation = useMutation(fetchEmailValidation, {
+    onSuccess: ({ data }, variable) => {
+      if (data.code === 200) {
+        sessionStorage.setItem('email', variable.email);
+        refetchSendEmail();
+      } else if (data.code === 400) {
+        alert('이미 사용중인 이메일 입니다.');
+      }
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
+
   const navigation = useNavigate();
   const [isActive, setIsActive] = useState(false);
 
@@ -33,23 +58,8 @@ function SignUpEmailPage() {
     !event.currentTarget.value && clearErrors();
   };
 
-  const onValid: SubmitHandler<FormValue> = (data: any) => {
-    mutation.mutateAsync(data).then(res => {
-      if (res.data.code === 200) {
-        sessionStorage.setItem('email', JSON.stringify(data.email));
-        fetchSendEmailAuth(data).then(res => {
-          if (res.data.code === 200) {
-            navigation('/sign-up/email-auth');
-          } else {
-            alert(res.data.messsage);
-          }
-        });
-      } else if (res.data.code === 400) {
-        alert('이미 사용중인 이메일 입니다.');
-      } else {
-        alert(res.data.message);
-      }
-    });
+  const onValid: SubmitHandler<FormValue> = email => {
+    mutation.mutate(email);
   };
 
   return (

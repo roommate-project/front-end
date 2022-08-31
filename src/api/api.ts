@@ -10,9 +10,9 @@ export async function fetchEmailValidation(data: any) {
   return response;
 }
 
-export async function fetchSendEmailAuth(data: any) {
+export async function fetchSendEmailAuth() {
   const response = await axios.get(
-    `${SERVER_URL}/api/user/validate?email=${data}`
+    `${SERVER_URL}/api/user/validate?email=${savedEmail}`
   );
   return response;
 }

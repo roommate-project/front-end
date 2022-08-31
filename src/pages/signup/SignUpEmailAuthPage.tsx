@@ -11,12 +11,12 @@ import {
 import AuthTimer from 'components/authTimer/AuthTimer';
 import { TimerContainer } from 'components/authTimer/AuthTimerStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchAuthNumValidation } from 'api/api';
 import { useNavigate } from 'react-router-dom';
 
 type FormValue = {
-  emailAuth: number;
+  authNum: number;
 };
 
 function SignUpEmailAuthPage() {
@@ -26,21 +26,23 @@ function SignUpEmailAuthPage() {
     formState: { errors },
     clearErrors,
   } = useForm<FormValue>();
-  const mutation = useMutation(fetchAuthNumValidation);
+
+  const mutation = useMutation(fetchAuthNumValidation, {
+    onSuccess: ({ data }) => {
+      if (data.code === 200) {
+        alert('인증이 완료되었습니다.');
+        navigation('/sign-up/last');
+      } else {
+        alert(data.message);
+      }
+    },
+  });
+
   const navigation = useNavigate();
   const savedEmail = sessionStorage.getItem('email');
   const [isActive, setIsActive] = useState(false);
 
-  const onValid: SubmitHandler<FormValue> = data => {
-    mutation.mutateAsync(data).then(res => {
-      if (res.data.code === 200) {
-        alert('인증이 완료되었습니다.');
-        navigation('/sign-up/last');
-      } else {
-        alert(res.data.message);
-      }
-    });
-  };
+  const queryClient = useQueryClient();
 
   const onChangeAuthNum = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value ? setIsActive(true) : setIsActive(false);
@@ -48,7 +50,13 @@ function SignUpEmailAuthPage() {
   };
 
   const onClickResend = () => {
-    location.reload();
+    queryClient.refetchQueries(['sendEmail']);
+    //캐시가 사라지므로 새로고침이아닌 타이머만 리셋되도록 바꿔야함.
+    /* location.reload(); */
+  };
+
+  const onValid: SubmitHandler<FormValue> = authNum => {
+    mutation.mutate(authNum);
   };
 
   return (
@@ -61,7 +69,7 @@ function SignUpEmailAuthPage() {
         <TimerContainer>
           <SignUpInput
             type="text"
-            {...register('emailAuth', {
+            {...register('authNum', {
               required: true,
               valueAsNumber: true,
               validate: {
@@ -74,7 +82,7 @@ function SignUpEmailAuthPage() {
           />
           <AuthTimer />
         </TimerContainer>
-        <span>{errors?.emailAuth?.message}</span>
+        <span>{errors?.authNum?.message}</span>
         <EmailReSendBtn onClick={onClickResend}>인증번호 재전송</EmailReSendBtn>
         <EmailAuthSubmiBtn isActive={isActive}>인증하기</EmailAuthSubmiBtn>
       </SignUpForm>
