@@ -21,7 +21,7 @@ export async function fetchAuthNumValidation(data: any) {
   const response = await axios.post(
     `${SERVER_URL}/api/user/validate?email=${savedEmail}`,
     {
-      emailCode: data,
+      emailCode: data.authNum,
     }
   );
   return response;

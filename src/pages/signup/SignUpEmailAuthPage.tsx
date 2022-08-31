@@ -36,6 +36,9 @@ function SignUpEmailAuthPage() {
         alert(data.message);
       }
     },
+    onError: error => {
+      console.log(error);
+    },
   });
 
   const navigation = useNavigate();
@@ -71,11 +74,9 @@ function SignUpEmailAuthPage() {
             type="text"
             {...register('authNum', {
               required: true,
-              valueAsNumber: true,
-              validate: {
-                value: value =>
-                  value.toString().length !== 6 &&
-                  '인증번호 형식이 올바르지 않습니다.',
+              pattern: {
+                value: /^(\d){6}$/,
+                message: '인증번호 형식이 올바르지 않습니다.',
               },
             })}
             onChange={event => onChangeAuthNum(event)}
