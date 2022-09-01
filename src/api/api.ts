@@ -28,19 +28,18 @@ export async function fetchAuthNumValidation(data: any) {
 }
 
 export async function fetchEmailRegister(data: any) {
+  let formData = new FormData();
+  formData.append('representFile', data.representImage[0]);
+  formData.append(
+    'userAddForm',
+    new Blob([JSON.stringify(data)], { type: 'application/json' })
+  );
+
   const response = await axios.post(
     `${SERVER_URL}/api/user/add?email=${savedEmail}`,
+    formData,
     {
-      userAddForm: {
-        name: data.name,
-        password: data.password,
-        nickName: data.nickName,
-        gender: data.gender,
-        location: data.location,
-        age: data.age,
-        dormitory: data.dormitory,
-      },
-      representFile: data,
+      headers: { 'Content-Type': 'multipart/form-data' },
     }
   );
   return response;

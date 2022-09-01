@@ -29,7 +29,7 @@ type FormValue = {
   age: string;
   location: string;
   gender: string;
-  domitory: string;
+  dormitory: string;
 };
 
 function SignUpLastPage() {
@@ -84,7 +84,7 @@ function SignUpLastPage() {
         alert('회원가입에 실패하였습니다.');
       }
     },
-    onError: error => console.log(error),
+    onError: error => alert(error),
   });
 
   useEffect(() => {
@@ -144,6 +144,7 @@ function SignUpLastPage() {
         { shouldFocus: true }
       );
     }
+    console.log(data);
     mutation.mutate(data);
   };
   return (
@@ -210,11 +211,11 @@ function SignUpLastPage() {
           ))}
         </LocationSelect>
         <SignUpInput
-          type="domitory"
-          {...register('domitory', { required: true })}
+          type="dormitory"
+          {...register('dormitory', { required: true })}
           placeholder="ex)숭실대학교"
         />
-        <span>{errors.passwordCheck?.message}</span>
+        <span>{errors.dormitory?.message}</span>
         <SignUpInput
           type="text"
           {...register('nickName', {
