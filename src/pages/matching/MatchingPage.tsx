@@ -10,7 +10,7 @@ const Wrapper = styled(MatchingStack)`
 function MatchingPage() {
   return (
     <PageContainer>
-      <Wrapper onMove={() => {}}>
+      <Wrapper>
         <MatchingCardInfo />
       </Wrapper>
     </PageContainer>
