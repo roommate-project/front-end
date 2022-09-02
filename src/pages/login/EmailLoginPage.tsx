@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   LoginInput,
   LoginDiv,
@@ -11,6 +11,9 @@ import {
 import ProgressBar from 'components/progressBar/ProgressBar';
 import { PageContainer } from 'design/commonStyles';
 import { LoginMarginTopTitle } from 'design/loginStyles/LoginPageStyles';
+import { useMutation } from '@tanstack/react-query';
+import { fetchEmailLogin } from 'api/api';
+import { useNavigate } from 'react-router-dom';
 
 type FormValue = {
   email: string;
@@ -25,9 +28,19 @@ function EmailLoginPage() {
     formState: { isSubmitting, errors },
   } = useForm<FormValue>({ mode: 'onBlur' });
 
+  const mutation = useMutation(fetchEmailLogin, {
+    onSuccess: ({ data }) => {
+      if (data.code === 200) {
+        sessionStorage.setItem('token', data.message);
+        navigation('/');
+      }
+    },
+  });
+
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const navigation = useNavigate();
 
   const isEmailOn = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value && watch('email').length !== 0
@@ -47,6 +60,10 @@ function EmailLoginPage() {
     isEmail && isPassword ? setIsActive(true) : setIsActive(false);
   };
 
+  const onValid: SubmitHandler<FormValue> = data => {
+    mutation.mutate(data);
+  };
+
   return (
     <PageContainer>
       <LoginMarginTopTitle>
@@ -62,10 +79,12 @@ function EmailLoginPage() {
 
       <LoginForm
         style={{ width: '95%' }}
-        onSubmit={handleSubmit(async data => {
+        onSubmit={handleSubmit(
+          onValid /* async data => {
           await new Promise(r => setTimeout(r, 1000));
           alert(JSON.stringify(data));
-        })}
+        } */
+        )}
       >
         <LoginLabel>이메일</LoginLabel>
         <LoginDiv>
