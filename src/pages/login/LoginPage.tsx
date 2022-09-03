@@ -12,7 +12,7 @@ import {
   SocialSignUpBtn,
   EmailSignUpBtn,
   BtnBox,
-} from 'pages/signup/SignUpStyle';
+} from 'design/signupStyles/SignUpStyle';
 import kakaoImg from 'assets/kakaoImg.png';
 import naverImg from 'assets/naverImg.png';
 import { Link } from 'react-router-dom';

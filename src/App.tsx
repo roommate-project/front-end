@@ -6,6 +6,7 @@ import RoutePage from 'RoutePage';
 import Header from 'components/header/Header';
 import NavigationBar from 'components/navigationBar/NavigationBar';
 import Footer from 'components/footer/Footer';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -16,6 +17,7 @@ function App() {
         <NavigationBar />
         <Footer />
       </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={true} />
     </ThemeProvider>
   );
 }

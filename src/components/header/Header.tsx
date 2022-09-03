@@ -99,6 +99,9 @@ function Header() {
         <HeaderIcon rights={true} left={false}>
           <FontAwesomeIcon
             icon={faFilter}
+            onClick={() => {
+              navigate('/filter');
+            }}
             style={{ display: `${visibleFilterButton() ? '' : 'none'} ` }}
           />
         </HeaderIcon>

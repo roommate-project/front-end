@@ -1,17 +1,22 @@
-import AuthTimer, { TimerContainer } from 'components/signup/AuthTimer';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-  AuthBtn,
+  EmailAuthSubmiBtn,
   PageContainer,
-  Form,
-  Input,
-  ReSendBtn,
+  SignUpForm,
+  SignUpInput,
+  EmailReSendBtn,
   Title,
-} from './SignUpStyle';
+} from 'design/signupStyles/SignUpStyle';
+import AuthTimer from 'components/authTimer/AuthTimer';
+import { TimerContainer } from 'components/authTimer/AuthTimerStyles';
+import ProgressBar from 'components/progressBar/ProgressBar';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { fetchAuthNumValidation } from 'api/api';
+import { useNavigate } from 'react-router-dom';
 
 type FormValue = {
-  emailAuth: number;
+  authNum: number;
 };
 
 function SignUpEmailAuthPage() {
@@ -21,42 +26,68 @@ function SignUpEmailAuthPage() {
     formState: { errors },
     clearErrors,
   } = useForm<FormValue>();
+
+  const mutation = useMutation(fetchAuthNumValidation, {
+    onSuccess: ({ data }) => {
+      if (data.code === 200) {
+        alert('인증이 완료되었습니다.');
+        navigation('/sign-up/last');
+      } else {
+        alert(data.message);
+      }
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
+
+  const navigation = useNavigate();
+  const savedEmail = sessionStorage.getItem('email');
   const [isActive, setIsActive] = useState(false);
-  const onValid: SubmitHandler<FormValue> = data => {
-    console.log(data);
-  };
+
+  const queryClient = useQueryClient();
+
   const onChangeAuthNum = (event: React.FormEvent<HTMLInputElement>) => {
     event.currentTarget.value ? setIsActive(true) : setIsActive(false);
-    event.currentTarget.value ? null : clearErrors();
+    !event.currentTarget.value && clearErrors();
   };
-  const onClickResend = () => {};
+
+  const onClickResend = () => {
+    queryClient.refetchQueries(['sendEmail']);
+    //캐시가 사라지므로 새로고침이아닌 타이머만 리셋되도록 바꿔야함.
+    /* location.reload(); */
+  };
+
+  const onValid: SubmitHandler<FormValue> = authNum => {
+    mutation.mutate(authNum);
+  };
+
   return (
     <PageContainer>
       <Title>
         ROOMMATE
-        <div>"입력한이메일"로 인증번호를 전송하였습니다. </div>
+        <div>{savedEmail}로 인증번호를 전송하였습니다. </div>
       </Title>
-      <Form onSubmit={handleSubmit(onValid)}>
+      <SignUpForm onSubmit={handleSubmit(onValid)}>
         <TimerContainer>
-          <Input
+          <SignUpInput
             type="text"
-            {...register('emailAuth', {
+            {...register('authNum', {
               required: true,
-              valueAsNumber: true,
-              validate: {
-                value: value =>
-                  value.toString().length !== 6 &&
-                  '인증번호 형식이 올바르지 않습니다.',
+              pattern: {
+                value: /^(\d){6}$/,
+                message: '인증번호 형식이 올바르지 않습니다.',
               },
             })}
             onChange={event => onChangeAuthNum(event)}
           />
           <AuthTimer />
         </TimerContainer>
-        <span>{errors?.emailAuth?.message}</span>
-        <ReSendBtn onClick={onClickResend}>인증번호 재전송</ReSendBtn>
-        <AuthBtn isActive={isActive}>인증하기</AuthBtn>
-      </Form>
+        <span>{errors?.authNum?.message}</span>
+        <EmailReSendBtn onClick={onClickResend}>인증번호 재전송</EmailReSendBtn>
+        <EmailAuthSubmiBtn isActive={isActive}>인증하기</EmailAuthSubmiBtn>
+      </SignUpForm>
+      <ProgressBar width={66} />
     </PageContainer>
   );
 }

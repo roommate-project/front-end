@@ -9,11 +9,6 @@ export const TimerContainer = styled.div`
     top: 0;
     bottom: 0;
     right: 30px;
+    color: ${props => props.theme.mainRed};
   }
 `;
-
-function AuthTimer() {
-  return <div>8분 30초</div>;
-}
-
-export default AuthTimer;
