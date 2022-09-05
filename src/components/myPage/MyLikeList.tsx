@@ -38,28 +38,28 @@ const dummyLikeListData = [
     periodLivingTogether: 0,
   },
   {
-    representImage: 'https://picsum.photos/800/600?random=1',
+    representImage: 'https://picsum.photos/800/600?random=5',
     location: '마포구',
     questionPercent: 16.67,
     userId: 13,
     periodLivingTogether: 6,
   },
   {
-    representImage: 'https://picsum.photos/800/600?random=2',
+    representImage: 'https://picsum.photos/800/600?random=8',
     location: '마포구',
     questionPercent: 100,
     userId: 16,
     periodLivingTogether: 10,
   },
   {
-    representImage: 'https://picsum.photos/800/600?random=3',
+    representImage: 'https://picsum.photos/800/600?random=6',
     location: '동작구',
     questionPercent: 99,
     userId: 75,
     periodLivingTogether: 17,
   },
   {
-    representImage: 'https://picsum.photos/800/600?random=4',
+    representImage: 'https://picsum.photos/800/600?random=7',
     location: '송파구',
     questionPercent: 13.33,
     userId: 18,
@@ -67,10 +67,26 @@ const dummyLikeListData = [
   },
 ];
 
-function MyLikeList() {
+type myLikeListProp = {
+  likeList: Array<any>;
+};
+
+function MyLikeList({ likeList }: myLikeListProp) {
+  if (likeList.length == 0) {
+    return (
+      <div
+        style={{
+          backgroundColor: '#000000',
+          color: '#ffffff',
+        }}
+      >
+        아직 좋아요한 목록이 없어요!
+      </div>
+    );
+  }
   return (
     <MyLikeListGridBox len={dummyLikeListData.length / 2}>
-      {dummyLikeListData.map(list => (
+      {likeList.map(list => (
         <MyLikeListBox key={list.representImage}>
           <MyLikeListImg
             src={list.representImage}

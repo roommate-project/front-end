@@ -11,10 +11,34 @@ import {
 import MyLikeList from 'components/myPage/MyLikeList';
 import MyIntroduceSelf from 'components/myPage/MyIntroductSelf';
 import MyHouseIntroduce from 'components/myPage/MyHouseIntroduce';
+import { getMypageData } from 'api/mypageApi';
+import { useQuery } from '@tanstack/react-query';
+import { setGender } from 'utils/setGender';
 
 function MyPage() {
   const [menuSelected, setMenuSelected] = useState(0);
+  const { data, isLoading } = useQuery(['getData'], () => getMypageData(1));
+  let userBasicData;
+  let matchingData;
+  let likedListData;
+  let houseInfo: any = {};
+  let myDataInfo: any = {};
 
+  if (!isLoading) {
+    userBasicData = data?.data.userBasicInfo;
+    matchingData = data?.data.matchingInfo;
+    likedListData = data?.data.likeListData;
+    houseInfo.roomCount = matchingData.room;
+    houseInfo.cost = matchingData.cost;
+    houseInfo.houseDescription = matchingData.houseInfo;
+
+    myDataInfo.experience = matchingData.experience;
+    myDataInfo.wantPeriod = matchingData.want_long;
+    myDataInfo.userMessage = matchingData.info;
+  }
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
   return (
     <PageContainer>
       <MyPageTopBackground>
@@ -24,11 +48,13 @@ function MyPage() {
         />
       </MyPageTopBackground>
       <MyPageBackground>
-        <MyPageBasicInfo>닉네임</MyPageBasicInfo>
+        <MyPageBasicInfo>
+          {userBasicData.name}/{userBasicData.nickName}
+        </MyPageBasicInfo>
         <MyPageBasicInfoBox marginTop={30}>
-          <MyPageBasicInfo>성별</MyPageBasicInfo>
-          <MyPageBasicInfo>나이</MyPageBasicInfo>
-          <MyPageBasicInfo>지역</MyPageBasicInfo>
+          <MyPageBasicInfo>{setGender(userBasicData.gender)}</MyPageBasicInfo>
+          <MyPageBasicInfo>{userBasicData.age}</MyPageBasicInfo>
+          <MyPageBasicInfo>{matchingData.location}</MyPageBasicInfo>
         </MyPageBasicInfoBox>
         <MyPageBasicInfoBox marginTop={30}>
           <MyPageMenuButton
@@ -56,9 +82,25 @@ function MyPage() {
             집 등록
           </MyPageMenuButton>
         </MyPageBasicInfoBox>
-        {menuSelected === 0 && <MyLikeList />}
-        {menuSelected === 1 && <MyIntroduceSelf />}
-        {menuSelected === 2 && <MyHouseIntroduce />}
+        {menuSelected === 0 && <MyLikeList likeList={likedListData} />}
+        {/* TODO 프롭스 객체로 바꾸기 */}
+        {menuSelected === 1 && (
+          <MyIntroduceSelf
+            myInfoData={myDataInfo}
+            userTestResult={matchingData.question}
+          />
+        )}
+        {menuSelected === 2 && (
+          <MyHouseIntroduce
+            houseInfo={houseInfo}
+            photoUrls={[
+              'https://picsum.photos/800/600?random=1',
+              'https://picsum.photos/800/600?random=2',
+              'https://picsum.photos/800/600?random=3',
+              'https://picsum.photos/800/600?random=4',
+            ]}
+          />
+        )}
       </MyPageBackground>
     </PageContainer>
   );

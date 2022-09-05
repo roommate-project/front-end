@@ -20,21 +20,16 @@ const roomCount = [...new Array(4)].map((_, i) => i + 1);
 
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
 
-const dummyHouseInfo = {
-  roomCount: 2,
-  cost: 200000,
-  domitory: null,
-  photoUrls: [
-    'https://picsum.photos/800/600?random=1',
-    'https://picsum.photos/800/600?random=2',
-    'https://picsum.photos/800/600?random=3',
-    'https://picsum.photos/800/600?random=4',
-  ],
-  houseDescription:
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam explicabo doloremque repellat. Distinctio adipisci maxime rem obcaecati saepe doloremque labore dolores, et temporibus sapiente doloribus, quo deleniti, excepturi cum laudantium.',
+type myHouseInfoProps = {
+  houseInfo: {
+    roomCount: number;
+    cost: number;
+    houseDescription: string;
+  };
+  photoUrls: Array<String>;
 };
 
-function MyHouseIntroduce() {
+function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
   const settings = {
     dots: true,
     infinite: false,
@@ -54,10 +49,10 @@ function MyHouseIntroduce() {
         <MyIntroduceSelectBox
           name="period"
           id="period"
-          defaultValue={dummyHouseInfo.roomCount}
+          defaultValue={houseInfo.roomCount}
         >
           {roomCount.map(roomCount => (
-            <MyIntroduceOptionBox value={roomCount}>
+            <MyIntroduceOptionBox value={roomCount} key={roomCount}>
               {roomCount < 4 ? `${roomCount}개` : '3개 이상'}
             </MyIntroduceOptionBox>
           ))}{' '}
@@ -69,10 +64,10 @@ function MyHouseIntroduce() {
         <MyIntroduceSelectBox
           name="period"
           id="period"
-          defaultValue={parseInt((dummyHouseInfo.cost / 10000).toString())}
+          defaultValue={parseInt((houseInfo.cost / 10000).toString())}
         >
           {costRange.map(costRange => (
-            <MyIntroduceOptionBox value={costRange}>
+            <MyIntroduceOptionBox value={costRange} key={costRange}>
               {costRange < 100000000 ? `${costRange} 만원` : '100만원 이상'}
             </MyIntroduceOptionBox>
           ))}{' '}
@@ -86,11 +81,11 @@ function MyHouseIntroduce() {
       {/* TODO 이미지 크기 수정하기 */}
       <DetailImgWrapper>
         <Slider {...settings}>
-          {dummyHouseInfo.photoUrls.map((photo, index) => (
+          {photoUrls.map(photo => (
             <div>
               <img
-                src={photo}
-                key={index}
+                src={photo.toString()}
+                key={photo.toString()}
                 style={{ width: '100%', height: '300px' }}
               />
             </div>
@@ -104,7 +99,7 @@ function MyHouseIntroduce() {
         </MyIntroduceContentTitle>
       </MyIntroduceRowBox>
       <MyIntroduceTextArea
-        defaultValue={dummyHouseInfo.houseDescription}
+        defaultValue={houseInfo.houseDescription}
         name="houseInfo"
         id="houseInfo"
       />

@@ -21,21 +21,16 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 const period = [...new Array(14)].map((_, i) => i);
 
-const dummyUserData = {
-  experience: '10',
-  want_long: '24',
-  info: '시끄러운 사람 ㄴㄴ',
-  test_result: [
-    { questionId: 1, answer: true },
-    { questionId: 2, answer: false },
-    { questionId: 3, answer: true },
-    { questionId: 4, answer: false },
-    { questionId: 5, answer: false },
-    { questionId: 6, answer: true },
-  ],
+type myIntroduceSelfProps = {
+  myInfoData: {
+    experience: number;
+    wantPeriod: number;
+    userMessage: string;
+  };
+  userTestResult: Array<boolean>;
 };
 
-function MyIntroduceSelf() {
+function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
   return (
     <MyIntroduceBackground>
       <MyIntroduceTitle>내 정보</MyIntroduceTitle>
@@ -46,7 +41,7 @@ function MyIntroduceSelf() {
           <MyIntroduceSelectBox
             name="period"
             id="period"
-            defaultValue={dummyUserData.experience}
+            defaultValue={myInfoData.experience}
           >
             {period.map(period => (
               <MyIntroduceOptionBox value={period}>
@@ -63,9 +58,9 @@ function MyIntroduceSelf() {
           name="period"
           id="period"
           defaultValue={
-            parseInt(dummyUserData.want_long) >= 12
+            parseInt(myInfoData.wantPeriod.toString()) >= 12
               ? 13
-              : dummyUserData.want_long
+              : myInfoData.wantPeriod
           }
         >
           {period.map(period => (
@@ -84,7 +79,7 @@ function MyIntroduceSelf() {
       </MyIntroduceRowBox>
       <MyIntroduceRowBox>
         <MyIntroduceTextArea
-          defaultValue={dummyUserData.info}
+          defaultValue={myInfoData.userMessage}
           name="etcMessage"
           id="etcMessage"
         />
@@ -103,7 +98,7 @@ function MyIntroduceSelf() {
               <ResultCardQuestion>
                 Q{index + 1}.{list.question}
               </ResultCardQuestion>
-              {dummyUserData.test_result[index].answer ? (
+              {userTestResult[index] ? (
                 <ResultCardAnswer>A.{list.answer1}</ResultCardAnswer>
               ) : (
                 <ResultCardAnswer>B.{list.answer2}</ResultCardAnswer>
