@@ -18,6 +18,8 @@ import {
   MyIntroduceContentTitle,
 } from 'design/myPageStyles/myIntroduceSelfStyles';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const period = [...new Array(14)].map((_, i) => i);
 
@@ -74,7 +76,7 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
         <MyIntroduceContentTitle>
           {' '}
           이런 사람과 함께 살고 싶어요
-          <MyIntroducePutButton icon={faPencil} />
+          <MyIntroducePutButton icon={faFloppyDisk} />
         </MyIntroduceContentTitle>
       </MyIntroduceRowBox>
       <MyIntroduceRowBox>
@@ -87,7 +89,9 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
       <MyIntroduceRowBox>
         <MyIntroduceContentTitle>
           성향 테스트
-          <MyIntroducePutButton icon={faPencil} />
+          <Link to={'/residential-test'}>
+            <MyIntroducePutButton icon={faPencil} />
+          </Link>
         </MyIntroduceContentTitle>
       </MyIntroduceRowBox>
 

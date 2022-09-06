@@ -83,7 +83,6 @@ function MyPage() {
           </MyPageMenuButton>
         </MyPageBasicInfoBox>
         {menuSelected === 0 && <MyLikeList likeList={likedListData} />}
-        {/* TODO 프롭스 객체로 바꾸기 */}
         {menuSelected === 1 && (
           <MyIntroduceSelf
             myInfoData={myDataInfo}

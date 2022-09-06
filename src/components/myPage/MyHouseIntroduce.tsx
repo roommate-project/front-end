@@ -15,6 +15,7 @@ import {
   MyIntroduceSelectBox,
 } from 'design/myPageStyles/myIntroduceSelfStyles';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 
 const roomCount = [...new Array(4)].map((_, i) => i + 1);
 
@@ -43,7 +44,7 @@ function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
     <MyIntroduceBackground>
       <MyIntroduceTitle>집 소개</MyIntroduceTitle>
       <MyIntroduceContentTitle>집 상세 정보</MyIntroduceContentTitle>
-
+      {/* TODO 기숙사일때 문구 변경해주기 */}
       <MyIntroduceContent>
         저희 집은 방이{' '}
         <MyIntroduceSelectBox
@@ -74,7 +75,6 @@ function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
         </MyIntroduceSelectBox>
         대 입니다.
       </MyIntroduceContent>
-
       <MyIntroduceContentTitle>
         집 사진 <MyIntroducePutButton icon={faPencil} />
       </MyIntroduceContentTitle>
@@ -95,7 +95,7 @@ function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
       <MyIntroduceRowBox>
         <MyIntroduceContentTitle>
           집 소개
-          <MyIntroducePutButton icon={faPencil} />
+          <MyIntroducePutButton icon={faFloppyDisk} />
         </MyIntroduceContentTitle>
       </MyIntroduceRowBox>
       <MyIntroduceTextArea
