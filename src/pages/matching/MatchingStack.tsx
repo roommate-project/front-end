@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import { MachingCardWrapper } from 'design/matchingStyles/MatchingPageStyles';
 import MachingCard from 'pages/matching/MatchingCard';
+import { fetchMatchingData } from 'api/api';
+import { useQuery } from '@tanstack/react-query';
 
 function MatchingStack({ children }: any) {
-  const [array, setArray] = useState([0, 1, 2, 3, 4]);
+  const [array, setArray] = useState<Array<any>>([]);
+  const { isLoading } = useQuery(['matchingData'], fetchMatchingData, {
+    onSuccess: data => {
+      setArray(data.data);
+    },
+    refetchOnWindowFocus: false,
+  });
 
   const handleMove = (direction: string | undefined) => {
     if (direction === 'left') {
@@ -27,17 +35,21 @@ function MatchingStack({ children }: any) {
 
   return (
     <MachingCardWrapper>
-      {array.map(index => {
-        return (
-          <MachingCard
-            key={index}
-            onMove={(direction: string | undefined) => handleMove(direction)}
-          >
-            {children}
-            {index}
-          </MachingCard>
-        );
-      })}
+      {isLoading ? (
+        <p>LOADING....</p>
+      ) : (
+        array.map(data => {
+          return (
+            <MachingCard
+              key={data.userId}
+              onMove={(direction: string | undefined) => handleMove(direction)}
+              fetchData={data}
+            >
+              {children}
+            </MachingCard>
+          );
+        })
+      )}
     </MachingCardWrapper>
   );
 }

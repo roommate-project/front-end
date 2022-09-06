@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-export const MatchingImgContainer = styled(motion.div)`
+export const MatchingImgContainer = styled(motion.div)<{ $bgImage: string }>`
   position: absolute;
   width: 85%;
   height: 75%;
   border-radius: 50px;
-  background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80');
+  background-image: ${props => `url(${props.$bgImage})`};
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;

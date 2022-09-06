@@ -6,29 +6,29 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faLocationDot,
-  /* faMars,
-  faVenus, */
+  faMars,
+  faVenus,
 } from '@fortawesome/free-solid-svg-icons';
 
-function MatchingCardInfo() {
+function MatchingCardInfo({ data }: any) {
   return (
-    <>
-      <MatchingInfoBox>
-        <MatchingUserInfo>
-          {/* {data.gender === 'male' ? (
-            <FontAwesomeIcon icon={faMars} />
-          ) : (
-            <FontAwesomeIcon icon={faVenus} />
-          )} */}
-          <p>귀요미, 24</p>
-          <p>"깨끗한 사람 같이 살아요"</p>
-        </MatchingUserInfo>
-        <MatchinglocationInfo>
-          <FontAwesomeIcon icon={faLocationDot} />
-          도봉구
-        </MatchinglocationInfo>
-      </MatchingInfoBox>
-    </>
+    <MatchingInfoBox>
+      <MatchingUserInfo>
+        {data.gender === 'male' ? (
+          <FontAwesomeIcon icon={faMars} />
+        ) : (
+          <FontAwesomeIcon icon={faVenus} />
+        )}
+        <p>
+          {data.nickName}, {data.age}
+        </p>
+        <p>{`"${data.info}"`}</p>
+      </MatchingUserInfo>
+      <MatchinglocationInfo>
+        <FontAwesomeIcon icon={faLocationDot} />
+        {data.location}
+      </MatchinglocationInfo>
+    </MatchingInfoBox>
   );
 }
 

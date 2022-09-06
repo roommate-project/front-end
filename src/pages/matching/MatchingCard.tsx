@@ -7,8 +7,15 @@ import {
 } from 'design/matchingStyles/MatchingPageStyles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
+import MatchingCardInfo from './MatchingCardInfo';
 
-function MachingCard({ onMove, children }: any) {
+interface IMachingCardProps {
+  onMove: any;
+  children: any;
+  fetchData: any;
+}
+
+function MachingCard({ onMove, fetchData }: IMachingCardProps) {
   const cardRef = useRef(null);
   const x = useMotionValue(0);
   const controls = useAnimation();
@@ -49,8 +56,9 @@ function MachingCard({ onMove, children }: any) {
       whileTap={{ scale: 1.05 }}
       style={{ x }}
       animate={controls}
+      $bgImage={fetchData.representImage}
     >
-      {children}
+      <MatchingCardInfo data={fetchData} />
       <MatchingCircleBox>
         <MatchingCircle types="chat" onClick={chatRequestHandler}>
           <FontAwesomeIcon icon={faComment} />

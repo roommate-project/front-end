@@ -1,18 +1,15 @@
 import { PageContainer } from 'design/commonStyles';
 import styled from 'styled-components';
-import MatchingCardInfo from 'pages/matching/MatchingCardInfo';
 import MatchingStack from 'pages/matching/MatchingStack';
 
-const Wrapper = styled(MatchingStack)`
+const Stack = styled(MatchingStack)`
   background-color: red;
 `;
 
 function MatchingPage() {
   return (
     <PageContainer>
-      <Wrapper>
-        <MatchingCardInfo />
-      </Wrapper>
+      <Stack />
     </PageContainer>
   );
 }
