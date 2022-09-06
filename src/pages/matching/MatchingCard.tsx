@@ -1,6 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { PanInfo, useAnimation, useMotionValue } from 'framer-motion';
-import { MatchingImgContainer } from 'design/matchingStyles/MatchingPageStyles';
+import {
+  MatchingCircle,
+  MatchingCircleBox,
+  MatchingImgContainer,
+} from 'design/matchingStyles/MatchingPageStyles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 function MachingCard({ onMove, children }: any) {
   const cardRef = useRef(null);
@@ -24,6 +30,14 @@ function MachingCard({ onMove, children }: any) {
     }
   };
 
+  const chatRequestHandler = () => {
+    console.log('chat');
+  };
+
+  const likeHandler = () => {
+    console.log('like');
+  };
+
   return (
     <MatchingImgContainer
       ref={cardRef}
@@ -37,6 +51,14 @@ function MachingCard({ onMove, children }: any) {
       animate={controls}
     >
       {children}
+      <MatchingCircleBox>
+        <MatchingCircle types="chat" onClick={chatRequestHandler}>
+          <FontAwesomeIcon icon={faComment} />
+        </MatchingCircle>
+        <MatchingCircle types="like" onClick={likeHandler}>
+          <FontAwesomeIcon icon={faHeart} />
+        </MatchingCircle>
+      </MatchingCircleBox>
     </MatchingImgContainer>
   );
 }
