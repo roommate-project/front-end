@@ -37,6 +37,18 @@ export const putUserNames = async (data: object) => {
       },
     }
   );
+  return response;
+};
+export const putUserDatas = async (data: object) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_SERVER_IP}/api/mypage/info`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      },
+    }
+  );
   console.log(response);
   return response;
 };

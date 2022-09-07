@@ -16,7 +16,12 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { putUserRepresentPhoto } from 'api/mypageApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { putUserNames } from '../../api/mypageApi';
+import { putUserNames, putUserDatas } from 'api/mypageApi';
+import {
+  MyIntroduceSelectBox,
+  MyIntroduceOptionBox,
+} from 'design/myPageStyles/myIntroduceSelfStyles';
+import { loactionDataInSeoul } from 'utils/locationDataInSeoul';
 
 type myBasicInfoProps = {
   userBasicData: {
@@ -28,10 +33,18 @@ type myBasicInfoProps = {
   location: string;
 };
 
+const genderType = ['female', 'male'];
+const ageArrage = [...new Array(80)].map((_, i) => i + 1);
+
 function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
   const [userImg, setUserImg] = useState('');
   const [editNames, setEditNames] = useState(true);
   const [userNames, setUserNames] = useState({ name: '', nickName: '' });
+  const [userDatas, setUserDatas] = useState({
+    age: 0,
+    location: '',
+    gender: '',
+  });
   const mutation = useMutation(putUserRepresentPhoto, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
@@ -43,6 +56,14 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
     onSuccess({ data }: any) {
       if (data.code == 200) {
         alert('이름 및 닉네임 수정 완료');
+      }
+    },
+  });
+
+  const saveUserDatasMutation = useMutation(putUserDatas, {
+    onSuccess({ data }: any) {
+      if (data.code == 200) {
+        alert('지역 수정 완료');
       }
     },
   });
@@ -59,11 +80,23 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
     setEditNames(true);
   };
 
+  const saveUserDatas = () => {
+    saveUserDatasMutation.mutate(userDatas);
+  };
+
   const onChangeNames = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserNames({
       ...userNames,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const onChangeDatas = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserDatas({
+      ...userDatas,
+      [e.target.name]: e.target.value,
+    });
+    saveUserDatas();
   };
 
   return (
@@ -119,9 +152,29 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
         />
       </MyPageBasicInfo>
       <MyPageBasicInfoBox marginTop={30}>
-        <MyPageBasicInfo>{setGender(userBasicData.gender)}</MyPageBasicInfo>
-        <MyPageBasicInfo>{userBasicData.age}</MyPageBasicInfo>
-        <MyPageBasicInfo>{location}</MyPageBasicInfo>
+        <MyIntroduceSelectBox
+          name="gender"
+          defaultValue={setGender(userBasicData.gender)}
+        >
+          {genderType.map(gender => (
+            <MyIntroduceOptionBox>{setGender(gender)}</MyIntroduceOptionBox>
+          ))}
+        </MyIntroduceSelectBox>
+
+        <MyIntroduceSelectBox name="age" defaultValue={userBasicData.age}>
+          {ageArrage.map(age => (
+            <MyIntroduceOptionBox>{age}</MyIntroduceOptionBox>
+          ))}
+        </MyIntroduceSelectBox>
+        <MyIntroduceSelectBox
+          name="location"
+          defaultValue={location}
+          onChange={onChangeDatas}
+        >
+          {loactionDataInSeoul.map(location => (
+            <MyIntroduceOptionBox>{location}</MyIntroduceOptionBox>
+          ))}
+        </MyIntroduceSelectBox>
       </MyPageBasicInfoBox>
     </>
   );
