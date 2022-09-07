@@ -1,3 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
+import { fetchMatchingFilter } from 'api/api';
 import RangeSlider from 'components/rangeSlider/RangeSlider';
 import {
   CheckBoxLabel,
@@ -23,6 +25,12 @@ function MatchingFilter() {
     '무제한',
     '무제한',
   ]);
+  const [apply, setApply] = useState(false);
+
+  const {} = useQuery(['matchingFilter'], fetchMatchingFilter, {
+    onSuccess: data => console.log(data),
+    enabled: !!apply,
+  });
 
   useEffect(() => {
     for (let i = 0; i < rangeData.length; i++) {
@@ -32,7 +40,7 @@ function MatchingFilter() {
   }, [sliderMin, sliderMax]);
 
   const onValid = (data: any) => {
-    console.log(data);
+    setApply(true);
   };
 
   const genderCheckToggle = (index: number) => {
@@ -51,7 +59,7 @@ function MatchingFilter() {
     ]);
   };
 
-  const checkItemGender = ['남자', '여자', '기타'];
+  const checkItemGender = ['남자', '여자'];
   const checkItemRoom = ['기숙사', '원룸', '투룸', '쓰리룸이상'];
   const matchingRate = [...new Array(21)].map((_, i) => 5 * i);
   const rangeData = [

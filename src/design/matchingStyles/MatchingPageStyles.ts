@@ -1,6 +1,11 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
+interface IMatchingCircleProps {
+  types: string;
+  $isLike?: boolean;
+}
+
 export const MatchingImgContainer = styled(motion.div)<{ $bgImage: string }>`
   position: absolute;
   width: 85%;
@@ -44,7 +49,7 @@ export const MatchingCircleBox = styled.div`
   bottom: 30px;
 `;
 
-export const MatchingCircle = styled.div<{ types: string }>`
+export const MatchingCircle = styled(motion.div)<IMatchingCircleProps>`
   width: 70px;
   height: 70px;
   border-radius: 50%;
@@ -56,7 +61,11 @@ export const MatchingCircle = styled.div<{ types: string }>`
   svg {
     font-size: 36px;
     color: ${props =>
-      props.types === 'like' ? props.theme.mainRed : props.theme.mainPurple};
+      props.types === 'chat'
+        ? props.theme.mainPurple
+        : props.$isLike
+        ? props.theme.mainRed
+        : props.theme.mainGrey};
   }
 `;
 

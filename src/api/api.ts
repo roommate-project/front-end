@@ -80,7 +80,7 @@ export async function fetchMatchingLike(data: any) {
   const response = await axios.post(
     `${process.env.REACT_APP_SERVER_IP}/api/match/like`,
     {
-      id: data.id,
+      id: data,
     },
     {
       headers: {
@@ -91,9 +91,10 @@ export async function fetchMatchingLike(data: any) {
   return response;
 }
 
-export async function fetchMatchingFilter(data: any) {
-  const response = await axios.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/match/filter/페이지번호?rate=${data.matchingRate}&gender=${data.gender}&experienceMax=${data.maxMonth}&experienceMin=${data.minMonth}&ageMax=${data.maxAge}&ageMin=${data.minAge}`
+export function fetchMatchingFilter(data: any) {
+  console.log(data);
+  /*   const response = await axios.get(
+    `${process.env.REACT_APP_SERVER_IP}/api/match/filter/페이지번호?rate=${}&gender=${}&wantLongMax=${}&wantLongMin=${}&ageMax=${}&ageMin=${}&costMax=${}&costMin=${}&roomMax=${}&roomMin=${}`
   );
-  return response;
+  return response; */
 }

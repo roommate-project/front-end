@@ -8,6 +8,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
 import MatchingCardInfo from './MatchingCardInfo';
+import { useMutation } from '@tanstack/react-query';
+import { fetchMatchingLike } from 'api/api';
 
 interface IMachingCardProps {
   onMove: any;
@@ -15,12 +17,18 @@ interface IMachingCardProps {
   fetchData: any;
 }
 
-function MachingCard({ onMove, fetchData }: IMachingCardProps) {
+function MachingCard({ onMove, fetchData, testImg }: IMachingCardProps) {
   const cardRef = useRef(null);
   const x = useMotionValue(0);
   const controls = useAnimation();
   const [direction, setDirection] = useState<string | undefined>();
   const [velocity, setVelocity] = useState(0);
+  const [isLike, setIsLike] = useState(false);
+
+  const mutation = useMutation(fetchMatchingLike, {
+    onSuccess: () => setIsLike(prev => !prev),
+    onError: error => console.log(error),
+  });
 
   const getDirection = () => {
     return velocity >= 1 ? 'right' : velocity <= -1 ? 'left' : undefined;
@@ -42,7 +50,7 @@ function MachingCard({ onMove, fetchData }: IMachingCardProps) {
   };
 
   const likeHandler = () => {
-    console.log('like');
+    mutation.mutate(fetchData.userId + '');
   };
 
   return (
@@ -63,7 +71,7 @@ function MachingCard({ onMove, fetchData }: IMachingCardProps) {
         <MatchingCircle types="chat" onClick={chatRequestHandler}>
           <FontAwesomeIcon icon={faComment} />
         </MatchingCircle>
-        <MatchingCircle types="like" onClick={likeHandler}>
+        <MatchingCircle types="like" $isLike={isLike} onClick={likeHandler}>
           <FontAwesomeIcon icon={faHeart} />
         </MatchingCircle>
       </MatchingCircleBox>
