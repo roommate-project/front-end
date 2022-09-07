@@ -11,3 +11,32 @@ export const getMypageData = async (userId: number) => {
   );
   return response;
 };
+
+export const putUserRepresentPhoto = async (file: string) => {
+  let formData = new FormData();
+  formData.append('representFile', file);
+  const response = await axios.put(
+    `${process.env.REACT_APP_SERVER_IP}/api/mypage/image/represent`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      },
+    }
+  );
+  return response;
+};
+
+export const putUserNames = async (data: object) => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_SERVER_IP}/api/mypage`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      },
+    }
+  );
+  console.log(response);
+  return response;
+};

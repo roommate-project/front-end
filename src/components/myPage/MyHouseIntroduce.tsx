@@ -18,7 +18,6 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 
 const roomCount = [...new Array(4)].map((_, i) => i + 1);
-
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
 
 type myHouseInfoProps = {
