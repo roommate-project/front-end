@@ -91,10 +91,33 @@ export async function fetchMatchingLike(data: any) {
   return response;
 }
 
-export function fetchMatchingFilter(data: any) {
-  console.log(data);
-  /*   const response = await axios.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/match/filter/페이지번호?rate=${}&gender=${}&wantLongMax=${}&wantLongMin=${}&ageMax=${}&ageMin=${}&costMax=${}&costMin=${}&roomMax=${}&roomMin=${}`
+export async function fetchMatchingFilter(data: any) {
+  const response = await axios.get(
+    `${process.env.REACT_APP_SERVER_IP}/api/match/filter/1`,
+    {
+      params: {
+        rate: data.matchingRate,
+        gender:
+          data.남자 && data.여자
+            ? null
+            : data.남자 && !data.여자
+            ? 'male'
+            : !data.남자 && data.여자
+            ? 'female'
+            : 0,
+        wantLongMax: data.maxMonth === '무제한' ? null : data.maxMonth,
+        wantLongMin: data.minMonth,
+        ageMax: data.maxAge === '무제한' ? null : data.maxAge,
+        ageMin: data.minAge,
+        costMax: data.maxCost === '무제한' ? null : data.maxCost,
+        costMin: data.minCost,
+        roomMax: 3,
+        roomMin: 0,
+      },
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    }
   );
-  return response; */
+  return response;
 }

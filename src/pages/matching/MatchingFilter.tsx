@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { fetchMatchingFilter } from 'api/api';
 import RangeSlider from 'components/rangeSlider/RangeSlider';
 import {
@@ -25,12 +25,8 @@ function MatchingFilter() {
     '무제한',
     '무제한',
   ]);
-  const [apply, setApply] = useState(false);
 
-  const {} = useQuery(['matchingFilter'], fetchMatchingFilter, {
-    onSuccess: data => console.log(data),
-    enabled: !!apply,
-  });
+  const mutation = useMutation(fetchMatchingFilter);
 
   useEffect(() => {
     for (let i = 0; i < rangeData.length; i++) {
@@ -40,7 +36,8 @@ function MatchingFilter() {
   }, [sliderMin, sliderMax]);
 
   const onValid = (data: any) => {
-    setApply(true);
+    console.log(data);
+    mutation.mutate(data);
   };
 
   const genderCheckToggle = (index: number) => {
