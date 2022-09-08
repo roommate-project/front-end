@@ -1,5 +1,5 @@
 import { DetailImgWrapper } from 'design/mathingDetailStyles/matchingDetailStyles';
-import React from 'react';
+import React, { useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -15,7 +15,9 @@ import {
   MyIntroduceSelectBox,
 } from 'design/myPageStyles/myIntroduceSelfStyles';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { faFloppyDisk, faPen } from '@fortawesome/free-solid-svg-icons';
+import { useMutation } from '@tanstack/react-query';
+import { putUserDatas } from '../../api/mypageApi';
 
 const roomCount = [...new Array(4)].map((_, i) => i + 1);
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
@@ -38,6 +40,35 @@ function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
     slidesToScroll: 1,
     arrows: false,
   };
+  const [editHouseDescription, setEditHouseDescription] = useState(true);
+  const [houseData, setHouseData] = useState({
+    cost: houseInfo.cost.toString(),
+    roomCount: houseInfo.roomCount.toString(),
+    houseInfo: houseInfo.houseDescription,
+  });
+
+  const houseDataMutation = useMutation(putUserDatas, {
+    onSuccess({ data }: any) {
+      if (data.code == 200) {
+        alert('정보 수정 완료');
+      }
+    },
+  });
+
+  const saveHouseDatas = () => {
+    houseDataMutation.mutate(houseData);
+    setEditHouseDescription(true);
+  };
+
+  const onChangeDatas = (e: any, type: string) => {
+    setHouseData({
+      ...houseData,
+      [e.target.name]: e.target.value.toString(),
+    });
+    if (type !== 'text') {
+      saveHouseDatas();
+    }
+  };
 
   return (
     <MyIntroduceBackground>
@@ -47,9 +78,11 @@ function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
       <MyIntroduceContent>
         저희 집은 방이{' '}
         <MyIntroduceSelectBox
-          name="period"
-          id="period"
+          name="roomCount"
           defaultValue={houseInfo.roomCount}
+          onChange={e => {
+            onChangeDatas(e, 'select');
+          }}
         >
           {roomCount.map(roomCount => (
             <MyIntroduceOptionBox value={roomCount} key={roomCount}>
@@ -62,12 +95,14 @@ function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
       <MyIntroduceContent>
         월세는{' '}
         <MyIntroduceSelectBox
-          name="period"
-          id="period"
+          name="cost"
           defaultValue={parseInt((houseInfo.cost / 10000).toString())}
+          onChange={e => {
+            onChangeDatas(e, 'select');
+          }}
         >
           {costRange.map(costRange => (
-            <MyIntroduceOptionBox value={costRange} key={costRange}>
+            <MyIntroduceOptionBox value={costRange * 10000} key={costRange}>
               {costRange < 100000000 ? `${costRange} 만원` : '100만원 이상'}
             </MyIntroduceOptionBox>
           ))}{' '}
@@ -94,13 +129,24 @@ function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
       <MyIntroduceRowBox>
         <MyIntroduceContentTitle>
           집 소개
-          <MyIntroducePutButton icon={faFloppyDisk} />
+          <MyIntroducePutButton
+            icon={editHouseDescription ? faPen : faFloppyDisk}
+            onClick={() => {
+              editHouseDescription
+                ? setEditHouseDescription(false)
+                : saveHouseDatas();
+            }}
+          />
         </MyIntroduceContentTitle>
       </MyIntroduceRowBox>
       <MyIntroduceTextArea
         defaultValue={houseInfo.houseDescription}
         name="houseInfo"
         id="houseInfo"
+        disabled={editHouseDescription}
+        onChange={e => {
+          onChangeDatas(e, 'text');
+        }}
       />
     </MyIntroduceBackground>
   );

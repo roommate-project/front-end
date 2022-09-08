@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DetailPageResultCard,
   DetailTestDiv,
@@ -20,6 +20,8 @@ import {
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { putUserDatas } from 'api/mypageApi';
+import { useMutation } from '@tanstack/react-query';
 
 const period = [...new Array(14)].map((_, i) => i);
 
@@ -33,6 +35,36 @@ type myIntroduceSelfProps = {
 };
 
 function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
+  const [editUserMessage, setEditUserMessage] = useState(true);
+  const [userData, setUserData] = useState({
+    want_long: myInfoData.wantPeriod.toString(),
+    experience: myInfoData.experience.toString(),
+    info: myInfoData.userMessage,
+  });
+
+  const userDataMutation = useMutation(putUserDatas, {
+    onSuccess({ data }: any) {
+      if (data.code == 200) {
+        alert('정보 수정 완료');
+      }
+    },
+  });
+
+  const saveUserDatas = () => {
+    userDataMutation.mutate(userData);
+    setEditUserMessage(true);
+  };
+
+  const onChangeDatas = (e: any, type: string) => {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value.toString(),
+    });
+    if (type !== 'text') {
+      saveUserDatas();
+    }
+  };
+
   return (
     <MyIntroduceBackground>
       <MyIntroduceTitle>내 정보</MyIntroduceTitle>
@@ -41,9 +73,12 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
         <MyIntroduceContent>
           다른 사람과
           <MyIntroduceSelectBox
-            name="period"
+            name="experience"
             id="period"
             defaultValue={myInfoData.experience}
+            onChange={e => {
+              onChangeDatas(e, 'select');
+            }}
           >
             {period.map(period => (
               <MyIntroduceOptionBox value={period}>
@@ -57,13 +92,16 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
       <MyIntroduceContentTitle> 희망 거주 기간</MyIntroduceContentTitle>
       <div style={{ marginBottom: '10px' }}>
         <MyIntroduceSelectBox
-          name="period"
+          name="want_long"
           id="period"
           defaultValue={
             parseInt(myInfoData.wantPeriod.toString()) >= 12
               ? 13
               : myInfoData.wantPeriod
           }
+          onChange={e => {
+            onChangeDatas(e, 'select');
+          }}
         >
           {period.map(period => (
             <MyIntroduceOptionBox value={period}>
@@ -76,7 +114,12 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
         <MyIntroduceContentTitle>
           {' '}
           이런 사람과 함께 살고 싶어요
-          <MyIntroducePutButton icon={faFloppyDisk} />
+          <MyIntroducePutButton
+            icon={editUserMessage ? faPencil : faFloppyDisk}
+            onClick={() => {
+              editUserMessage ? setEditUserMessage(false) : saveUserDatas();
+            }}
+          />
         </MyIntroduceContentTitle>
       </MyIntroduceRowBox>
       <MyIntroduceRowBox>
@@ -84,6 +127,10 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
           defaultValue={myInfoData.userMessage}
           name="etcMessage"
           id="etcMessage"
+          onChange={e => {
+            onChangeDatas(e, 'text');
+          }}
+          disabled={editUserMessage}
         />
       </MyIntroduceRowBox>
       <MyIntroduceRowBox>
