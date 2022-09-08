@@ -11,6 +11,8 @@ import {
   TestAnswerBox,
   TestQuestion,
 } from 'design/residentialPropensityTest/residentialPropensityTest';
+import { postUserTestResult } from 'api/mypageApi';
+import { useMutation } from '@tanstack/react-query';
 
 type AnswerType = {
   questionNum: number;
@@ -32,6 +34,19 @@ function ResidentialPropensityTest() {
 
   const isSelectedAnswer = (answers: boolean) => {
     return testResult[questionNumber]?.answer === answers;
+  };
+
+  const postTestResultMutation = useMutation(postUserTestResult, {
+    onSuccess({ data }: any) {
+      if (data.code == 200) {
+        alert('성향 테스트 결과 저장 완료');
+      }
+    },
+  });
+
+  const sendTestResult = () => {
+    const result = testResult.map(answer => answer.answer.toString());
+    postTestResultMutation.mutate(result);
   };
 
   return (
@@ -117,6 +132,7 @@ function ResidentialPropensityTest() {
                   if (!isSelected) {
                     return;
                   }
+                  sendTestResult();
                   //TODO 페이지 띄울때 가입인지 or 수정인지 확인 후에 경로 설정 다시해주기
                   navigation('/');
                 }}
