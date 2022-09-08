@@ -39,9 +39,10 @@ export const putUserNames = async (data: object) => {
   );
   return response;
 };
+
 export const putUserDatas = async (data: object) => {
   const response = await axios.put(
-    `${process.env.REACT_APP_SERVER_IP}/api/mypage/info`,
+    `${process.env.REACT_APP_SERVER_IP}/api/mypage`,
     data,
     {
       headers: {
@@ -49,6 +50,18 @@ export const putUserDatas = async (data: object) => {
       },
     }
   );
-  console.log(response);
+  return response;
+};
+
+export const postUserTestResult = async (data: Array<string>) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_SERVER_IP}/api/mypage/question`,
+    { question: data },
+    {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      },
+    }
+  );
   return response;
 };

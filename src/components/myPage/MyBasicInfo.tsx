@@ -34,17 +34,18 @@ type myBasicInfoProps = {
 };
 
 const genderType = ['female', 'male'];
-const ageArrage = [...new Array(80)].map((_, i) => i + 1);
+const ageArrage = [...new Array(80)].map((_, i) => (i + 1).toString());
 
 function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
   const [userImg, setUserImg] = useState('');
   const [editNames, setEditNames] = useState(true);
   const [userNames, setUserNames] = useState({ name: '', nickName: '' });
   const [userDatas, setUserDatas] = useState({
-    age: 0,
-    location: '',
-    gender: '',
+    age: userBasicData.age.toString(),
+    location: location,
+    gender: userBasicData.gender,
   });
+
   const mutation = useMutation(putUserRepresentPhoto, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
@@ -63,7 +64,7 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
   const saveUserDatasMutation = useMutation(putUserDatas, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
-        alert('지역 수정 완료');
+        alert('정보 수정 완료');
       }
     },
   });
@@ -87,7 +88,7 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
   const onChangeNames = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserNames({
       ...userNames,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.toString(),
     });
   };
 
@@ -155,13 +156,18 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
         <MyIntroduceSelectBox
           name="gender"
           defaultValue={setGender(userBasicData.gender)}
+          onChange={onChangeDatas}
         >
           {genderType.map(gender => (
             <MyIntroduceOptionBox>{setGender(gender)}</MyIntroduceOptionBox>
           ))}
         </MyIntroduceSelectBox>
 
-        <MyIntroduceSelectBox name="age" defaultValue={userBasicData.age}>
+        <MyIntroduceSelectBox
+          name="age"
+          defaultValue={userBasicData.age}
+          onChange={onChangeDatas}
+        >
           {ageArrage.map(age => (
             <MyIntroduceOptionBox>{age}</MyIntroduceOptionBox>
           ))}
