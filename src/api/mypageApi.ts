@@ -50,6 +50,7 @@ export const putUserDatas = async (data: object) => {
       },
     }
   );
+
   return response;
 };
 
@@ -63,5 +64,6 @@ export const postUserTestResult = async (data: Array<string>) => {
       },
     }
   );
+
   return response;
 };

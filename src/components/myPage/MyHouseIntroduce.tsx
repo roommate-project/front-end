@@ -1,5 +1,5 @@
 import { DetailImgWrapper } from 'design/mathingDetailStyles/matchingDetailStyles';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -46,6 +46,10 @@ function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
     roomCount: houseInfo.roomCount.toString(),
     houseInfo: houseInfo.houseDescription,
   });
+
+  useEffect(() => {
+    console.log(houseData);
+  }, [houseData]);
 
   const houseDataMutation = useMutation(putUserDatas, {
     onSuccess({ data }: any) {

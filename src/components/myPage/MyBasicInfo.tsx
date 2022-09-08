@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MyPageBasicInfo,
   MyPageBasicInfoBox,
@@ -46,6 +46,10 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
     gender: userBasicData.gender,
   });
 
+  useEffect(() => {
+    console.log(userDatas);
+  }, [userDatas]);
+
   const mutation = useMutation(putUserRepresentPhoto, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
@@ -77,7 +81,6 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
 
   const saveUserName = () => {
     editNameMutation.mutate(userNames);
-    alert(userNames);
     setEditNames(true);
   };
 

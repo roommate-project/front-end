@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DetailPageResultCard,
   DetailTestDiv,
@@ -41,6 +41,10 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
     experience: myInfoData.experience.toString(),
     info: myInfoData.userMessage,
   });
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   const userDataMutation = useMutation(putUserDatas, {
     onSuccess({ data }: any) {
