@@ -64,9 +64,9 @@ export async function fetchEmailLogin(data: any) {
 }
 
 //매칭페이지
-export async function fetchMatchingData() {
+export async function fetchMatchingData({ pageParam = 1 }) {
   const response = await axios.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/match/1`,
+    `${process.env.REACT_APP_SERVER_IP}/api/match/${pageParam}`,
     {
       headers: {
         Authorization: `Bearer ${TOKEN}`,

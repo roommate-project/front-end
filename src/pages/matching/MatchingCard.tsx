@@ -15,9 +15,16 @@ interface IMachingCardProps {
   onMove: any;
   children: any;
   fetchData: any;
+  fetchNextPage: any;
+  setIsLast: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function MachingCard({ onMove, fetchData, testImg }: IMachingCardProps) {
+function MachingCard({
+  onMove,
+  fetchData,
+  fetchNextPage,
+  setIsLast,
+}: IMachingCardProps) {
   const cardRef = useRef(null);
   const x = useMotionValue(0);
   const controls = useAnimation();
@@ -42,6 +49,10 @@ function MachingCard({ onMove, fetchData, testImg }: IMachingCardProps) {
   const onDragEndHandler = () => {
     if (direction && Math.abs(velocity) > 500) {
       onMove(direction);
+      if (fetchData.isLast === true && direction === 'left') {
+        fetchNextPage();
+        setIsLast(false);
+      }
     }
   };
 

@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MachingCardWrapper } from 'design/matchingStyles/MatchingPageStyles';
 import MachingCard from 'pages/matching/MatchingCard';
 import { fetchMatchingData } from 'api/api';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 function MatchingStack({ children }: any) {
-  const [array, setArray] = useState<Array<any>>([]);
-  const { isLoading } = useQuery(['matchingData'], fetchMatchingData, {
-    onSuccess: data => {
-      setArray(data.data);
-    },
-    refetchOnWindowFocus: false,
-  });
+  const [array, setArray] = useState<Array<any>>([{}]);
+  const [isLast, setIsLast] = useState(true);
+  const { isLoading, fetchNextPage } = useInfiniteQuery(
+    ['matchingPageData'],
+    fetchMatchingData,
+    {
+      onSuccess: data => {
+        setArray(data.pages.map(pages => pages.data).flat(2));
+      },
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPage = allPages.length + 1;
+        return nextPage;
+      },
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    array[0]['isLast'] = true;
+  }, [array.length]);
 
   const handleMove = (direction: string | undefined) => {
     if (direction === 'left') {
@@ -44,6 +57,8 @@ function MatchingStack({ children }: any) {
               key={data.userId}
               onMove={(direction: string | undefined) => handleMove(direction)}
               fetchData={data}
+              fetchNextPage={fetchNextPage}
+              setIsLast={setIsLast}
             >
               {children}
             </MachingCard>
