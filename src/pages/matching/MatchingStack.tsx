@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { MachingCardWrapper } from 'design/matchingStyles/MatchingPageStyles';
 import MachingCard from 'pages/matching/MatchingCard';
 import { fetchMatchingData } from 'api/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 function MatchingStack({ children }: any) {
-  const [array, setArray] = useState<Array<any>>([{}]);
-  const [isLast, setIsLast] = useState(true);
+  const [array, setArray] = useState<any[]>([{}]);
   const { isLoading, fetchNextPage } = useInfiniteQuery(
     ['matchingPageData'],
     fetchMatchingData,
     {
       onSuccess: data => {
-        setArray(data.pages.map(pages => pages.data).flat(2));
+        setArray(data.pages.map(page => page.data).flat(2));
       },
       getNextPageParam: (lastPage, allPages) => {
         const nextPage = allPages.length + 1;
@@ -21,10 +20,6 @@ function MatchingStack({ children }: any) {
       refetchOnWindowFocus: false,
     }
   );
-
-  useEffect(() => {
-    array[0]['isLast'] = true;
-  }, [array.length]);
 
   const handleMove = (direction: string | undefined) => {
     if (direction === 'left') {
@@ -51,19 +46,17 @@ function MatchingStack({ children }: any) {
       {isLoading ? (
         <p>LOADING....</p>
       ) : (
-        array.map(data => {
-          return (
-            <MachingCard
-              key={data.userId}
-              onMove={(direction: string | undefined) => handleMove(direction)}
-              fetchData={data}
-              fetchNextPage={fetchNextPage}
-              setIsLast={setIsLast}
-            >
-              {children}
-            </MachingCard>
-          );
-        })
+        array.map((data, index) => (
+          <MachingCard
+            key={index}
+            onMove={(direction: string | undefined) => handleMove(direction)}
+            fetchData={data}
+            fetchNextPage={fetchNextPage}
+            isLike={data.isLiked}
+          >
+            {children}
+          </MachingCard>
+        ))
       )}
     </MachingCardWrapper>
   );

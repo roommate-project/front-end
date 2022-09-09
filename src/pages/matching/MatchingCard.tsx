@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
 import MatchingCardInfo from './MatchingCardInfo';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchMatchingLike } from 'api/api';
 
 interface IMachingCardProps {
@@ -16,24 +16,39 @@ interface IMachingCardProps {
   children: any;
   fetchData: any;
   fetchNextPage: any;
-  setIsLast: React.Dispatch<React.SetStateAction<boolean>>;
+  isLike: boolean;
 }
 
 function MachingCard({
   onMove,
   fetchData,
   fetchNextPage,
-  setIsLast,
+  isLike,
 }: IMachingCardProps) {
   const cardRef = useRef(null);
   const x = useMotionValue(0);
   const controls = useAnimation();
   const [direction, setDirection] = useState<string | undefined>();
   const [velocity, setVelocity] = useState(0);
-  const [isLike, setIsLike] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const mutation = useMutation(fetchMatchingLike, {
-    onSuccess: () => setIsLike(prev => !prev),
+    onMutate: userId => {
+      queryClient.setQueryData(['matchingPageData'], (oldData: any) => {
+        const oldArray = oldData.pages.map((page: any) => page.data).flat(2);
+        oldArray.map((user: any) => {
+          if (user.userId === userId) {
+            return {
+              ...oldArray,
+              isLike: !isLike,
+            };
+          }
+        });
+        return oldData;
+      });
+    },
+    onSuccess: () => queryClient.invalidateQueries(['matchingPageData']),
     onError: error => console.log(error),
   });
 
@@ -51,7 +66,7 @@ function MachingCard({
       onMove(direction);
       if (fetchData.isLast === true && direction === 'left') {
         fetchNextPage();
-        setIsLast(false);
+        fetchData.isLast = false;
       }
     }
   };
@@ -61,6 +76,8 @@ function MachingCard({
   };
 
   const likeHandler = () => {
+    console.log(isLike);
+
     mutation.mutate(fetchData.userId + '');
   };
 
