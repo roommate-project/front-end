@@ -13,7 +13,7 @@ import MyBasicInfo from 'components/myPage/MyBasicInfo';
 
 function MyPage() {
   const [menuSelected, setMenuSelected] = useState(0);
-  const { data, isLoading } = useQuery(['getData'], () => getMypageData(1));
+  const { data, isLoading } = useQuery(['getData'], () => getMypageData());
   let userBasicData;
   let matchingData;
   let likedListData;
@@ -27,6 +27,7 @@ function MyPage() {
     houseInfo.roomCount = matchingData.room;
     houseInfo.cost = matchingData.cost;
     houseInfo.houseDescription = matchingData.houseInfo;
+    houseInfo.restImagesId = matchingData.restImagesId;
 
     myDataInfo.experience = matchingData.experience;
     myDataInfo.wantPeriod = matchingData.want_long;
@@ -74,17 +75,7 @@ function MyPage() {
           userTestResult={matchingData.question}
         />
       )}
-      {menuSelected === 2 && (
-        <MyHouseIntroduce
-          houseInfo={houseInfo}
-          photoUrls={[
-            'https://picsum.photos/800/600?random=1',
-            'https://picsum.photos/800/600?random=2',
-            'https://picsum.photos/800/600?random=3',
-            'https://picsum.photos/800/600?random=4',
-          ]}
-        />
-      )}
+      {menuSelected === 2 && <MyHouseIntroduce houseInfo={houseInfo} />}
     </PageContainer>
   );
 }

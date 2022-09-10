@@ -32,6 +32,7 @@ function EmailLoginPage() {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
         sessionStorage.setItem('token', data.message);
+        sessionStorage.setItem('userId', data.id);
         navigation('/');
       }
     },

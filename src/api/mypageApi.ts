@@ -1,26 +1,29 @@
 import axios from 'axios';
 
-export const getMypageData = async (userId: number) => {
+//TODO 페이지네이션 추가하기
+export const getMypageData = async () => {
   const response = await axios.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/mypage/${userId}`,
+    `${process.env.REACT_APP_SERVER_IP}/api/mypage/1`,
     {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     }
   );
+  console.log(response);
   return response;
 };
 
-export const putUserRepresentPhoto = async (file: string) => {
-  let formData = new FormData();
-  formData.append('representFile', file);
+export const putUserRepresentPhoto = async (file: any) => {
+  const formData = new FormData();
+  formData.append('representImage', file);
   const response = await axios.put(
     `${process.env.REACT_APP_SERVER_IP}/api/mypage/image/represent`,
     formData,
     {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+        'Content-Type': 'multipart/form-data',
       },
     }
   );
@@ -65,5 +68,18 @@ export const postUserTestResult = async (data: Array<string>) => {
     }
   );
 
+  return response;
+};
+
+export const postUserLikeButton = async (userId: number) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_SERVER_IP}/api/match/like`,
+    { id: userId.toString() },
+    {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      },
+    }
+  );
   return response;
 };

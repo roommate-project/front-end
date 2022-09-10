@@ -37,23 +37,29 @@ const genderType = ['female', 'male'];
 const ageArrage = [...new Array(80)].map((_, i) => (i + 1).toString());
 
 function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
-  const [userImg, setUserImg] = useState('');
+  const [userImg, setUserImg] = useState(
+    `${process.env.REACT_APP_SERVER_IP}/api/user/${sessionStorage.getItem(
+      'userId'
+    )}/img/represents`
+  );
   const [editNames, setEditNames] = useState(true);
   const [userNames, setUserNames] = useState({ name: '', nickName: '' });
-  const [userDatas, setUserDatas] = useState({
+  const [userData, setUserData] = useState({
     age: userBasicData.age.toString(),
     location: location,
     gender: userBasicData.gender,
   });
 
   useEffect(() => {
-    console.log(userDatas);
-  }, [userDatas]);
+    console.log(userData);
+  }, [userData]);
 
   const mutation = useMutation(putUserRepresentPhoto, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
         alert('대표 사진 수정 완료');
+      } else {
+        alert(data.error);
       }
     },
   });
@@ -76,7 +82,8 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
   const saveFileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     //@ts-ignore
     setUserImg(URL.createObjectURL(event.target.files[0]));
-    mutation.mutate(userImg);
+    //@ts-ignore
+    mutation.mutate(event.target.files[0]);
   };
 
   const saveUserName = () => {
@@ -85,7 +92,7 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
   };
 
   const saveUserDatas = () => {
-    saveUserDatasMutation.mutate(userDatas);
+    saveUserDatasMutation.mutate(userData);
   };
 
   const onChangeNames = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,8 +103,8 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
   };
 
   const onChangeDatas = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserDatas({
-      ...userDatas,
+    setUserData({
+      ...userData,
       [e.target.name]: e.target.value,
     });
     saveUserDatas();

@@ -19,7 +19,8 @@ import { faFloppyDisk, faPen } from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@tanstack/react-query';
 import { putUserDatas } from '../../api/mypageApi';
 
-const roomCount = [...new Array(4)].map((_, i) => i + 1);
+let roomCount = [...new Array(4)].map((_, i) => i + 1);
+
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
 
 type myHouseInfoProps = {
@@ -27,11 +28,11 @@ type myHouseInfoProps = {
     roomCount: number;
     cost: number;
     houseDescription: string;
+    restImagesId: Array<number>;
   };
-  photoUrls: Array<String>;
 };
 
-function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
+function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
   const settings = {
     dots: true,
     infinite: false,
@@ -119,10 +120,14 @@ function MyHouseIntroduce({ houseInfo, photoUrls }: myHouseInfoProps) {
       {/* TODO 이미지 크기 수정하기 */}
       <DetailImgWrapper>
         <Slider {...settings}>
-          {photoUrls.map(photo => (
+          {houseInfo.restImagesId.map(photo => (
             <div>
               <img
-                src={photo.toString()}
+                src={`${
+                  process.env.REACT_APP_SERVER_IP
+                }/api/user/${sessionStorage.getItem(
+                  'userId'
+                )}/img/rest/${photo}`}
                 key={photo.toString()}
                 style={{ width: '100%', height: '300px' }}
               />

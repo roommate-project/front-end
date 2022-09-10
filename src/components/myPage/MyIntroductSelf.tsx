@@ -129,7 +129,7 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
       <MyIntroduceRowBox>
         <MyIntroduceTextArea
           defaultValue={myInfoData.userMessage}
-          name="etcMessage"
+          name="info"
           id="etcMessage"
           onChange={e => {
             onChangeDatas(e, 'text');
