@@ -16,15 +16,9 @@ interface IMachingCardProps {
   children: any;
   fetchData: any;
   fetchNextPage: any;
-  isLike: boolean;
 }
 
-function MachingCard({
-  onMove,
-  fetchData,
-  fetchNextPage,
-  isLike,
-}: IMachingCardProps) {
+function MachingCard({ onMove, fetchData, fetchNextPage }: IMachingCardProps) {
   const cardRef = useRef(null);
   const x = useMotionValue(0);
   const controls = useAnimation();
@@ -34,20 +28,6 @@ function MachingCard({
   const queryClient = useQueryClient();
 
   const mutation = useMutation(fetchMatchingLike, {
-    onMutate: userId => {
-      queryClient.setQueryData(['matchingPageData'], (oldData: any) => {
-        const oldArray = oldData.pages.map((page: any) => page.data).flat(2);
-        oldArray.map((user: any) => {
-          if (user.userId === userId) {
-            return {
-              ...oldArray,
-              isLike: !isLike,
-            };
-          }
-        });
-        return oldData;
-      });
-    },
     onSuccess: () => queryClient.invalidateQueries(['matchingPageData']),
     onError: error => console.log(error),
   });
@@ -76,8 +56,6 @@ function MachingCard({
   };
 
   const likeHandler = () => {
-    console.log(isLike);
-
     mutation.mutate(fetchData.userId + '');
   };
 
@@ -92,14 +70,18 @@ function MachingCard({
       whileTap={{ scale: 1.05 }}
       style={{ x }}
       animate={controls}
-      $bgImage={fetchData.representImage}
+      $bgImage={`${process.env.REACT_APP_SERVER_IP}/api/user/${fetchData.userId}/img/represents`}
     >
       <MatchingCardInfo data={fetchData} />
       <MatchingCircleBox>
         <MatchingCircle types="chat" onClick={chatRequestHandler}>
           <FontAwesomeIcon icon={faComment} />
         </MatchingCircle>
-        <MatchingCircle types="like" $isLike={isLike} onClick={likeHandler}>
+        <MatchingCircle
+          types="like"
+          $isLike={fetchData.isLiked}
+          onClick={likeHandler}
+        >
           <FontAwesomeIcon icon={faHeart} />
         </MatchingCircle>
       </MatchingCircleBox>
