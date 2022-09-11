@@ -42,9 +42,7 @@ function MyLikeList({ likeList }: myLikeListProp) {
         <Link to={`/matching/detail/${list.userId}`}>
           <MyLikeListBox key={list.representImage}>
             <MyLikeListImg
-              src={`${
-                process.env.REACT_APP_SERVER_IP
-              }/api/user/${sessionStorage.getItem('userId')}/img/represents`}
+              src={`${process.env.REACT_APP_SERVER_IP}/api/user/${list.userId}/img/rest/${list.firstHomeImageId}`}
               alt="대표 이미지"
               style={{
                 width: '100%',
