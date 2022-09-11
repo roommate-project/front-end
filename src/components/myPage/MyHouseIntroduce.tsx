@@ -75,6 +75,32 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     }
   };
 
+  const [detailImgs, setDetailImgs] = useState([]);
+
+  const handleImageUpload = (e: React.FormEvent<HTMLInputElement>) => {
+    //@ts-ignore
+    const fileArr = e.target.files;
+
+    let fileURLs: string[] = [];
+
+    let file;
+    let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
+
+    for (let i = 0; i < filesLength; i++) {
+      file = fileArr[i];
+
+      let reader = new FileReader();
+      reader.onload = () => {
+        console.log(reader.result);
+        //@ts-ignore
+        fileURLs[i] = reader.result;
+        //@ts-ignore
+        setDetailImgs([...fileURLs]);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <MyIntroduceBackground>
       <MyIntroduceTitle>집 소개</MyIntroduceTitle>
@@ -115,9 +141,44 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
         대 입니다.
       </MyIntroduceContent>
       <MyIntroduceContentTitle>
-        집 사진 <MyIntroducePutButton icon={faPencil} />
+        집 사진
+        <label htmlFor="housePhohtos">
+          <MyIntroducePutButton icon={faPencil} />
+        </label>
+        <input
+          type="file"
+          multiple
+          name="housePhohtos"
+          id="housePhohtos"
+          style={{
+            width: 0,
+            height: 0,
+            padding: 0,
+            margin: '-1px',
+            overflow: 'hidden',
+            clip: 'rect(0, 0, 0, 0)',
+            border: 0,
+          }}
+          accept="image/jpg,image/png,image/jpeg,image/gif"
+          onChange={handleImageUpload}
+        />
       </MyIntroduceContentTitle>
       {/* TODO 이미지 크기 수정하기 */}
+      <p>선택 사진 미리보기</p>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        {detailImgs.map(photo => {
+          return (
+            <img
+              src={photo}
+              style={{
+                backgroundSize: 'cover',
+                width: '10rem',
+                height: '10rem',
+              }}
+            />
+          );
+        })}
+      </div>
       <DetailImgWrapper>
         <Slider {...settings}>
           {houseInfo.restImagesId.map(photo => (
