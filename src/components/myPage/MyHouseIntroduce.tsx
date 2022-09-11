@@ -15,9 +15,18 @@ import {
   MyIntroduceSelectBox,
 } from 'design/myPageStyles/myIntroduceSelfStyles';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import { faFloppyDisk, faPen } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFloppyDisk,
+  faPen,
+  faCircleXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@tanstack/react-query';
-import { putUserDatas } from '../../api/mypageApi';
+import {
+  putHousePhoto,
+  postUserHousePhotos,
+  putUserDatas,
+} from 'api/mypageApi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 let roomCount = [...new Array(4)].map((_, i) => i + 1);
 
@@ -47,6 +56,7 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     roomCount: houseInfo.roomCount.toString(),
     houseInfo: houseInfo.houseDescription,
   });
+  const [housePhotoId, setHousePhotoId] = useState(houseInfo.restImagesId);
 
   useEffect(() => {
     console.log(houseData);
@@ -60,6 +70,26 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     },
   });
 
+  const housePhotoDeleteMutation = useMutation(putHousePhoto, {
+    onSuccess({ data }: any) {
+      if (data.code == 200) {
+        alert('사진 삭제 완료');
+      }
+    },
+  });
+
+  const housePhotoPostMutation = useMutation(postUserHousePhotos, {
+    onSuccess({ data }: any) {
+      if (data.code == 200) {
+        alert('사진 등록 완료');
+      }
+    },
+  });
+
+  const removeHousePhoto = (photoId: number) => {
+    setHousePhotoId(housePhotoId.filter(photo => photo !== photoId));
+    housePhotoDeleteMutation.mutate([photoId]);
+  };
   const saveHouseDatas = () => {
     houseDataMutation.mutate(houseData);
     setEditHouseDescription(true);
@@ -75,31 +105,24 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     }
   };
 
-  const [detailImgs, setDetailImgs] = useState([]);
-
+  const [houseImgs, setHouseImgs] = useState([]);
   const handleImageUpload = (e: React.FormEvent<HTMLInputElement>) => {
     //@ts-ignore
     const fileArr = e.target.files;
-
-    let fileURLs: string[] = [];
 
     let file;
     let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
 
     for (let i = 0; i < filesLength; i++) {
       file = fileArr[i];
-
-      let reader = new FileReader();
-      reader.onload = () => {
-        console.log(reader.result);
-        //@ts-ignore
-        fileURLs[i] = reader.result;
-        //@ts-ignore
-        setDetailImgs([...fileURLs]);
-      };
-      reader.readAsDataURL(file);
     }
+    setHouseImgs(file);
+    housePhotoPostMutation.mutate(houseImgs);
   };
+
+  useEffect(() => {
+    console.log(housePhotoId);
+  }, [housePhotoId]);
 
   return (
     <MyIntroduceBackground>
@@ -164,7 +187,7 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
         />
       </MyIntroduceContentTitle>
       {/* TODO 이미지 크기 수정하기 */}
-      <p>선택 사진 미리보기</p>
+      {/* <p>선택 사진 미리보기</p>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         {detailImgs.map(photo => {
           return (
@@ -178,7 +201,7 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
             />
           );
         })}
-      </div>
+      </div> */}
       <DetailImgWrapper>
         <Slider {...settings}>
           {houseInfo.restImagesId.map(photo => (
@@ -191,6 +214,12 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
                 )}/img/rest/${photo}`}
                 key={photo.toString()}
                 style={{ width: '100%', height: '300px' }}
+              />
+              <FontAwesomeIcon
+                icon={faCircleXmark}
+                onClick={() => {
+                  removeHousePhoto(photo);
+                }}
               />
             </div>
           ))}
