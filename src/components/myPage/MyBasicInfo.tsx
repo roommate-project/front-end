@@ -125,7 +125,7 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
           <MyPageEditIcon icon={faCirclePlus} />
           <MyPagePhotoInput
             type="file"
-            accept="image/jpg"
+            accept="image/jpg,image/png,image/jpeg,image/gif"
             onChange={saveFileImage}
           />
         </form>

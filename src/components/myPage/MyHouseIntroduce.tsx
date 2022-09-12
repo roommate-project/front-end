@@ -14,15 +14,15 @@ import {
   MyIntroduceOptionBox,
   MyIntroduceSelectBox,
 } from 'design/myPageStyles/myIntroduceSelfStyles';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import {
   faFloppyDisk,
   faPen,
   faCircleXmark,
+  faCirclePlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@tanstack/react-query';
 import {
-  putHousePhoto,
+  deleteHousePhoto,
   postUserHousePhotos,
   putUserDatas,
 } from 'api/mypageApi';
@@ -70,7 +70,7 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     },
   });
 
-  const housePhotoDeleteMutation = useMutation(putHousePhoto, {
+  const housePhotoDeleteMutation = useMutation(deleteHousePhoto, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
         alert('사진 삭제 완료');
@@ -88,7 +88,7 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
 
   const removeHousePhoto = (photoId: number) => {
     setHousePhotoId(housePhotoId.filter(photo => photo !== photoId));
-    housePhotoDeleteMutation.mutate([photoId]);
+    housePhotoDeleteMutation.mutate(photoId);
   };
   const saveHouseDatas = () => {
     houseDataMutation.mutate(houseData);
@@ -105,19 +105,9 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     }
   };
 
-  const [houseImgs, setHouseImgs] = useState([]);
   const handleImageUpload = (e: React.FormEvent<HTMLInputElement>) => {
     //@ts-ignore
-    const fileArr = e.target.files;
-
-    let file;
-    let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
-
-    for (let i = 0; i < filesLength; i++) {
-      file = fileArr[i];
-    }
-    setHouseImgs(file);
-    housePhotoPostMutation.mutate(houseImgs);
+    housePhotoPostMutation.mutate(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -166,11 +156,10 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
       <MyIntroduceContentTitle>
         집 사진
         <label htmlFor="housePhohtos">
-          <MyIntroducePutButton icon={faPencil} />
+          <MyIntroducePutButton icon={faCirclePlus} />
         </label>
         <input
           type="file"
-          multiple
           name="housePhohtos"
           id="housePhohtos"
           style={{
@@ -186,22 +175,6 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
           onChange={handleImageUpload}
         />
       </MyIntroduceContentTitle>
-      {/* TODO 이미지 크기 수정하기 */}
-      {/* <p>선택 사진 미리보기</p>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        {detailImgs.map(photo => {
-          return (
-            <img
-              src={photo}
-              style={{
-                backgroundSize: 'cover',
-                width: '10rem',
-                height: '10rem',
-              }}
-            />
-          );
-        })}
-      </div> */}
       <DetailImgWrapper>
         <Slider {...settings}>
           {houseInfo.restImagesId.map(photo => (
