@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MachingCardWrapper } from 'design/matchingStyles/MatchingPageStyles';
 import MachingCard from 'pages/matching/MatchingCard';
 import { fetchMatchingData } from 'api/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 function MatchingStack({ children }: any) {
-  const [array, setArray] = useState<any[]>([{}]);
+  const [array, setArray] = useState<any[]>([]);
+  const [nextArray, setNextArray] = useState<any[]>([]);
+  const [previousArray, setPreviousArray] = useState<any[]>([]);
+  const [circularArray, setCircularArray] = useState<any[]>([]);
   const { isLoading, fetchNextPage } = useInfiniteQuery(
     ['matchingPageData'],
     fetchMatchingData,
@@ -21,23 +24,33 @@ function MatchingStack({ children }: any) {
     }
   );
 
+  useEffect(() => {
+    setCircularArray([...previousArray, ...nextArray]);
+  }, [array, nextArray, previousArray]);
+
+  useEffect(() => {
+    if (nextArray.length + previousArray.length === array.length) {
+      // 좋아요
+      const previousPagesLength = Math.floor(previousArray.length / 10) * 10;
+      setNextArray([
+        ...array.slice(
+          previousPagesLength,
+          previousPagesLength + nextArray.length
+        ),
+      ]);
+    } else {
+      // 페이지네이션
+      setNextArray([...array.slice(previousArray.length, array.length)]);
+    }
+  }, [array]);
+
   const handleMove = (direction: string | undefined) => {
     if (direction === 'left') {
-      setArray(originArray => {
-        const arrayCopy = [...originArray];
-        const topCard = arrayCopy.length - 1;
-        const removedCard = arrayCopy.splice(topCard, 1);
-        arrayCopy.splice(0, 0, ...removedCard);
-        return arrayCopy;
-      });
-    } else if (direction === 'right') {
-      setArray(originArray => {
-        const arrayCopy = [...originArray];
-        const topCard = arrayCopy.length - 1;
-        const removedCard = arrayCopy.splice(0, 1);
-        arrayCopy.splice(topCard, 0, ...removedCard);
-        return arrayCopy;
-      });
+      setPreviousArray([...previousArray, nextArray.pop()]);
+      setNextArray([...nextArray]);
+    } else if (direction === 'right' && previousArray.length > 0) {
+      setNextArray([...nextArray, previousArray.pop()]);
+      setPreviousArray([...previousArray]);
     }
   };
 
@@ -46,13 +59,12 @@ function MatchingStack({ children }: any) {
       {isLoading ? (
         <p>LOADING....</p>
       ) : (
-        array.map((data, index) => (
+        circularArray.map(data => (
           <MachingCard
-            key={index}
+            key={data.userId}
             onMove={(direction: string | undefined) => handleMove(direction)}
             fetchData={data}
             fetchNextPage={fetchNextPage}
-            isLike={data.isLiked}
           >
             {children}
           </MachingCard>
