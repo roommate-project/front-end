@@ -16,18 +16,19 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-type DetailPhotoProps = {
+interface IDetailPhotoProps {
   userBasicInfo: {
-    nickname: string;
-    address: string;
+    name: string;
+    nickName: string;
     age: number;
-    sex: string;
+    address: string;
+    gender: string;
     experience: number;
   };
   photoUrls: Array<string>;
-};
+}
 
-function DetailPhotos({ userBasicInfo, photoUrls }: DetailPhotoProps) {
+function DetailPhotos({ userBasicInfo, photoUrls }: IDetailPhotoProps) {
   const settings = {
     dots: true,
     infinite: false,
@@ -41,8 +42,8 @@ function DetailPhotos({ userBasicInfo, photoUrls }: DetailPhotoProps) {
       <RelativeDiv>
         <Slider {...settings}>
           {photoUrls.map((photo, index) => (
-            <div>
-              <DetailImg src={photo} width="100%" key={index} />
+            <div key={index}>
+              <DetailImg src={photo} width="100%" />
             </div>
           ))}
         </Slider>
@@ -54,11 +55,12 @@ function DetailPhotos({ userBasicInfo, photoUrls }: DetailPhotoProps) {
       <DetailImgInfoWrapper>
         <DetailImgInfoDiv>
           <DetailImgInfoContent>
-            {userBasicInfo.nickname} | 동거 경험 :
+            {userBasicInfo.nickName} | 동거 경험 :
             {parseInt((userBasicInfo.experience / 30).toString())}개월
           </DetailImgInfoContent>
           <DetailImgInfoContent>
-            {userBasicInfo.address} | {userBasicInfo.age} | {userBasicInfo.sex}
+            {userBasicInfo.address} | {userBasicInfo.age} |{' '}
+            {userBasicInfo.gender}
           </DetailImgInfoContent>
         </DetailImgInfoDiv>
 

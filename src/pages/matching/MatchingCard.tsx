@@ -10,6 +10,7 @@ import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
 import MatchingCardInfo from './MatchingCardInfo';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchMatchingLike } from 'api/api';
+import { useNavigate } from 'react-router-dom';
 
 interface IMachingCardProps {
   onMove: any;
@@ -20,11 +21,13 @@ interface IMachingCardProps {
 
 function MachingCard({ onMove, fetchData, fetchNextPage }: IMachingCardProps) {
   const cardRef = useRef(null);
+  const likeButtonRef = useRef<HTMLDivElement>(null);
+  const chatButtonRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const controls = useAnimation();
   const [direction, setDirection] = useState<string | undefined>();
   const [velocity, setVelocity] = useState(0);
-
+  const navigation = useNavigate();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(fetchMatchingLike, {
@@ -59,6 +62,17 @@ function MachingCard({ onMove, fetchData, fetchNextPage }: IMachingCardProps) {
     mutation.mutate(fetchData.userId + '');
   };
 
+  const lookDetailHandler = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (
+      !chatButtonRef.current!.contains(event.target as HTMLButtonElement) &&
+      !likeButtonRef.current!.contains(event.target as HTMLButtonElement)
+    ) {
+      navigation(`/matching/detail/${fetchData.userId}`);
+    }
+  };
+
   return (
     <MatchingImgContainer
       ref={cardRef}
@@ -71,16 +85,22 @@ function MachingCard({ onMove, fetchData, fetchNextPage }: IMachingCardProps) {
       style={{ x }}
       animate={controls}
       $bgImage={`${process.env.REACT_APP_SERVER_IP}/api/user/${fetchData.userId}/img/represents`}
+      onClick={event => lookDetailHandler(event)}
     >
       <MatchingCardInfo data={fetchData} />
       <MatchingCircleBox>
-        <MatchingCircle types="chat" onClick={chatRequestHandler}>
+        <MatchingCircle
+          types="chat"
+          onClick={chatRequestHandler}
+          ref={chatButtonRef}
+        >
           <FontAwesomeIcon icon={faComment} />
         </MatchingCircle>
         <MatchingCircle
           types="like"
           $isLike={fetchData.isLiked}
           onClick={likeHandler}
+          ref={likeButtonRef}
         >
           <FontAwesomeIcon icon={faHeart} />
         </MatchingCircle>
