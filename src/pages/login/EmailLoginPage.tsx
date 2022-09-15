@@ -32,7 +32,6 @@ function EmailLoginPage() {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
         let token = data.message.split(' ')[0];
-        console.log(token);
         sessionStorage.setItem('token', token);
         navigation('/');
       }

@@ -33,7 +33,7 @@ function MatchingDetailPage() {
           userBasicInfo={data?.data.detailUserInfo}
           photoUrls={data.data.detailHouseInfo.photoUrls.map(
             (imgId: number) => {
-              `${process.env.REACT_APP_SERVER_IP}/user/${userId}/img/rest/${imgId}`;
+              `${process.env.REACT_APP_SERVER_IP}/api/user/${userId}/img/rest/${imgId}`;
             }
           )}
         />

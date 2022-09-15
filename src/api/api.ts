@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-export const savedEmail = sessionStorage.getItem('email');
-export const TOKEN = sessionStorage.getItem('token');
-
 //이메일 회원가입
 export async function fetchEmailValidation(data: any) {
   const response = await axios.post(
@@ -16,14 +13,18 @@ export async function fetchEmailValidation(data: any) {
 
 export async function fetchSendEmailAuth() {
   const response = await axios.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/user/validate?email=${savedEmail}`
+    `${
+      process.env.REACT_APP_SERVER_IP
+    }/api/user/validate?email=${sessionStorage.getItem('email')}`
   );
   return response;
 }
 
 export async function fetchAuthNumValidation(data: any) {
   const response = await axios.post(
-    `${process.env.REACT_APP_SERVER_IP}/api/user/validate?email=${savedEmail}`,
+    `${
+      process.env.REACT_APP_SERVER_IP
+    }/api/user/validate?email=${sessionStorage.getItem('email')}`,
     {
       emailCode: data.authNum,
     }
@@ -40,7 +41,9 @@ export async function fetchEmailRegister(data: any) {
   );
 
   const response = await axios.post(
-    `${process.env.REACT_APP_SERVER_IP}/api/user/add?email=${savedEmail}`,
+    `${
+      process.env.REACT_APP_SERVER_IP
+    }/api/user/add?email=${sessionStorage.getItem('email')}`,
     formData,
     {
       headers: {
@@ -69,7 +72,7 @@ export async function fetchMatchingData({ pageParam = 1 }) {
     `${process.env.REACT_APP_SERVER_IP}/api/match/${pageParam}`,
     {
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     }
   );
@@ -84,7 +87,7 @@ export async function fetchMatchingLike(data: any) {
     },
     {
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     }
   );
@@ -115,7 +118,7 @@ export async function fetchMatchingFilter(data: any) {
         roomMin: 0,
       },
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },
     }
   );
