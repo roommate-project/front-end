@@ -31,7 +31,9 @@ function EmailLoginPage() {
   const mutation = useMutation(fetchEmailLogin, {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
-        sessionStorage.setItem('token', data.message);
+        let token = data.message.split(' ')[0];
+        console.log(token);
+        sessionStorage.setItem('token', token);
         navigation('/');
       }
     },
@@ -77,15 +79,7 @@ function EmailLoginPage() {
         </div>
       </LoginMarginTopTitle>
 
-      <LoginForm
-        style={{ width: '95%' }}
-        onSubmit={handleSubmit(
-          onValid /* async data => {
-          await new Promise(r => setTimeout(r, 1000));
-          alert(JSON.stringify(data));
-        } */
-        )}
-      >
+      <LoginForm style={{ width: '95%' }} onSubmit={handleSubmit(onValid)}>
         <LoginLabel>이메일</LoginLabel>
         <LoginDiv>
           <LoginInput
