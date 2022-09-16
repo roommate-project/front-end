@@ -67,17 +67,6 @@ export async function fetchEmailLogin(data: any) {
 }
 
 //매칭페이지
-export async function fetchMatchingData({ pageParam = 1 }) {
-  const response = await axios.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/match/${pageParam}`,
-    {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-      },
-    }
-  );
-  return response;
-}
 
 export async function fetchMatchingLike(data: any) {
   const response = await axios.post(
@@ -94,29 +83,11 @@ export async function fetchMatchingLike(data: any) {
   return response;
 }
 
-export async function fetchMatchingFilter(data: any) {
+export async function fetchMatchingData(filter: {}, pageParam = 1) {
   const response = await axios.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/match/filter/1`,
+    `${process.env.REACT_APP_SERVER_IP}/api/match/filter/${pageParam}`,
     {
-      params: {
-        rate: data.matchingRate,
-        gender:
-          data.남자 && data.여자
-            ? null
-            : data.남자 && !data.여자
-            ? 'male'
-            : !data.남자 && data.여자
-            ? 'female'
-            : 0,
-        wantLongMax: data.maxMonth === '무제한' ? null : data.maxMonth,
-        wantLongMin: data.minMonth,
-        ageMax: data.maxAge === '무제한' ? null : data.maxAge,
-        ageMin: data.minAge,
-        costMax: data.maxCost === '무제한' ? null : data.maxCost,
-        costMin: data.minCost,
-        roomMax: 3,
-        roomMin: 0,
-      },
+      params: filter,
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`,
       },

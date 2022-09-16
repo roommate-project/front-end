@@ -1,5 +1,3 @@
-import { useMutation } from '@tanstack/react-query';
-import { fetchMatchingFilter } from 'api/api';
 import RangeSlider from 'components/rangeSlider/RangeSlider';
 import {
   CheckBoxLabel,
@@ -12,10 +10,15 @@ import {
   SliderFilterBox,
 } from 'design/matchingStyles/MatchingFilterStyle';
 import { BtnBox } from 'design/signupStyles/SignUpStyle';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-function MatchingFilter() {
+interface IMatchingfilterProps {
+  setFilter: any;
+}
+
+function MatchingFilter({ setFilter }: IMatchingfilterProps) {
   const { register, handleSubmit, setValue } = useForm();
   const [isCheckGender, setIsCheckGender] = useState([true, true, true]);
   const [isCheckRoom, setIsCheckRoom] = useState([true, true, true, true]);
@@ -26,18 +29,38 @@ function MatchingFilter() {
     '무제한',
   ]);
 
-  const mutation = useMutation(fetchMatchingFilter);
-
   useEffect(() => {
     for (let i = 0; i < rangeData.length; i++) {
       setValue(`${rangeData[i].min}`, sliderMin[i]);
       setValue(`${rangeData[i].max}`, sliderMax[i]);
     }
   }, [sliderMin, sliderMax]);
+  const navigation = useNavigate();
 
   const onValid = (data: any) => {
-    console.log(data);
-    mutation.mutate(data);
+    setFilter({
+      rate: data.matchingRate,
+      gender:
+        data.남자 && data.여자
+          ? null
+          : data.남자 && !data.여자
+          ? 'male'
+          : !data.남자 && data.여자
+          ? 'female'
+          : 0,
+      wantLongMax: data.maxMonth === '무제한' ? null : data.maxMonth,
+      wantLongMin: data.minMonth,
+      ageMax: data.maxAge === '무제한' ? null : data.maxAge,
+      ageMin: data.minAge,
+      costMax: data.maxCost === '무제한' ? null : data.maxCost,
+      costMin: data.minCost,
+      room0: data.기숙사,
+      room1: data.원룸,
+      room2: data.투룸,
+      room3: data.쓰리룸이상,
+      room4: 0,
+    });
+    navigation('/');
   };
 
   const genderCheckToggle = (index: number) => {

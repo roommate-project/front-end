@@ -4,18 +4,24 @@ import MachingCard from 'pages/matching/MatchingCard';
 import { fetchMatchingData } from 'api/api';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-function MatchingStack({ children }: any) {
+interface IMatchingStackProps {
+  children: any;
+  filter: object;
+}
+
+function MatchingStack({ children, filter }: IMatchingStackProps) {
   const [array, setArray] = useState<any[]>([]);
   const [nextArray, setNextArray] = useState<any[]>([]);
   const [previousArray, setPreviousArray] = useState<any[]>([]);
   const [circularArray, setCircularArray] = useState<any[]>([]);
   const { isLoading, fetchNextPage } = useInfiniteQuery(
-    ['matchingPageData'],
-    fetchMatchingData,
+    ['matchingPageData', filter],
+    () => fetchMatchingData(filter),
     {
       onSuccess: data => {
         setArray(data.pages.map(page => page.data).flat(2));
       },
+      onError: error => alert(error),
       getNextPageParam: (lastPage, allPages) => {
         const nextPage = allPages.length + 1;
         return nextPage;

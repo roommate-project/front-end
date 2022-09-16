@@ -85,7 +85,7 @@ function MachingCard({ onMove, fetchData, fetchNextPage }: IMachingCardProps) {
       style={{ x }}
       animate={controls}
       $bgImage={`${process.env.REACT_APP_SERVER_IP}/api/user/${fetchData.userId}/img/represents`}
-      onClick={event => lookDetailHandler(event)}
+      onDoubleClick={event => lookDetailHandler(event)}
     >
       <MatchingCardInfo data={fetchData} />
       <MatchingCircleBox>
