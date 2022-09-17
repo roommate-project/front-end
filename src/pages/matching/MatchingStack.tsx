@@ -16,7 +16,7 @@ function MatchingStack({ children, filter }: IMatchingStackProps) {
   const [circularArray, setCircularArray] = useState<any[]>([]);
   const { isLoading, fetchNextPage } = useInfiniteQuery(
     ['matchingPageData', filter],
-    () => fetchMatchingData(filter),
+    ({ pageParam = 1 }) => fetchMatchingData(filter, { pageParam }),
     {
       onSuccess: data => {
         setArray(data.pages.map(page => page.data).flat(2));

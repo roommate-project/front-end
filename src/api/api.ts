@@ -83,7 +83,7 @@ export async function fetchMatchingLike(data: any) {
   return response;
 }
 
-export async function fetchMatchingData(filter: {}, pageParam = 1) {
+export async function fetchMatchingData(filter: {}, { pageParam = 1 }) {
   const response = await axios.get(
     `${process.env.REACT_APP_SERVER_IP}/api/match/filter/${pageParam}`,
     {
