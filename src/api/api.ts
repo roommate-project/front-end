@@ -1,30 +1,23 @@
-import axios from 'axios';
+import { authApi, publicApi } from 'api/authApi';
 
 //이메일 회원가입
 export async function fetchEmailValidation(data: any) {
-  const response = await axios.post(
-    `${process.env.REACT_APP_SERVER_IP}/api/user/emailValidate`,
-    {
-      email: data.email,
-    }
-  );
+  const response = await publicApi.post(`/api/user/emailValidate`, {
+    email: data.email,
+  });
   return response;
 }
 
 export async function fetchSendEmailAuth() {
-  const response = await axios.get(
-    `${
-      process.env.REACT_APP_SERVER_IP
-    }/api/user/validate?email=${sessionStorage.getItem('email')}`
+  const response = await publicApi.get(
+    `/api/user/validate?email=${sessionStorage.getItem('email')}`
   );
   return response;
 }
 
 export async function fetchAuthNumValidation(data: any) {
-  const response = await axios.post(
-    `${
-      process.env.REACT_APP_SERVER_IP
-    }/api/user/validate?email=${sessionStorage.getItem('email')}`,
+  const response = await publicApi.post(
+    `/api/user/validate?email=${sessionStorage.getItem('email')}`,
     {
       emailCode: data.authNum,
     }
@@ -40,10 +33,8 @@ export async function fetchEmailRegister(data: any) {
     new Blob([JSON.stringify(data)], { type: 'application/json' })
   );
 
-  const response = await axios.post(
-    `${
-      process.env.REACT_APP_SERVER_IP
-    }/api/user/add?email=${sessionStorage.getItem('email')}`,
+  const response = await publicApi.post(
+    `/api/user/add?email=${sessionStorage.getItem('email')}`,
     formData,
     {
       headers: {
@@ -56,7 +47,7 @@ export async function fetchEmailRegister(data: any) {
 
 //이메일 로그인
 export async function fetchEmailLogin(data: any) {
-  const response = await axios.post(
+  const response = await publicApi.post(
     `${process.env.REACT_APP_SERVER_IP}/api/login`,
     {
       email: data.email,
@@ -69,29 +60,15 @@ export async function fetchEmailLogin(data: any) {
 //매칭페이지
 
 export async function fetchMatchingLike(data: any) {
-  const response = await axios.post(
-    `${process.env.REACT_APP_SERVER_IP}/api/match/like`,
-    {
-      id: data,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-      },
-    }
-  );
+  const response = await authApi.post(`/api/match/like`, {
+    id: data,
+  });
   return response;
 }
 
 export async function fetchMatchingData(filter: {}, { pageParam = 1 }) {
-  const response = await axios.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/match/filter/${pageParam}`,
-    {
-      params: filter,
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-      },
-    }
-  );
+  const response = await authApi.get(`/api/match/filter/${pageParam}`, {
+    params: filter,
+  });
   return response;
 }

@@ -5,7 +5,7 @@ export async function fetchMatchingDetailInfo(userId: string | undefined) {
     `${process.env.REACT_APP_SERVER_IP}/api/match/info/${userId}`,
     {
       headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
       },
     }
   );
