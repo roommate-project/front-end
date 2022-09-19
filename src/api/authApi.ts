@@ -4,16 +4,14 @@ export const publicApi = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_IP}`,
 });
 
-export const authApi = () => {
-  return axios.create({
-    baseURL: `${process.env.REACT_APP_SERVER_IP}`,
-    headers: {
-      Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
-    },
-  });
-};
+export const authApi = axios.create({
+  baseURL: `${process.env.REACT_APP_SERVER_IP}`,
+  headers: {
+    Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
+  },
+});
 
-/* authApi.interceptors.response.use(
+authApi.interceptors.response.use(
   response => {
     return response;
   },
@@ -26,23 +24,26 @@ export const authApi = () => {
       if (
         error.response.data.message === 'login again : token is not validate'
       ) {
-        const originalRequest = config;
-        const accessToken = await localStorage.getItem('accessToken');
-        const refreshToken = await localStorage.getItem('refreshToken');
-        const { data } = await authApi.post('api/refresh', {
+        const originRequest = config;
+        const accessToken = sessionStorage.getItem('accessToken');
+        const refreshToken = sessionStorage.getItem('refreshToken');
+        const response = await authApi.post('api/refresh', {
           accessToken,
           refreshToken,
         });
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-          data;
-        await localStorage.setItem('accessToken', newAccessToken);
-        await localStorage.setItem('refreshToken', newRefreshToken);
-        axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return axios(originalRequest);
+        if (response.data.code === 200) {
+          const newAccessToken = response.data.message.split(' ')[0];
+          const newRefreshToken = response.data.message.split(' ')[1];
+          sessionStorage.setItem('accessToken', newAccessToken);
+          sessionStorage.setItem('refreshToken', newRefreshToken);
+          axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+          originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          return axios(originRequest);
+        } else {
+          alert(response.data.message);
+        }
       }
     }
     return Promise.reject(error);
   }
 );
- */
