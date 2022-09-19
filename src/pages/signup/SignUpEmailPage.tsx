@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchEmailValidation, fetchSendEmailAuth } from 'api/api';
+import { fetchEmailValidation, fetchSendEmailAuth } from 'api/signUpApi';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import {
   PageContainer,

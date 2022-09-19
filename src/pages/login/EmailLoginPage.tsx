@@ -12,7 +12,7 @@ import ProgressBar from 'components/progressBar/ProgressBar';
 import { PageContainer } from 'design/commonStyles';
 import { LoginMarginTopTitle } from 'design/loginStyles/LoginPageStyles';
 import { useMutation } from '@tanstack/react-query';
-import { fetchEmailLogin } from 'api/api';
+import { fetchEmailLogin } from 'api/loginApi';
 import { useNavigate } from 'react-router-dom';
 
 type FormValue = {

@@ -1,7 +1,7 @@
-import axios from 'axios';
+import { privateApi } from 'api/authApi';
 
 export async function fetchMatchingDetailInfo(userId: string | undefined) {
-  const response = await axios.get(
+  const response = await privateApi.get(
     `${process.env.REACT_APP_SERVER_IP}/api/match/info/${userId}`,
     {
       headers: {

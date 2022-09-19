@@ -12,7 +12,7 @@ import AuthTimer from 'components/authTimer/AuthTimer';
 import { TimerContainer } from 'components/authTimer/AuthTimerStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchAuthNumValidation } from 'api/api';
+import { fetchAuthNumValidation } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 
 type FormValue = {

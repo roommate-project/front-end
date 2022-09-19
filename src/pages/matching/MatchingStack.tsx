@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MachingCardWrapper } from 'design/matchingStyles/MatchingPageStyles';
 import MachingCard from 'pages/matching/MatchingCard';
-import { fetchMatchingData } from 'api/api';
+import { fetchMatchingData } from 'api/matchingApi';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 interface IMatchingStackProps {

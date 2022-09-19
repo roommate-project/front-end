@@ -4,14 +4,15 @@ export const publicApi = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_IP}`,
 });
 
-export const authApi = axios.create({
+export const privateApi = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_IP}`,
   headers: {
     Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
   },
 });
 
-authApi.interceptors.response.use(
+//refreshToken
+privateApi.interceptors.response.use(
   response => {
     return response;
   },
@@ -27,7 +28,7 @@ authApi.interceptors.response.use(
         const originRequest = config;
         const accessToken = sessionStorage.getItem('accessToken');
         const refreshToken = sessionStorage.getItem('refreshToken');
-        const response = await authApi.post('api/refresh', {
+        const response = await privateApi.post('api/refresh', {
           accessToken,
           refreshToken,
         });

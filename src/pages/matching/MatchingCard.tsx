@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
 import MatchingCardInfo from './MatchingCardInfo';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchMatchingLike } from 'api/api';
+import { fetchMatchingLike } from 'api/matchingApi';
 import { useNavigate } from 'react-router-dom';
 
 interface IMachingCardProps {
