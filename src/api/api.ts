@@ -60,14 +60,14 @@ export async function fetchEmailLogin(data: any) {
 //매칭페이지
 
 export async function fetchMatchingLike(data: any) {
-  const response = await authApi.post(`/api/match/like`, {
+  const response = await authApi().post(`/api/match/like`, {
     id: data,
   });
   return response;
 }
 
 export async function fetchMatchingData(filter: {}, { pageParam = 1 }) {
-  const response = await authApi.get(`/api/match/filter/${pageParam}`, {
+  const response = await authApi().get(`/api/match/filter/${pageParam}`, {
     params: filter,
   });
   return response;

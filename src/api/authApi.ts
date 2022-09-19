@@ -4,14 +4,16 @@ export const publicApi = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_IP}`,
 });
 
-export const authApi = axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER_IP}`,
-  headers: {
-    Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
-  },
-});
+export const authApi = () => {
+  return axios.create({
+    baseURL: `${process.env.REACT_APP_SERVER_IP}`,
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
+    },
+  });
+};
 
-authApi.interceptors.response.use(
+/* authApi.interceptors.response.use(
   response => {
     return response;
   },
@@ -43,3 +45,4 @@ authApi.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+ */

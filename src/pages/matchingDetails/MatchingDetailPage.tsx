@@ -32,8 +32,12 @@ function MatchingDetailPage() {
         <DetailPhotos
           userBasicInfo={data?.data.detailUserInfo}
           photoUrls={data.data.detailHouseInfo.photoUrls.map(
-            (imgId: number) => {
-              `${process.env.REACT_APP_SERVER_IP}/api/user/${userId}/img/rest/${imgId}`;
+            (imgId: number, index: number) => {
+              if (index === 0) {
+                return `${process.env.REACT_APP_SERVER_IP}/api/user/${userId}/img/represents`;
+              } else {
+                return `${process.env.REACT_APP_SERVER_IP}/api/user/${userId}/img/rest/${imgId}`;
+              }
             }
           )}
         />
