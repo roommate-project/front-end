@@ -12,7 +12,7 @@ import AuthTimer from 'components/authTimer/AuthTimer';
 import { TimerContainer } from 'components/authTimer/AuthTimerStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchAuthNumValidation } from 'api/api';
+import { fetchAuthNumValidation } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 
 type FormValue = {
@@ -44,6 +44,7 @@ function SignUpEmailAuthPage() {
   const navigation = useNavigate();
   const savedEmail = sessionStorage.getItem('email');
   const [isActive, setIsActive] = useState(false);
+  const [isResend, setIsResend] = useState(true);
 
   const queryClient = useQueryClient();
 
@@ -54,8 +55,7 @@ function SignUpEmailAuthPage() {
 
   const onClickResend = () => {
     queryClient.refetchQueries(['sendEmail']);
-    //캐시가 사라지므로 새로고침이아닌 타이머만 리셋되도록 바꿔야함.
-    /* location.reload(); */
+    setIsResend(true);
   };
 
   const onValid: SubmitHandler<FormValue> = authNum => {
@@ -81,7 +81,7 @@ function SignUpEmailAuthPage() {
             })}
             onChange={event => onChangeAuthNum(event)}
           />
-          <AuthTimer />
+          <AuthTimer isResend={isResend} setIsResend={setIsResend} />
         </TimerContainer>
         <span>{errors?.authNum?.message}</span>
         <EmailReSendBtn onClick={onClickResend}>인증번호 재전송</EmailReSendBtn>

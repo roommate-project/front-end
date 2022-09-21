@@ -15,7 +15,7 @@ export const DetailPageResultCard = styled.div<{ isMatching: boolean }>`
   padding: 10px;
   margin: 10px;
   background-color: ${props =>
-    props.isMatching ? props.theme.backgroundGrey : props.theme.mainRed};
+    props.isMatching ? props.theme.mainRed : props.theme.backgroundGrey};
   border-radius: 12px;
   text-align: center;
   display: flex;

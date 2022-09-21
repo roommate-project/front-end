@@ -7,33 +7,37 @@ import {
 import { comparisonTestResults } from 'utils/comparisonTestResults';
 import MatchingRateResultMe from 'components/mathingDetail/MatchingRateResultMe';
 
-type UserInformationProps = {
-  selfIntroduction: {
-    userBasicInfo: {
+interface IUserInformationProps {
+  userIntroduction: {
+    detailUserInfo: {
       name: string;
+      nickName: string;
       age: number;
       address: string;
-      sex: string;
+      gender: string;
+      experience: number;
     };
-    desiredResidencePeriod: number;
-    userMessage: string;
-    testResult: Array<boolean>;
+    want_long: number;
+    info: string;
+    testList: boolean[];
+    detailHouseInfo: {
+      room: number;
+    };
+    userTestList: boolean[];
   };
-  userTestResult: Array<boolean>;
-  roomCount: number;
-};
+}
 
-function UserIntroduction({
-  selfIntroduction,
-  userTestResult,
-  roomCount,
-}: UserInformationProps) {
+function UserIntroduction({ userIntroduction }: IUserInformationProps) {
   return (
     <div>
       <MatchingRateMessage>
         <p>
           매칭률{' '}
-          {comparisonTestResults(userTestResult, selfIntroduction.testResult)}%
+          {comparisonTestResults(
+            userIntroduction.userTestList,
+            userIntroduction.testList
+          )}
+          %
         </p>
       </MatchingRateMessage>
       <div style={{ padding: '0 20px' }}>
@@ -41,41 +45,39 @@ function UserIntroduction({
         <DetailContent>
           안녕하세요. 저는{'   '}
           <IntroductionEmphasis>
-            {selfIntroduction.userBasicInfo.name}
+            {userIntroduction.detailUserInfo.name}
           </IntroductionEmphasis>
-          라고 합니다.
+          (이)라고 합니다.
           <br />
           나이는{'   '}
           <IntroductionEmphasis>
-            {selfIntroduction.userBasicInfo.age}
+            {userIntroduction.detailUserInfo.age}
           </IntroductionEmphasis>
           살이고,{'   '}
           <IntroductionEmphasis>
-            {selfIntroduction.userBasicInfo.sex}
+            {userIntroduction.detailUserInfo.gender}
           </IntroductionEmphasis>
           입니다.
           <br />
           <IntroductionEmphasis>
-            {selfIntroduction.userBasicInfo.address}
+            {userIntroduction.detailUserInfo.address}
           </IntroductionEmphasis>
           에 살고 있어요.
           <br />
           <IntroductionEmphasis>
-            {parseInt(
-              (selfIntroduction.desiredResidencePeriod / 30).toString()
-            )}
+            {parseInt((userIntroduction.want_long / 30).toString())}
             개월
           </IntroductionEmphasis>
-          {roomCount
+          {userIntroduction.detailHouseInfo.room !== 0
             ? '간 같이 살 룸메이트를 구합니다.'
             : '간 지낼 곳을 구하고있어요.'}
         </DetailContent>
         <DetailContentTitle>이런 사람과 함께 살고 싶어요</DetailContentTitle>
-        <DetailContent>{selfIntroduction.userMessage}</DetailContent>
+        <DetailContent>{userIntroduction.info}</DetailContent>
         <DetailContentTitle>거주 성향 테스트 결과</DetailContentTitle>
         <MatchingRateResultMe
-          userTestResult={userTestResult}
-          testResult={selfIntroduction.testResult}
+          userTestResult={userIntroduction.userTestList}
+          testResult={userIntroduction.testList}
         />
       </div>
     </div>

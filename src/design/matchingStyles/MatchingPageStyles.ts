@@ -1,12 +1,17 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-export const MatchingImgContainer = styled(motion.div)`
+interface IMatchingCircleProps {
+  types: string;
+  $isLike?: boolean;
+}
+
+export const MatchingImgContainer = styled(motion.div)<{ $bgImage: string }>`
   position: absolute;
   width: 85%;
   height: 75%;
   border-radius: 50px;
-  background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80');
+  background-image: ${props => `url(${props.$bgImage})`};
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -44,7 +49,7 @@ export const MatchingCircleBox = styled.div`
   bottom: 30px;
 `;
 
-export const MatchingCircle = styled.div<{ types: string }>`
+export const MatchingCircle = styled(motion.div)<IMatchingCircleProps>`
   width: 70px;
   height: 70px;
   border-radius: 50%;
@@ -56,7 +61,11 @@ export const MatchingCircle = styled.div<{ types: string }>`
   svg {
     font-size: 36px;
     color: ${props =>
-      props.types === 'like' ? props.theme.mainRed : props.theme.mainPurple};
+      props.types === 'chat'
+        ? props.theme.mainPurple
+        : props.$isLike
+        ? props.theme.mainRed
+        : props.theme.mainGrey};
   }
 `;
 

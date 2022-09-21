@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import { useMutation } from '@tanstack/react-query';
-import { fetchEmailRegister } from 'api/api';
+import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 
 type FormValue = {
