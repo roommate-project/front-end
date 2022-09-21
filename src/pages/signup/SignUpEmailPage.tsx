@@ -8,7 +8,6 @@ import {
   EmailSendBtn,
   Title,
 } from 'design/signupStyles/SignUpStyle';
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,9 +19,10 @@ function SignUpEmailPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    clearErrors,
-  } = useForm<FormValue>();
+    formState: { errors, isValid },
+  } = useForm<FormValue>({ mode: 'all' });
+
+  const navigation = useNavigate();
 
   const { refetch: refetchSendEmail } = useQuery(
     ['sendEmail'],
@@ -49,15 +49,6 @@ function SignUpEmailPage() {
     },
   });
 
-  const navigation = useNavigate();
-  const [isActive, setIsActive] = useState(false);
-
-  //watch()는 함수가 종료되고 재렌더링 되기 때문에 event를 통해 SignUpinput변화 체크
-  const onChangeEmail = (event: React.FormEvent<HTMLInputElement>) => {
-    event.currentTarget.value ? setIsActive(true) : setIsActive(false);
-    !event.currentTarget.value && clearErrors();
-  };
-
   const onValid: SubmitHandler<FormValue> = email => {
     mutation.mutate(email);
   };
@@ -66,13 +57,13 @@ function SignUpEmailPage() {
     <PageContainer>
       <Title>
         ROOMMATE
-        <div>
+        <p>
           룸메이트찾기 어쩌고 저쩌고
           <br />
           룸메이트찾기 어쩌고 저쩌고
           <br />
           룸메이트찾기 어쩌고 저쩌고
-        </div>
+        </p>
       </Title>
       <SignUpForm onSubmit={handleSubmit(onValid)}>
         <SignUpInput
@@ -85,12 +76,11 @@ function SignUpEmailPage() {
               message: '이메일 형식이 올바르지 않습니다.',
             },
           })}
-          onChange={event => onChangeEmail(event)}
         />
         <span>{errors?.email?.message}</span>
-        <EmailSendBtn isActive={isActive}>인증번호 전송</EmailSendBtn>
+        <EmailSendBtn disabled={!isValid}>인증번호 전송</EmailSendBtn>
       </SignUpForm>
-      <ProgressBar width={33} />
+      <ProgressBar width={20} />
     </PageContainer>
   );
 }

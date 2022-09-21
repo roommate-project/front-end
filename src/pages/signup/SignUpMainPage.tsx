@@ -14,13 +14,13 @@ function SignUpMainPage() {
     <PageContainer>
       <Title>
         ROOMMATE
-        <div>
+        <p>
           룸메이트찾기 어쩌고 저쩌고
           <br />
           룸메이트찾기 어쩌고 저쩌고
           <br />
           룸메이트찾기 어쩌고 저쩌고
-        </div>
+        </p>
       </Title>
       <BtnBox>
         <SocialSignUpBtn types="kakao">
