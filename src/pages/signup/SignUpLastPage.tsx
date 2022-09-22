@@ -14,6 +14,9 @@ import {
   GenderRadio,
   Title,
   SignUpSection,
+  SignUpAgeSelect,
+  RadioLabel,
+  SignUpInputLabel,
 } from 'design/signupStyles/SignUpStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -44,6 +47,7 @@ function SignUpLastPage() {
   } = useForm<FormValue>({ mode: 'all' });
   const [formStep, setFormStep] = useState(1);
   const [profilePreview, setProfilePreview] = useState('');
+  const [genderRadio, setGenderRadio] = useState('');
   const profileImg = watch('representImage');
   const navegation = useNavigate();
 
@@ -72,8 +76,15 @@ function SignUpLastPage() {
     setFormStep(prev => prev + 1);
   };
 
+  const AgeArray = [...new Array(81)].map((_, i) => 19 + i);
+
+  const genderRaioToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGenderRadio(event.target.value);
+  };
+
   const onValid: SubmitHandler<FormValue> = data => {
     mutation.mutate(data);
+    console.log(data);
   };
 
   return (
@@ -87,7 +98,9 @@ function SignUpLastPage() {
                 비밀번호는 영문, 숫자를 포함하여 8글자 이상으로 생성해주세요.
               </p>
             </Title>
+            <SignUpInputLabel htmlFor="password">비밀번호</SignUpInputLabel>
             <SignUpInput
+              id="password"
               type="password"
               {...register('password', {
                 required: true,
@@ -97,9 +110,13 @@ function SignUpLastPage() {
                 },
               })}
               placeholder="비밀번호"
-            ></SignUpInput>
+            />
             <span>{errors.password?.message}</span>
+            <SignUpInputLabel htmlFor="passwordCheck">
+              비밀번호 확인
+            </SignUpInputLabel>
             <SignUpInput
+              id="passwordCheck"
               type="password"
               {...register('passwordCheck', {
                 required: true,
@@ -118,7 +135,9 @@ function SignUpLastPage() {
               ROOMMATE
               <p>다른 룸메이트들에게 보여질 이름과 닉네임을 입력해주세요!</p>
             </Title>
+            <SignUpInputLabel htmlFor="name">이름</SignUpInputLabel>
             <SignUpInput
+              id="name"
               type="text"
               {...register('name', {
                 required: true,
@@ -130,7 +149,9 @@ function SignUpLastPage() {
               placeholder="이름"
             />
             <span>{errors.name?.message}</span>
+            <SignUpInputLabel htmlFor="nickName">닉네임</SignUpInputLabel>
             <SignUpInput
+              id="nickName"
               type="text"
               {...register('nickName', {
                 required: true,
@@ -166,52 +187,72 @@ function SignUpLastPage() {
               </ProfileImgSelect>
             </SignUpImgUploader>
             <span>{errors.representImage?.message}</span>
-            <SignUpInput
-              type="text"
-              {...register('age', {
-                required: true,
-                valueAsNumber: true,
-              })}
-              placeholder="나이"
-            />
-            <span>{errors.age?.message}</span>
-            <GenderRadio>
-              <input
-                type="radio"
-                id="male"
-                value="male"
-                {...register('gender')}
-              />
-              <label htmlFor="male">남자</label>
-              <input
-                type="radio"
-                id="female"
-                value="female"
-                {...register('gender')}
-              />
-              <label htmlFor="female">여자</label>
-              <input
-                type="radio"
-                id="etc"
-                value="etc"
-                {...register('gender')}
-              />
-              <label htmlFor="etc">기타</label>
+            <SignUpInputLabel htmlFor="age">나이</SignUpInputLabel>
+            <SignUpAgeSelect
+              id="age"
+              {...register('age', { required: true })}
+              defaultValue={''}
+            >
+              <option value="" disabled hidden>
+                나이를 선택하세요
+              </option>
+              {AgeArray.map((value, index) => (
+                <option value={value} key={index}>
+                  {value}
+                </option>
+              ))}
+            </SignUpAgeSelect>
+            <SignUpInputLabel htmlFor="gender">성별</SignUpInputLabel>
+            <GenderRadio id="gender">
+              <RadioLabel
+                htmlFor="male"
+                checked={genderRadio === 'male' ? true : false}
+              >
+                남자
+                <input
+                  type="radio"
+                  id="male"
+                  value="male"
+                  {...register('gender')}
+                  onChange={event => genderRaioToggle(event)}
+                />
+              </RadioLabel>
+              <RadioLabel
+                htmlFor="female"
+                checked={genderRadio === 'female' ? true : false}
+              >
+                여자
+                <input
+                  type="radio"
+                  id="female"
+                  value="female"
+                  {...register('gender', { required: true })}
+                  onChange={event => genderRaioToggle(event)}
+                />
+              </RadioLabel>
             </GenderRadio>
-            <span>{errors.gender?.message}</span>
-            <LocationSelect {...register('location')}>
+            <SignUpInputLabel htmlFor="location">지역</SignUpInputLabel>
+            <LocationSelect
+              id="location"
+              {...register('location', { required: true })}
+              defaultValue={''}
+            >
+              <option value="" disabled hidden>
+                지역을 선택하세요
+              </option>
               {locationData.map((data, index) => (
                 <option value={data} key={index}>
                   {data}
                 </option>
               ))}
             </LocationSelect>
+            <SignUpInputLabel htmlFor="dormitory">기숙사</SignUpInputLabel>
             <SignUpInput
+              id="dormitory"
               type="dormitory"
               {...register('dormitory', { required: true })}
-              placeholder="ex)숭실대학교"
+              placeholder="ex)숭실대학교 or 자취"
             />
-            <span>{errors.dormitory?.message}</span>
           </SignUpSection>
         )}
         {formStep === 3 ? (

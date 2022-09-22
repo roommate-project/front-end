@@ -5,7 +5,7 @@ import {
   FilterBox,
   FilterBtn,
   FilterModalContainer,
-  Select,
+  MatchingRateSelect,
   SelectBoxWrraper,
   SliderFilterBox,
 } from 'design/matchingStyles/MatchingFilterStyle';
@@ -90,13 +90,13 @@ function MatchingFilter({ setFilter }: IMatchingfilterProps) {
       <FilterBox>
         매칭률
         <SelectBoxWrraper>
-          <Select {...register('matchingRate')}>
+          <MatchingRateSelect {...register('matchingRate')}>
             {matchingRate.map((value, index) => (
               <option value={value} key={index}>
                 {value}%
               </option>
             ))}
-          </Select>
+          </MatchingRateSelect>
           <p>이상</p>
         </SelectBoxWrraper>
       </FilterBox>

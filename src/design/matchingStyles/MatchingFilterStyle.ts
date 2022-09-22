@@ -65,7 +65,7 @@ export const CheckBoxWrraper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Select = styled.select`
+export const MatchingRateSelect = styled.select`
   font-size: 48px;
   padding: 10px;
   color: ${props => props.theme.mainRed};

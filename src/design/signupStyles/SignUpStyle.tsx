@@ -43,7 +43,6 @@ export const SubmitBtn = styled.button<{ disabled: boolean }>`
   background-color: ${props =>
     props.disabled ? props.theme.mainGrey : props.theme.mainRed};
   color: ${props => props.theme.mainWhite};
-  margin-top: 20px;
 `;
 
 export const SignUpForm = styled.form`
@@ -100,6 +99,11 @@ export const SignUpInput = styled.input`
   }
 `;
 
+export const SignUpInputLabel = styled.label`
+  font-size: 16px;
+  margin-left: 10px;
+`;
+
 export const EmailReSendBtn = styled(NextBtn)`
   background-color: ${props => props.theme.mainRed};
   color: ${props => props.theme.mainWhite};
@@ -111,20 +115,23 @@ export const EmailSendBtn = styled(SubmitBtn)``;
 export const EmailAuthSubmiBtn = styled(SubmitBtn)``;
 
 export const SignUpBtn = styled(SubmitBtn)`
-  margin-bottom: 50px;
+  margin: 50px 0px;
 `;
 
 export const SignUpSection = styled.section`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  span {
+    margin-bottom: 10px;
+  }
 `;
 
 export const SignUpImgUploader = styled.div`
   position: relative;
   margin: auto;
   align-self: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 export const ProfileThumbNail = styled.div`
@@ -169,8 +176,42 @@ export const SignUpImgInput = styled.input`
   opacity: 0;
 `;
 
-export const LocationSelect = styled.select``;
+export const SignUpAgeSelect = styled.select`
+  font-size: 18px;
+  padding: 10px;
+  color: rgb(133, 133, 133);
+  border: solid 2px ${props => props.theme.mainGrey};
+  border-radius: 10px;
+  margin-bottom: 10px;
+  :focus {
+    outline: none;
+    border: solid 2px ${props => props.theme.mainRed};
+    color: ${props => props.theme.mainRed};
+  }
+`;
+
+export const LocationSelect = styled(SignUpAgeSelect)``;
 
 export const GenderRadio = styled.div`
   display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+`;
+
+export const RadioLabel = styled.label<{ checked: boolean }>`
+  background-color: ${props =>
+    props.checked ? props.theme.mainRed : props.theme.mainGrey};
+  padding: 10px 20px;
+  border-radius: 16px;
+  color: ${props => props.theme.mainWhite};
+  font-size: 18px;
+  input[type='radio'] {
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
 `;
