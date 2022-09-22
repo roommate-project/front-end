@@ -29,6 +29,7 @@ type myBasicInfoProps = {
     nickName: string;
     age: number;
     gender: string;
+    userId: number;
   };
   location: string;
 };
@@ -38,9 +39,7 @@ const ageArrage = [...new Array(80)].map((_, i) => (i + 1).toString());
 
 function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
   const [userImg, setUserImg] = useState(
-    `${process.env.REACT_APP_SERVER_IP}/api/user/${sessionStorage.getItem(
-      'userId'
-    )}/img/represents`
+    `${process.env.REACT_APP_SERVER_IP}/api/user/${userBasicData.userId}/img/represents`
   );
   const [editNames, setEditNames] = useState(true);
   const [userNames, setUserNames] = useState({ name: '', nickName: '' });
@@ -114,14 +113,7 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
     <>
       <MyPageTopBackground>
         <form action="submit">
-          <MyPageRepresentiveImg
-            src={
-              userImg
-                ? userImg
-                : 'https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/4429919ce17c4d45b3c9095468065cbc/eff09c43aff1460f885dca2a6974dd85_1606815289.jpg'
-            }
-            alt="대표 이미지"
-          />
+          <MyPageRepresentiveImg src={userImg} alt="대표 이미지" />
           <MyPageEditIcon icon={faCirclePlus} />
           <MyPagePhotoInput
             type="file"
