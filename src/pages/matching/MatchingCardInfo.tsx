@@ -19,9 +19,9 @@ function MatchingCardInfo({ data }: any) {
         ) : (
           <FontAwesomeIcon icon={faVenus} />
         )}
-        <p>
+        <span>
           {data.nickName}, {data.age}
-        </p>
+        </span>
         <p>{`"${data.info}"`}</p>
       </MatchingUserInfo>
       <MatchinglocationInfo>
