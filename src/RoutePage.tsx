@@ -22,7 +22,7 @@ function RoutePage() {
       <Route path="/sign-up" element={<SignUpMain />} />
       <Route path="/sign-up/email" element={<SignUpEmail />} />
       <Route path="/sign-up/email-auth" element={<SignUpEmailAuthPage />} />
-      <Route path="/sign-up/last" element={<SignUpLastPage />} />
+      <Route path="/sign-up/email/info" element={<SignUpLastPage />} />
       <Route path="/chat-list" element={<ChatPage />} />
       <Route path="/my-page" element={<MyPage />} />
       <Route path="/sign-up/email-auth/last" element={<SignUpLastPage />} />

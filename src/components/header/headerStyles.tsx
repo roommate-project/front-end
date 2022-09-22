@@ -5,8 +5,8 @@ interface IconStyled {
   left: boolean;
 }
 
-export const HeaderDiv = styled('div')<{ visible: boolean }>`
-  display: ${props => (props.visible ? 'none' : 'relative')};
+export const HeaderDiv = styled('div')`
+  display: relative;
 `;
 
 export const HeaderStyle = styled.header`

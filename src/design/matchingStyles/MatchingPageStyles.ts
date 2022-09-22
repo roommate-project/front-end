@@ -33,11 +33,20 @@ export const MatchingInfoBox = styled.div`
 export const MatchingUserInfo = styled.div`
   color: ${props => props.theme.mainWhite};
   font-size: 18px;
+  margin-left: 20px;
+  span {
+    font-size: 20px;
+    margin-left: 5px;
+  }
+  p {
+    font-style: italic;
+  }
 `;
 
 export const MatchinglocationInfo = styled.div`
   color: ${props => props.theme.mainWhite};
   font-size: 18px;
+  margin-right: 20px;
 `;
 
 export const MatchingCircleBox = styled.div`

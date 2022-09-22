@@ -16,7 +16,7 @@ export const Title = styled.h1`
   font-weight: 600;
   text-align: center;
   color: ${props => props.theme.mainRed};
-  div {
+  p {
     margin-top: 30px;
     margin-bottom: 40px;
     font-size: 20px;
@@ -33,7 +33,7 @@ export const BtnBox = styled.div`
   gap: 20px;
 `;
 
-export const SubmitBtn = styled.button<{ isActive: boolean }>`
+export const SubmitBtn = styled.button<{ disabled: boolean }>`
   width: 100%;
   height: 48px;
   border-radius: 12px;
@@ -41,7 +41,7 @@ export const SubmitBtn = styled.button<{ isActive: boolean }>`
   font-size: 18px;
   line-height: 48px;
   background-color: ${props =>
-    props.isActive ? props.theme.mainRed : props.theme.mainGrey};
+    props.disabled ? props.theme.mainGrey : props.theme.mainRed};
   color: ${props => props.theme.mainWhite};
   margin-top: 20px;
 `;
@@ -58,7 +58,7 @@ export const SignUpForm = styled.form`
   }
 `;
 
-export const SignUpButton = styled.div`
+export const NextBtn = styled.div`
   width: 100%;
   height: 48px;
   border-radius: 12px;
@@ -67,13 +67,13 @@ export const SignUpButton = styled.div`
   line-height: 48px;
 `;
 
-export const EmailSignUpBtn = styled(SignUpButton)`
+export const EmailSignUpBtn = styled(NextBtn)`
   background-color: ${props => props.theme.mainWhite};
   color: ${props => props.theme.mainRed};
   box-shadow: 0 0 0 2px ${props => props.theme.mainRed} inset;
 `;
 
-export const SocialSignUpBtn = styled(SignUpButton)<{ types: string }>`
+export const SocialSignUpBtn = styled(NextBtn)<{ types: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -100,7 +100,7 @@ export const SignUpInput = styled.input`
   }
 `;
 
-export const EmailReSendBtn = styled(SignUpButton)`
+export const EmailReSendBtn = styled(NextBtn)`
   background-color: ${props => props.theme.mainRed};
   color: ${props => props.theme.mainWhite};
   margin-bottom: 10px;
@@ -110,8 +110,14 @@ export const EmailSendBtn = styled(SubmitBtn)``;
 
 export const EmailAuthSubmiBtn = styled(SubmitBtn)``;
 
-export const SignUpBtn = styled(SubmitBtn)<{ isActive: boolean }>`
+export const SignUpBtn = styled(SubmitBtn)`
   margin-bottom: 50px;
+`;
+
+export const SignUpSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 export const SignUpImgUploader = styled.div`

@@ -34,27 +34,17 @@ function Header() {
   const matchingDetail = useMatch('matching/detail/:userId');
   const chatPage = useMatch('chat-list/chat/:chatId');
 
-  const noneHeader = () => {
-    if (
-      location.pathname ===
-      ('/login' ||
-        '/login/email' ||
-        '/sign-up' ||
-        '/sign-up/email' ||
-        '/sign-up/email-auth' ||
-        '/sign-up/email-auth/last' ||
-        '/matching-filter')
-    ) {
-      return true;
-    }
-    return false;
-  };
-
   const noneBackButton = () => {
     if (chatPage) {
       return false;
     }
-    if (location.pathname === '/' || '/chat-list' || '/my-page') {
+    if (
+      location.pathname === '/' ||
+      location.pathname === '/chat-list' ||
+      location.pathname === '/my-page' ||
+      location.pathname === '/sign-up' ||
+      location.pathname === '/login'
+    ) {
       return true;
     }
     return false;
@@ -66,7 +56,6 @@ function Header() {
     }
     return false;
   };
-
   const setPageName = () => {
     let pageName = '';
     pageDatas.forEach(page => {
@@ -84,7 +73,7 @@ function Header() {
   };
 
   return (
-    <HeaderDiv visible={noneHeader()}>
+    <HeaderDiv>
       <HeaderStyle>
         <HeaderIcon rights={false} left={true}>
           <FontAwesomeIcon
