@@ -16,6 +16,7 @@ type myLikeListProp = {
 };
 
 function MyLikeList({ likeList }: myLikeListProp) {
+  console.log(likeList);
   const likeMutation = useMutation(postUserLikeButton, {
     onSuccess({ data }: any) {
       if (data.code == 200) {

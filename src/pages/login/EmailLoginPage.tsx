@@ -31,10 +31,12 @@ function EmailLoginPage() {
   const mutation = useMutation(fetchEmailLogin, {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
+        console.log(data);
         let accessToken = data.message.split(' ')[0];
         let refreshToken = data.message.split(' ')[1];
         sessionStorage.setItem('accessToken', accessToken);
         sessionStorage.setItem('refreshToken', refreshToken);
+        sessionStorage.setItem('userId', data.id);
         navigation('/');
       }
     },
