@@ -12,7 +12,7 @@ import ProgressBar from 'components/progressBar/ProgressBar';
 import { PageContainer } from 'design/commonStyles';
 import { LoginMarginTopTitle } from 'design/loginStyles/LoginPageStyles';
 import { useMutation } from '@tanstack/react-query';
-import { fetchEmailLogin } from 'api/api';
+import { fetchEmailLogin } from 'api/loginApi';
 import { useNavigate } from 'react-router-dom';
 
 type FormValue = {
@@ -31,8 +31,10 @@ function EmailLoginPage() {
   const mutation = useMutation(fetchEmailLogin, {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
-        sessionStorage.setItem('token', data.message);
-        sessionStorage.setItem('userId', data.id);
+        let accessToken = data.message.split(' ')[0];
+        let refreshToken = data.message.split(' ')[1];
+        sessionStorage.setItem('accessToken', accessToken);
+        sessionStorage.setItem('refreshToken', refreshToken);
         navigation('/');
       }
     },
@@ -78,15 +80,7 @@ function EmailLoginPage() {
         </div>
       </LoginMarginTopTitle>
 
-      <LoginForm
-        style={{ width: '95%' }}
-        onSubmit={handleSubmit(
-          onValid /* async data => {
-          await new Promise(r => setTimeout(r, 1000));
-          alert(JSON.stringify(data));
-        } */
-        )}
-      >
+      <LoginForm style={{ width: '95%' }} onSubmit={handleSubmit(onValid)}>
         <LoginLabel>이메일</LoginLabel>
         <LoginDiv>
           <LoginInput
