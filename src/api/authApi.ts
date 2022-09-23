@@ -40,6 +40,9 @@ privateApi.interceptors.response.use(
           axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
           originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axios(originRequest);
+        } else if (response.data.code === 400) {
+          alert(response.data.message);
+          window.location.replace('/login');
         } else {
           alert(response.data.message);
         }
