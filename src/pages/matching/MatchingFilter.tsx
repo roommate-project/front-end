@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   checkItemGender,
+  checkItemHost,
   checkItemRoom,
   matchingRate,
   rangeData,
@@ -26,7 +27,8 @@ interface IMatchingfilterProps {
 
 function MatchingFilter({ setFilter }: IMatchingfilterProps) {
   const { register, handleSubmit, setValue } = useForm();
-  const [isCheckGender, setIsCheckGender] = useState([true, true, true]);
+  const [isCheckGender, setIsCheckGender] = useState([true, true]);
+  const [isCheckHost, setIsCheckHost] = useState([true, true]);
   const [isCheckRoom, setIsCheckRoom] = useState([true, true, true, true]);
   const [sliderMin, setSliderMin] = useState([0, 0, 0]);
   const [sliderMax, setSliderMax] = useState<(number | string)[]>([
@@ -44,6 +46,7 @@ function MatchingFilter({ setFilter }: IMatchingfilterProps) {
   const navigation = useNavigate();
 
   const onValid = (data: any) => {
+    console.log(data);
     setFilter({
       rate: data.matchingRate,
       gender:
@@ -64,7 +67,14 @@ function MatchingFilter({ setFilter }: IMatchingfilterProps) {
       room1: data.원룸,
       room2: data.투룸,
       room3: data.쓰리룸이상,
-      room4: 0,
+      room4:
+        data['집 소유자만 보기'] && data['룸메이트만 보기']
+          ? null
+          : data['집 소유자만 보기'] && !data['룸메이트만 보기']
+          ? false
+          : !data['집 소유자만 보기'] && data['룸메이트만 보기']
+          ? true
+          : null,
     });
     navigation('/');
   };
@@ -82,6 +92,14 @@ function MatchingFilter({ setFilter }: IMatchingfilterProps) {
       ...isCheckRoom.slice(0, index),
       !isCheckRoom[index],
       ...isCheckRoom.slice(index + 1),
+    ]);
+  };
+
+  const hostCheckToggle = (index: number) => {
+    setIsCheckHost([
+      ...isCheckHost.slice(0, index),
+      !isCheckHost[index],
+      ...isCheckHost.slice(index + 1),
     ]);
   };
 
@@ -165,6 +183,28 @@ function MatchingFilter({ setFilter }: IMatchingfilterProps) {
                 id={item}
                 {...register(`${item}`)}
                 onChange={() => roomCheckToggle(index)}
+                defaultChecked
+              />
+            </CheckBoxLabel>
+          ))}
+        </CheckBoxWrraper>
+      </FilterBox>
+      <FilterBox>
+        주거보유 여부
+        <CheckBoxWrraper>
+          {checkItemHost.map((item, index) => (
+            <CheckBoxLabel
+              key={index}
+              htmlFor={item}
+              isCheck={isCheckHost[index]}
+            >
+              {item}
+              <input
+                type="checkbox"
+                key={index}
+                id={item}
+                {...register(`${item}`)}
+                onChange={() => hostCheckToggle(index)}
                 defaultChecked
               />
             </CheckBoxLabel>
