@@ -28,7 +28,7 @@ import {
 } from 'api/mypageApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-let roomCount = [...new Array(4)].map((_, i) => i + 1);
+const roomCount: Array<String> = ['기숙사', '1개', '2개', '3개', '3개 이상'];
 
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
 
@@ -118,9 +118,8 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     <MyIntroduceBackground>
       <MyIntroduceTitle>집 소개</MyIntroduceTitle>
       <MyIntroduceContentTitle>집 상세 정보</MyIntroduceContentTitle>
-      {/* TODO 기숙사일때 문구 변경해주기 */}
       <MyIntroduceContent>
-        저희 집은 방이{' '}
+        저희 집은 방이
         <MyIntroduceSelectBox
           name="roomCount"
           defaultValue={houseInfo.roomCount}
@@ -128,9 +127,9 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
             onChangeDatas(e, 'select');
           }}
         >
-          {roomCount.map(roomCount => (
-            <MyIntroduceOptionBox value={roomCount} key={roomCount}>
-              {roomCount < 4 ? `${roomCount}개` : '3개 이상'}
+          {roomCount.map((roomCount, index) => (
+            <MyIntroduceOptionBox value={index}>
+              {roomCount}
             </MyIntroduceOptionBox>
           ))}{' '}
         </MyIntroduceSelectBox>
