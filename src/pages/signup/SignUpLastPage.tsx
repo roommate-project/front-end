@@ -22,6 +22,7 @@ import { useMutation } from '@tanstack/react-query';
 import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 import { locationData } from 'utils/locationData';
+import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 
 type FormValue = {
   name: string;
@@ -82,7 +83,7 @@ function SignUpLastPage() {
         {formStep === 1 && (
           <SignUpSection>
             <Title>
-              ROOMMATE
+              <RoommateLogo height={48} />
               <p>
                 비밀번호는 영문, 숫자를 포함하여 8글자 이상으로 생성해주세요.
               </p>
@@ -115,7 +116,7 @@ function SignUpLastPage() {
         {formStep === 2 && (
           <SignUpSection>
             <Title>
-              ROOMMATE
+              <RoommateLogo height={48} />
               <p>다른 룸메이트들에게 보여질 이름과 닉네임을 입력해주세요!</p>
             </Title>
             <SignUpInput

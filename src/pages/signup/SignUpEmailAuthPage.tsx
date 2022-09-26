@@ -14,6 +14,7 @@ import ProgressBar from 'components/progressBar/ProgressBar';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchAuthNumValidation } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 
 type FormValue = {
   authNum: number;
@@ -58,7 +59,7 @@ function SignUpEmailAuthPage() {
   return (
     <PageContainer>
       <Title>
-        ROOMMATE
+        <RoommateLogo height={48} />
         <p>{savedEmail}로 인증번호를 전송하였습니다. </p>
       </Title>
       <SignUpForm onSubmit={handleSubmit(onValid)}>
