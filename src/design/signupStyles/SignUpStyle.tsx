@@ -12,11 +12,8 @@ export const PageContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 48px;
-  font-weight: 600;
-  text-align: center;
-  color: ${props => props.theme.mainRed};
   p {
+    text-align: center;
     margin-top: 30px;
     margin-bottom: 40px;
     font-size: 20px;
@@ -40,8 +37,10 @@ export const SubmitBtn = styled.button<{ disabled: boolean }>`
   border-style: none;
   font-size: 18px;
   line-height: 48px;
-  background-color: ${props =>
-    props.disabled ? props.theme.mainGrey : props.theme.mainRed};
+  ${props =>
+    props.disabled
+      ? { backgroundColor: props.theme.mainGrey }
+      : { backgroundImage: props.theme.mainGradient }}
   color: ${props => props.theme.mainWhite};
 `;
 
@@ -105,7 +104,7 @@ export const SignUpInputLabel = styled.label`
 `;
 
 export const EmailReSendBtn = styled(NextBtn)`
-  background-color: ${props => props.theme.mainRed};
+  background-image: ${props => props.theme.mainGradient};
   color: ${props => props.theme.mainWhite};
   margin-bottom: 10px;
 `;

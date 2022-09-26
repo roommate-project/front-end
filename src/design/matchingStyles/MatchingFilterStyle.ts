@@ -38,7 +38,7 @@ export const FilterBtn = styled.button`
   border-style: none;
   font-size: 18px;
   line-height: 48px;
-  background-color: ${props => props.theme.mainRed};
+  background-image: ${props => props.theme.mainGradient};
   color: ${props => props.theme.mainWhite};
 `;
 

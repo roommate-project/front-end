@@ -8,12 +8,13 @@ import {
   SocialSignUpBtn,
 } from 'design/signupStyles/SignUpStyle';
 import { Link } from 'react-router-dom';
+import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 
 function SignUpMainPage() {
   return (
     <PageContainer>
       <Title>
-        ROOMMATE
+        <RoommateLogo height={48} />
         <p>
           룸메이트찾기 어쩌고 저쩌고
           <br />

@@ -10,6 +10,7 @@ import {
 } from 'design/signupStyles/SignUpStyle';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 
 type FormValue = {
   email: string;
@@ -56,14 +57,8 @@ function SignUpEmailPage() {
   return (
     <PageContainer>
       <Title>
-        ROOMMATE
-        <p>
-          룸메이트찾기 어쩌고 저쩌고
-          <br />
-          룸메이트찾기 어쩌고 저쩌고
-          <br />
-          룸메이트찾기 어쩌고 저쩌고
-        </p>
+        <RoommateLogo height={48} />
+        <p> 로그인 시 사용할 이메일을 입력해주세요!</p>
       </Title>
       <SignUpForm onSubmit={handleSubmit(onValid)}>
         <SignUpInput
