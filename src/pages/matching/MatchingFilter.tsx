@@ -1,4 +1,5 @@
 import RangeSlider from 'components/rangeSlider/RangeSlider';
+import { BtnBox } from 'design/commonStyles';
 import {
   CheckBoxLabel,
   CheckBoxWrraper,
@@ -9,7 +10,6 @@ import {
   SelectBoxWrraper,
   SliderFilterBox,
 } from 'design/matchingStyles/MatchingFilterStyle';
-import { BtnBox } from 'design/signupStyles/SignUpStyle';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';

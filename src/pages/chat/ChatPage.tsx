@@ -1,5 +1,4 @@
 import React from 'react';
-import { PageContainer } from 'design/commonStyles';
 import { convertUTCtoLocalTime } from 'utils/convertUTCtoLocalTime';
 import {
   ChatBackground,
@@ -15,6 +14,7 @@ import {
   ChatSendIcon,
   ChatSendInput,
   ChatSendIconButton,
+  ChatPageContainer,
 } from 'design/chatStyles/chatStyles';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
@@ -69,7 +69,7 @@ const chatDatas = {
 
 function ChatPage() {
   return (
-    <PageContainer>
+    <ChatPageContainer>
       <ChatBackground>
         <ChatFlexRowDiv>
           <ChatUserImg src={chatDatas.userInfo.userImg} alt="user image" />
@@ -103,7 +103,7 @@ function ChatPage() {
           <ChatSendIcon icon={faPaperPlane} />
         </ChatSendIconButton>
       </ChatSendBox>
-    </PageContainer>
+    </ChatPageContainer>
   );
 }
 

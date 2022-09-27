@@ -11,6 +11,7 @@ export const defaultTheme: DefaultTheme = {
   mainBlack: '#333333',
   mainGrey: '#dfdfdf',
   mainGradient: 'linear-gradient(246deg, #ff4949, #ff633d 46%, #ff8d29)',
+  fontGrey: '#8e8e8e',
 };
 
 export default defaultTheme;

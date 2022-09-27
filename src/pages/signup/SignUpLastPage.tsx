@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-  PageContainer,
-  SignUpForm,
-  SignUpInput,
   SignUpBtn,
   ProfileThumbNail,
   SignUpImgUploader,
@@ -12,11 +9,9 @@ import {
   ProfileThumbNailImg,
   LocationSelect,
   GenderRadio,
-  Title,
   SignUpSection,
   SignUpAgeSelect,
   RadioLabel,
-  SignUpInputLabel,
 } from 'design/signupStyles/SignUpStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -26,6 +21,13 @@ import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 import { locationData } from 'utils/locationData';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
+import {
+  Form,
+  Input,
+  InputLabel,
+  PageContainer,
+  Title,
+} from 'design/commonStyles';
 
 type FormValue = {
   name: string;
@@ -90,17 +92,22 @@ function SignUpLastPage() {
 
   return (
     <PageContainer>
-      <SignUpForm onSubmit={handleSubmit(onValid)}>
+      {formStep === 1 ? (
+        <Title>
+          <RoommateLogo height={48} />
+          <p>비밀번호는 영문, 숫자를 포함하여 8글자 이상으로 생성해주세요.</p>
+        </Title>
+      ) : formStep === 2 ? (
+        <Title>
+          <RoommateLogo height={48} />
+          <p>다른 룸메이트들에게 보여질 이름과 닉네임을 입력해주세요!</p>
+        </Title>
+      ) : null}
+      <Form onSubmit={handleSubmit(onValid)}>
         {formStep === 1 && (
           <SignUpSection>
-            <Title>
-              <RoommateLogo height={48} />
-              <p>
-                비밀번호는 영문, 숫자를 포함하여 8글자 이상으로 생성해주세요.
-              </p>
-            </Title>
-            <SignUpInputLabel htmlFor="password">비밀번호</SignUpInputLabel>
-            <SignUpInput
+            <InputLabel htmlFor="password">비밀번호</InputLabel>
+            <Input
               id="password"
               type="password"
               {...register('password', {
@@ -113,10 +120,8 @@ function SignUpLastPage() {
               placeholder="비밀번호"
             />
             <span>{errors.password?.message}</span>
-            <SignUpInputLabel htmlFor="passwordCheck">
-              비밀번호 확인
-            </SignUpInputLabel>
-            <SignUpInput
+            <InputLabel htmlFor="passwordCheck">비밀번호 확인</InputLabel>
+            <Input
               id="passwordCheck"
               type="password"
               {...register('passwordCheck', {
@@ -132,12 +137,8 @@ function SignUpLastPage() {
         )}
         {formStep === 2 && (
           <SignUpSection>
-            <Title>
-              <RoommateLogo height={48} />
-              <p>다른 룸메이트들에게 보여질 이름과 닉네임을 입력해주세요!</p>
-            </Title>
-            <SignUpInputLabel htmlFor="name">이름</SignUpInputLabel>
-            <SignUpInput
+            <InputLabel htmlFor="name">이름</InputLabel>
+            <Input
               id="name"
               type="text"
               {...register('name', {
@@ -150,8 +151,8 @@ function SignUpLastPage() {
               placeholder="이름"
             />
             <span>{errors.name?.message}</span>
-            <SignUpInputLabel htmlFor="nickName">닉네임</SignUpInputLabel>
-            <SignUpInput
+            <InputLabel htmlFor="nickName">닉네임</InputLabel>
+            <Input
               id="nickName"
               type="text"
               {...register('nickName', {
@@ -188,7 +189,7 @@ function SignUpLastPage() {
               </ProfileImgSelect>
             </SignUpImgUploader>
             <span>{errors.representImage?.message}</span>
-            <SignUpInputLabel htmlFor="age">나이</SignUpInputLabel>
+            <InputLabel htmlFor="age">나이</InputLabel>
             <SignUpAgeSelect
               id="age"
               {...register('age', { required: true })}
@@ -203,7 +204,7 @@ function SignUpLastPage() {
                 </option>
               ))}
             </SignUpAgeSelect>
-            <SignUpInputLabel htmlFor="gender">성별</SignUpInputLabel>
+            <InputLabel htmlFor="gender">성별</InputLabel>
             <GenderRadio id="gender">
               <RadioLabel
                 htmlFor="male"
@@ -232,7 +233,7 @@ function SignUpLastPage() {
                 />
               </RadioLabel>
             </GenderRadio>
-            <SignUpInputLabel htmlFor="location">지역</SignUpInputLabel>
+            <InputLabel htmlFor="location">지역</InputLabel>
             <LocationSelect
               id="location"
               {...register('location', { required: true })}
@@ -247,8 +248,8 @@ function SignUpLastPage() {
                 </option>
               ))}
             </LocationSelect>
-            <SignUpInputLabel htmlFor="dormitory">기숙사</SignUpInputLabel>
-            <SignUpInput
+            <InputLabel htmlFor="dormitory">기숙사</InputLabel>
+            <Input
               id="dormitory"
               type="dormitory"
               {...register('dormitory', { required: true })}
@@ -263,7 +264,7 @@ function SignUpLastPage() {
             다음
           </SignUpBtn>
         )}
-      </SignUpForm>
+      </Form>
       {formStep === 1 ? (
         <ProgressBar width={60} />
       ) : formStep === 2 ? (

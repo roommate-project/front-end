@@ -1,19 +1,19 @@
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-  LoginInput,
   LoginDiv,
-  LoginSubmitButton,
-  LoginLabel,
-  LoginForm,
-  LoginErrorMessage,
+  LoginSubmitBtn,
 } from 'design/loginStyles/EmailLoginPageStyles';
-import ProgressBar from 'components/progressBar/ProgressBar';
-import { PageContainer } from 'design/commonStyles';
-import { LoginMarginTopTitle } from 'design/loginStyles/LoginPageStyles';
+import {
+  Form,
+  Input,
+  InputLabel,
+  PageContainer,
+  Title,
+} from 'design/commonStyles';
 import { useMutation } from '@tanstack/react-query';
 import { fetchEmailLogin } from 'api/loginApi';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 
 type FormValue = {
   email: string;
@@ -24,9 +24,8 @@ function EmailLoginPage() {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { isSubmitting, errors },
-  } = useForm<FormValue>({ mode: 'onBlur' });
+    formState: { isValid, errors },
+  } = useForm<FormValue>({ mode: 'all' });
 
   const mutation = useMutation(fetchEmailLogin, {
     onSuccess: ({ data }) => {
@@ -40,28 +39,7 @@ function EmailLoginPage() {
     },
   });
 
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
-  const [isActive, setIsActive] = useState(false);
   const navigation = useNavigate();
-
-  const isEmailOn = (event: React.FormEvent<HTMLInputElement>) => {
-    event.currentTarget.value && watch('email').length !== 0
-      ? setIsEmail(true)
-      : setIsEmail(false);
-    isActiveOn();
-  };
-
-  const isPasswordOn = (event: React.FormEvent<HTMLInputElement>) => {
-    event.currentTarget.value && watch('password').length !== 0
-      ? setIsPassword(true)
-      : setIsPassword(false);
-    isActiveOn();
-  };
-
-  const isActiveOn = () => {
-    isEmail && isPassword ? setIsActive(true) : setIsActive(false);
-  };
 
   const onValid: SubmitHandler<FormValue> = data => {
     mutation.mutate(data);
@@ -69,38 +47,35 @@ function EmailLoginPage() {
 
   return (
     <PageContainer>
-      <LoginMarginTopTitle>
-        ROOM-MATE
-        <div>
-          룸메이트찾기 어쩌고 저쩌고
+      <Title>
+        <RoommateLogo height={48} />
+        <p>
+          룸메이트와 다툼은 이제 그만! 🙅🏻‍♀️
           <br />
-          룸메이트찾기 어쩌고 저쩌고
-          <br />
-          룸메이트찾기 어쩌고 저쩌고
-        </div>
-      </LoginMarginTopTitle>
-
-      <LoginForm style={{ width: '95%' }} onSubmit={handleSubmit(onValid)}>
-        <LoginLabel>이메일</LoginLabel>
+          <span>성향 기반 매칭 서비스 룸메이트</span>에서 <br />
+          나와 꼭 맞는 룸메이트를 찾아보세요!
+        </p>
+      </Title>
+      <Form onSubmit={handleSubmit(onValid)}>
+        <InputLabel htmlFor="email">이메일</InputLabel>
         <LoginDiv>
-          <LoginInput
+          <Input
             id="email"
             placeholder="이메일을 입력해주세요."
             {...register('email', {
               required: true,
               pattern: {
                 value:
-                  /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+                  /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])[-_\.]*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$ç/,
                 message: '이메일 형식이 올바르지 않습니다.',
               },
             })}
-            onChange={isEmailOn}
           />
         </LoginDiv>
-        <LoginErrorMessage>{errors?.email?.message}</LoginErrorMessage>
-        <LoginLabel>비밀번호</LoginLabel>
+        <span>{errors?.email?.message}</span>
+        <InputLabel htmlFor="password">비밀번호</InputLabel>
         <LoginDiv>
-          <LoginInput
+          <Input
             id="password"
             type="password"
             placeholder="비밀번호를 입력해주세요."
@@ -112,19 +87,13 @@ function EmailLoginPage() {
                   '비밀번호는 영문과 숫자를 합쳐 8글자 이상 입력해주세요.',
               },
             })}
-            onChange={isPasswordOn}
           />
         </LoginDiv>
-        <LoginErrorMessage>{errors?.password?.message}</LoginErrorMessage>
-        <LoginSubmitButton
-          type="submit"
-          disabled={isSubmitting}
-          isActive={isActive}
-        >
+        <span>{errors?.password?.message}</span>
+        <LoginSubmitBtn type="submit" disabled={!isValid}>
           로그인
-        </LoginSubmitButton>
-      </LoginForm>
-      <ProgressBar width={50} />
+        </LoginSubmitBtn>
+      </Form>
     </PageContainer>
   );
 }

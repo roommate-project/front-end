@@ -12,5 +12,6 @@ declare module 'styled-components' {
     mainBlack: string;
     mainGrey: string;
     mainGradient: string;
+    fontGrey: string;
   }
 }

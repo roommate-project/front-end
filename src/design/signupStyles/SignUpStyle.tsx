@@ -1,69 +1,5 @@
+import { NextBtn, SubmitBtn } from 'design/commonStyles';
 import styled from 'styled-components';
-
-export const PageContainer = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  margin: 0 auto;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props => props.theme.mainWhite};
-`;
-
-export const Title = styled.h1`
-  p {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 40px;
-    font-size: 20px;
-    font-weight: 300;
-    color: ${props => props.theme.mainBlack};
-  }
-`;
-
-export const BtnBox = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  gap: 20px;
-`;
-
-export const SubmitBtn = styled.button<{ disabled: boolean }>`
-  width: 100%;
-  height: 48px;
-  border-radius: 12px;
-  border-style: none;
-  font-size: 18px;
-  line-height: 48px;
-  ${props =>
-    props.disabled
-      ? { backgroundColor: props.theme.mainGrey }
-      : { backgroundImage: props.theme.mainGradient }}
-  color: ${props => props.theme.mainWhite};
-`;
-
-export const SignUpForm = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  gap: 10px;
-  span {
-    font-size: 18px;
-    color: ${props => props.theme.mainRed};
-  }
-`;
-
-export const NextBtn = styled.div`
-  width: 100%;
-  height: 48px;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 18px;
-  line-height: 48px;
-`;
 
 export const EmailSignUpBtn = styled(NextBtn)`
   background-color: ${props => props.theme.mainWhite};
@@ -82,25 +18,6 @@ export const SocialSignUpBtn = styled(NextBtn)<{ types: string }>`
     width: 20px;
     margin-right: 10px;
   }
-`;
-
-export const SignUpInput = styled.input`
-  width: 100%;
-  height: 48px;
-  border-radius: 12px;
-  border-style: none;
-  border: solid 2px ${props => props.theme.mainGrey};
-  font-size: 18px;
-  line-height: 48px;
-  padding: 0px 16px;
-  &:focus {
-    outline-color: ${props => props.theme.mainRed};
-  }
-`;
-
-export const SignUpInputLabel = styled.label`
-  font-size: 16px;
-  margin-left: 10px;
 `;
 
 export const EmailReSendBtn = styled(NextBtn)`
