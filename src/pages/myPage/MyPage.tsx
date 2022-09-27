@@ -10,6 +10,7 @@ import MyHouseIntroduce from 'components/myPage/MyHouseIntroduce';
 import { getMypageData } from 'api/mypageApi';
 import { useQuery } from '@tanstack/react-query';
 import MyBasicInfo from 'components/myPage/MyBasicInfo';
+import Loader from 'components/loader/Loader';
 
 function MyPage() {
   const [menuSelected, setMenuSelected] = useState(0);
@@ -36,7 +37,12 @@ function MyPage() {
     myDataInfo.userMessage = matchingData.info;
   }
   if (isLoading) {
-    return <div>로딩중</div>;
+    return (
+      <PageContainer>
+        <div style={{ height: '100px', width: '100px' }}></div>
+        <Loader />
+      </PageContainer>
+    );
   }
   return (
     <PageContainer>
