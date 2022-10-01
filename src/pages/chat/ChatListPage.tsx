@@ -12,65 +12,63 @@ import {
   ChatListflexColumnBox,
   ChatListflexRowBox,
 } from 'design/chatStyles/chatListStyles';
-// import { getChatList } from 'api/chatApi';
-// import { useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { getChatList } from 'api/chatApi';
 
-const chatList = [
-  {
-    roomId: 415,
-    sender: 'fff',
-    lastMessage: 'message test3',
-    sendTime: '2022-09-26T14:22:03.800+00:00',
-    representImageId: 27,
-  },
-  {
-    roomId: 420,
-    sender: 'ASDF',
-    lastMessage: 'message test6',
-    sendTime: '2022-09-26T15:46:30.869+00:00',
-    representImageId: 27,
-  },
-];
+interface IChatListData {
+  data: [
+    {
+      roomId: number;
+      sender: string;
+      lastMessage: string;
+      sendTime: string;
+      userId: number;
+    }
+  ];
+}
 
 function ChatListPage() {
-  // const { chatList, isLoading } = useQuery(['getChatListData'], () =>
-  //   getChatList(sessionStorage.getItem('userId'))
-  // );
+  const { data, isLoading } = useQuery<IChatListData>(
+    ['getChatListData'],
+    () => getChatList(sessionStorage.getItem('userId')),
+    { onError: error => alert(error) }
+  );
 
-  // if (isLoading) {
-  //   return <div>Loading....</div>;
-  // }
+  if (isLoading) {
+    return <div>Loading....</div>;
+  }
 
   return (
     <PageContainer>
       <ChatListTitle>채팅 목록</ChatListTitle>
       <ChatListBackgroundBox>
-        {chatList.map((chat, index) => (
-          <Link to={`chat/${chat.roomId}`}>
+        {data &&
+          data.data.map((room, index) => (
             <ChatListBox key={index}>
-              <ChatListImg
-                src={`${process.env.REACT_APP_SERVER_IP}/api/user/${chat.representImageId}/img/represents`}
-                alt="채팅 대표 이미지"
-              />
-              <ChatListflexColumnBox>
-                <ChatListflexRowBox margin={10}>
-                  <ChatListUserName>{chat.sender}</ChatListUserName>
-                  <ChatListContent fontSize={8}>
-                    {convertUTCtoLocalTime(chat.sendTime)}
-                  </ChatListContent>
-                </ChatListflexRowBox>
-                <ChatListflexRowBox margin={5}>
-                  <ChatListContent fontSize={12}>
-                    {chat.lastMessage}
-                  </ChatListContent>
-                  {/* <ChatListContent fontSize={10}>
-                    {chat.isRead ? '읽음' : '안읽음'}
-                  </ChatListContent> */}
-                </ChatListflexRowBox>
-              </ChatListflexColumnBox>
+              <Link to={`chat/${room.roomId}`}>
+                <ChatListImg
+                  src={`${process.env.REACT_APP_SERVER_IP}/api/user/${room.userId}/img/represents`}
+                  alt="채팅 대표 이미지"
+                />
+                <ChatListflexColumnBox>
+                  <ChatListflexRowBox margin={10}>
+                    <ChatListUserName>{room.sender}</ChatListUserName>
+                    <ChatListContent fontSize={8}>
+                      {convertUTCtoLocalTime(room.sendTime)}
+                    </ChatListContent>
+                  </ChatListflexRowBox>
+                  <ChatListflexRowBox margin={5}>
+                    <ChatListContent fontSize={12}>
+                      {room.lastMessage}
+                    </ChatListContent>
+                    {/*                     <ChatListContent fontSize={10}>
+                      {room.isRead ? '읽음' : '안읽음'}
+                    </ChatListContent> */}
+                  </ChatListflexRowBox>
+                </ChatListflexColumnBox>
+              </Link>
             </ChatListBox>
-          </Link>
-        ))}
+          ))}
       </ChatListBackgroundBox>
     </PageContainer>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PageContainer } from 'design/commonStyles';
 import { convertUTCtoLocalTime } from 'utils/convertUTCtoLocalTime';
 import {
@@ -17,6 +17,9 @@ import {
   ChatSendIconButton,
 } from 'design/chatStyles/chatStyles';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { useMutation } from '@tanstack/react-query';
+import { getChatRoom } from 'api/chatApi';
+import { useParams } from 'react-router-dom';
 
 const chatDatas = {
   userInfo: {
@@ -68,6 +71,16 @@ const chatDatas = {
 };
 
 function ChatPage() {
+  const { roomId } = useParams();
+  const chatRoomMutation = useMutation(getChatRoom, {
+    onMutate: data => console.log(data),
+    onError: error => alert(error),
+  });
+
+  useEffect(() => {
+    chatRoomMutation.mutate(roomId);
+  }, []);
+
   return (
     <PageContainer>
       <ChatBackground>

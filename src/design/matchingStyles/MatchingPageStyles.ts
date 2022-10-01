@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-interface IMatchingCircleProps {
+interface IMatchingCircleBtnProps {
   types: string;
   $isLike?: boolean;
 }
@@ -49,7 +49,7 @@ export const MatchinglocationInfo = styled.div`
   margin-right: 20px;
 `;
 
-export const MatchingCircleBox = styled.div`
+export const MatchingCircleBtnBox = styled.div`
   position: absolute;
   width: 100%;
   padding: 0 60px;
@@ -58,7 +58,7 @@ export const MatchingCircleBox = styled.div`
   bottom: 30px;
 `;
 
-export const MatchingCircle = styled(motion.div)<IMatchingCircleProps>`
+export const MatchingCircleBtn = styled(motion.div)<IMatchingCircleBtnProps>`
   width: 70px;
   height: 70px;
   border-radius: 50%;

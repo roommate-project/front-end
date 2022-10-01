@@ -27,7 +27,7 @@ function RoutePage() {
       <Route path="/sign-up/email-auth/last" element={<SignUpLastPage />} />
       <Route path="/matching/detail/:userId" element={<MatchingDetailPage />} />
       <Route path="/chat-list" element={<ChatListPage />} />
-      <Route path="/chat-list/chat/:chatId" element={<ChatPage />} />
+      <Route path="/chat-list/chat/:roomId" element={<ChatPage />} />
       <Route path="/my-page" element={<MyPage />} />
       <Route path="/residential-test" element={<ResidentialPropensityTest />} />
     </Routes>
