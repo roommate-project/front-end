@@ -2,7 +2,7 @@ import { privateApi } from 'api/authApi';
 
 interface ICreateChatRoomProps {
   senderId: string | null;
-  receiverId: string;
+  receiverId: number;
 }
 
 export async function getChatList(userId: string | null) {
@@ -10,14 +10,12 @@ export async function getChatList(userId: string | null) {
   return response;
 }
 
-export async function postCreateChatRoom({
-  senderId,
-  receiverId,
-}: ICreateChatRoomProps) {
+export async function postCreateChatRoom(users: ICreateChatRoomProps) {
   const response = await privateApi.post('/api/chat/room', {
-    sender: senderId,
-    receiver: receiverId,
+    sender: users.senderId,
+    receiver: users.receiverId,
   });
+
   return response;
 }
 

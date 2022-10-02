@@ -73,7 +73,7 @@ const chatDatas = {
 function ChatPage() {
   const { roomId } = useParams();
   const chatRoomMutation = useMutation(getChatRoom, {
-    onMutate: data => console.log(data),
+    onSuccess: data => console.log(data),
     onError: error => alert(error),
   });
 

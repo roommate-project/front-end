@@ -37,6 +37,7 @@ function MachingCard({ onMove, fetchData, fetchNextPage }: IMachingCardProps) {
   });
 
   const ChatMutation = useMutation(postCreateChatRoom, {
+    onSuccess: data => navigation(`/chat-list/chat/${data.data.roomId}`),
     onError: error => alert(error),
   });
 
@@ -60,9 +61,11 @@ function MachingCard({ onMove, fetchData, fetchNextPage }: IMachingCardProps) {
   };
 
   const chatRequestHandler = () => {
-    const senderId = sessionStorage.getItem('userId');
-    const receiverId = fetchData.userId;
-    ChatMutation.mutate(senderId, receiverId);
+    const usersId = {
+      senderId: sessionStorage.getItem('userId'),
+      receiverId: fetchData.userId,
+    };
+    ChatMutation.mutate(usersId);
   };
 
   const likeHandler = () => {
