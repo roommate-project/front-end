@@ -20,6 +20,8 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@tanstack/react-query';
 import { getChatRoom } from 'api/chatApi';
 import { useParams } from 'react-router-dom';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
 const chatDatas = {
   userInfo: {
@@ -80,6 +82,35 @@ function ChatPage() {
   useEffect(() => {
     chatRoomMutation.mutate(roomId);
   }, []);
+
+  /*   let stompClient: any;
+  const socket = new SockJS(`${process.env.REACT_APP_SERVER_IP}/ws-stomp`);
+  stompClient = Stomp.over(socket);
+
+  const onConnected = () => {
+    stompClient.subscribe(`/sub/chat/room/${roomId}`, function (frame) {
+      console.log(JSON.parse(frame.body));
+    });
+  };
+
+  const sendMessage = () => {
+    const message = {
+      sender: user.nickname,
+      message: userData.message,
+      status: 'MESSAGE',
+      type: 'TALK',
+      roomId: ctId,
+      profileImg_url: user.profile_image_url + user.file_name,
+    };
+    stompClient.send(`/pub/chat/room/${roomId}`, {}, JSON.stringify(message));
+  };
+
+  stompClient.connect(
+    {},
+    () => console.log('stomp connection'),
+    onConnected,
+    sendMessage
+  ); */
 
   return (
     <PageContainer>
