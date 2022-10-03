@@ -75,7 +75,7 @@ const chatDatas = {
 function ChatPage() {
   const { roomId } = useParams();
   const chatRoomMutation = useMutation(getChatRoom, {
-    onSuccess: data => console.log(data),
+    onSuccess: data => console.log(data.data),
     onError: error => alert(error),
   });
 
@@ -83,7 +83,7 @@ function ChatPage() {
     chatRoomMutation.mutate(roomId);
   }, []);
 
-  /*   let stompClient: any;
+  /* let stompClient: any;
   const socket = new SockJS(`${process.env.REACT_APP_SERVER_IP}/ws-stomp`);
   stompClient = Stomp.over(socket);
 
@@ -114,7 +114,7 @@ function ChatPage() {
 
   return (
     <PageContainer>
-      <ChatBackground>
+      {/*       <ChatBackground>
         <ChatFlexRowDiv>
           <ChatUserImg src={chatDatas.userInfo.userImg} alt="user image" />
           <ChatMarginDiv style={{ margin: '5px' }}>
@@ -127,19 +127,27 @@ function ChatPage() {
             </ChatContent>
           </ChatMarginDiv>
         </ChatFlexRowDiv>
-      </ChatBackground>
+      </ChatBackground> */}
       {chatDatas.chats.map((chat, index) => (
-        <div key={index}>
-          <ChatFlexBox>
-            <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <ChatFlexBox key={index} isMe={chat.isMe}>
+          {chat.isMe ? (
+            <>
               <ChatSendTime isMe={chat.isMe}>
                 <ChatReadStatus>{chat.isRead ? '' : '안읽음'}</ChatReadStatus>
                 {convertUTCtoLocalTime(chat.sendTime)}
               </ChatSendTime>
-            </div>
-          </ChatFlexBox>
-        </div>
+              <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
+            </>
+          ) : (
+            <>
+              <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
+              <ChatSendTime isMe={chat.isMe}>
+                <ChatReadStatus>{chat.isRead ? '' : '안읽음'}</ChatReadStatus>
+                {convertUTCtoLocalTime(chat.sendTime)}
+              </ChatSendTime>
+            </>
+          )}
+        </ChatFlexBox>
       ))}
       <ChatSendBox>
         <ChatSendInput type="text" name="message" id="message" />

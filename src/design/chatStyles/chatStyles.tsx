@@ -28,33 +28,34 @@ export const ChatMarginDiv = styled.div`
   margin: 5px;
 `;
 
-export const ChatContent = styled('p')<{ fontSize: number }>`
+export const ChatContent = styled.p<{ fontSize: number }>`
   font-size: ${props => props.fontSize}px;
 `;
 
-export const ChatFlexBox = styled.div`
+export const ChatFlexBox = styled.div<{ isMe: boolean }>`
+  position: relative;
+  top: 50px;
   display: flex;
   width: 100%;
+  padding: 10px 20px;
   align-items: center;
+  justify-content: ${props => (props.isMe ? 'flex-end' : 'flex-start')};
 `;
 
 export const ChatBox = styled('p')<{ isMe: boolean }>`
-  max-width: 40%;
+  max-width: 70%;
   height: auto;
-  margin: 10px;
   background-color: ${props =>
-    props.isMe ? props.theme.mainWhite : props.theme.mainYellow};
+    props.isMe ? props.theme.mainYellow : props.theme.mainWhite};
   border-radius: ${props =>
     props.isMe ? '10px 10px 0 10px' : '0 10px 10px 10px'};
-  border: ${props => (props.isMe ? `1px solid ${props.theme.mainGrey}` : '')};
-  margin-left: ${props => (props.isMe ? 'auto' : 10)};
+  border: ${props => (props.isMe ? '' : `1px solid ${props.theme.mainGrey}`)};
   padding: 10px;
+  font-size: 16px;
 `;
 
 export const ChatSendTime = styled('div')<{ isMe: boolean }>`
-  margin-left: ${props => (props.isMe ? 'auto' : 10)};
   font-size: 12px;
-  margin-right: 10px;
 `;
 
 export const ChatReadStatus = styled.p`
