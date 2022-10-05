@@ -3,17 +3,18 @@ import { PageContainer } from 'design/commonStyles';
 import { convertUTCtoLocalTime } from 'utils/convertUTCtoLocalTime';
 import { Link } from 'react-router-dom';
 import {
-  ChatListTitle,
   ChatListBackgroundBox,
   ChatListBox,
   ChatListContent,
   ChatListImg,
   ChatListUserName,
-  ChatListflexColumnBox,
-  ChatListflexRowBox,
+  ChatListInfoBox,
+  ChatListflexBox,
+  ChatListTimeflexBox,
 } from 'design/chatStyles/chatListStyles';
 import { useQuery } from '@tanstack/react-query';
 import { getChatList } from 'api/chatApi';
+import { EmptyChatRoomMessage } from 'design/chatStyles/chatStyles';
 
 interface IChatListData {
   data: [
@@ -47,37 +48,41 @@ function ChatListPage() {
 
   return (
     <PageContainer>
-      <ChatListTitle>채팅 목록</ChatListTitle>
       <ChatListBackgroundBox>
         {data &&
           data.data.map((room, index) => (
             <ChatListBox key={index}>
               <Link to={`chat/${room.roomId}`}>
-                <ChatListImg
-                  src={`${process.env.REACT_APP_SERVER_IP}/api/user/${room.userInfo.userId}/img/represents`}
-                  alt="채팅 대표 이미지"
-                />
-                <ChatListflexColumnBox>
-                  <ChatListflexRowBox margin={10}>
+                <ChatListInfoBox>
+                  <ChatListImg
+                    src={`${process.env.REACT_APP_SERVER_IP}/api/user/${room.userInfo.userId}/img/represents`}
+                    alt="채팅 대표 이미지"
+                  />
+                  <ChatListflexBox>
                     <ChatListUserName>
                       {room.userInfo.userName}
                     </ChatListUserName>
+                    <ChatListContent fontSize={12}>
+                      {room.lastMessage
+                        ? room.lastMessage
+                        : '대화기록이 없습니다.'}
+                    </ChatListContent>
+                  </ChatListflexBox>
+                  <ChatListTimeflexBox>
                     <ChatListContent fontSize={8}>
                       {convertUTCtoLocalTime(room.sendTime)}
-                    </ChatListContent>
-                  </ChatListflexRowBox>
-                  <ChatListflexRowBox margin={5}>
-                    <ChatListContent fontSize={12}>
-                      {room.lastMessage}
                     </ChatListContent>
                     {/*                     <ChatListContent fontSize={10}>
                       {room.isRead ? '읽음' : '안읽음'}
                     </ChatListContent> */}
-                  </ChatListflexRowBox>
-                </ChatListflexColumnBox>
+                  </ChatListTimeflexBox>
+                </ChatListInfoBox>
               </Link>
             </ChatListBox>
           ))}
+        <EmptyChatRoomMessage>
+          {data?.data && data.data.length <= 0 ? '채팅 내역이 없습니다!' : null}
+        </EmptyChatRoomMessage>
       </ChatListBackgroundBox>
     </PageContainer>
   );

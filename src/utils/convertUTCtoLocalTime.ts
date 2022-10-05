@@ -1,7 +1,11 @@
 export const convertUTCtoLocalTime = (utcDate: string) => {
   const date = new Date(utcDate);
 
-  return `${date.getHours()}:${date.getMinutes()}`;
+  const timeString = date.toLocaleTimeString('ko-KR', {
+    hour: '2-digit',
+    minute: 'numeric',
+  });
+  return `${timeString}`;
 };
 
 export const convertUTCtoLocalDate = (utcDate: string) => {
