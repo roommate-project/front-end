@@ -19,7 +19,9 @@ export async function postCreateChatRoom(users: ICreateChatRoomProps) {
   return response;
 }
 
-export async function getChatRoom(roomId: string | undefined) {
-  const response = privateApi.get(`/api/chat/room/${roomId}`);
+export async function getChatRoom(roomId: string) {
+  const response = privateApi.get(
+    `/api/chat/room/${sessionStorage.getItem('userId')}/${roomId}`
+  );
   return response;
 }

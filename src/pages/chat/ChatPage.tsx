@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { PageContainer } from 'design/commonStyles';
 import {
   convertUTCtoLocalDate,
@@ -12,91 +12,70 @@ import {
   ChatHeaderContents,
   ChatUserImg,
   ChatSendTime,
-  ChatReadStatus,
+  /* ChatReadStatus, */
   ChatSendBox,
   ChatSendIcon,
   ChatSendInput,
   ChatSendIconButton,
   ChatDate,
+  EmptyChatRoomMessage,
 } from 'design/chatStyles/chatStyles';
 import {
   faArrowLeft,
   faCamera,
   faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
-import { useMutation } from '@tanstack/react-query';
+import { MutationFunction, useMutation } from '@tanstack/react-query';
 import { getChatRoom } from 'api/chatApi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HeaderIcon } from 'components/header/headerStyles';
+import { AxiosError } from 'axios';
 /* import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs'; */
 
-const chatDatas = {
-  userInfo: {
-    userName: '워니',
-    userId: 2,
-    userAge: 22,
-    userRegion: '도봉구',
-    userImg: 'http://img.segye.com/content/image/2020/05/28/20200528517713.jpg',
-  },
-  chats: [
-    {
-      sendData: '안녕하세요',
-      isMe: true,
-      sendTime: '2022-08-14T11:45:30',
-      isRead: true,
-    },
-    {
-      sendData: '네. 안녕하세요',
-      isMe: false,
-      sendTime: '2022-08-14T11:55:30',
-      isRead: true,
-    },
-    {
-      sendData: '룸메이트 구하시는거 맞죵?',
-      isMe: true,
-      sendTime: '2022-08-14T11:56:30',
-      isRead: true,
-    },
-    {
-      sendData: '네 그렇습니다.',
-      isMe: false,
-      sendTime: '2022-08-15T11:57:30',
-      isRead: true,
-    },
-    {
-      sendData:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel minima velit alias corrupti ea eius molestias? Eius, voluptatem beatae esse, nesciunt error quasi minima earum similique illum quam quidem voluptate!',
-      isMe: false,
-      sendTime: '2022-08-15T11:58:30',
-      isRead: true,
-    },
-    {
-      sendData: '그렇시군요',
-      isMe: true,
-      sendTime: '2022-08-15T13:10:30',
-      isRead: false,
-    },
-  ],
-};
+interface IChatData {
+  data: {
+    chats: [
+      {
+        image: null | ImageData;
+        isImage: boolean;
+        isMe: boolean;
+        message: string;
+        sendTime: string;
+      }
+    ];
+    userInfo: {
+      userName: string;
+      userId: number;
+      age: number;
+      location: string;
+    };
+  };
+}
 
 function ChatPage() {
   const { roomId } = useParams();
   const navigation = useNavigate();
-
-  const chatRoomMutation = useMutation(getChatRoom, {
-    onSuccess: data => console.log(data.data),
+  const { mutate, data } = useMutation<
+    IChatData,
+    AxiosError,
+    string,
+    MutationFunction
+  >(getChatRoom, {
     onError: error => alert(error),
+    onSuccess: data => console.log(data.data),
   });
 
   useEffect(() => {
-    chatRoomMutation.mutate(roomId);
+    if (roomId !== undefined) mutate(roomId);
   }, []);
+
+  const userProfileImg = `${process.env.REACT_APP_SERVER_IP}/api/user/${data?.data.userInfo.userId}/img/represents`;
 
   const displayDate = (date: string) => {
     const newDate = convertUTCtoLocalDate(date);
-    const prevDate = convertUTCtoLocalDate(chatDatas.chats[0].sendTime);
+    const prevDate = convertUTCtoLocalDate(data!.data.chats[0].sendTime);
     if (prevDate !== newDate && prevDate < newDate) {
       return newDate;
     } else if (prevDate === newDate) {
@@ -145,42 +124,52 @@ function ChatPage() {
           />
         </HeaderIcon>
         <ChatHeaderContents>
-          <ChatContent fontSize={20}>{chatDatas.userInfo.userName}</ChatContent>
+          <ChatContent fontSize={20}>
+            {data?.data && data.data.userInfo.userName}
+          </ChatContent>
           <ChatContent fontSize={12}>
-            {chatDatas.userInfo.userRegion} | {chatDatas.userInfo.userAge}
+            {data?.data && data.data.userInfo.age}세 |{' '}
+            {data?.data && data.data.userInfo.location}
           </ChatContent>
         </ChatHeaderContents>
       </ChatHeader>
-      {chatDatas.chats.map((chat, index) => (
-        <Fragment key={index}>
-          {displayDate(chat.sendTime) !== null ? (
-            <ChatDate>{displayDate(chat.sendTime)}</ChatDate>
-          ) : null}
-          <ChatFlexBox isMe={chat.isMe}>
-            {chat.isMe ? (
-              <>
-                <ChatSendTime isMe={chat.isMe}>
-                  {convertUTCtoLocalTime(chat.sendTime)}
-                  <ChatReadStatus>{chat.isRead ? '' : '안읽음'}</ChatReadStatus>
-                </ChatSendTime>
-                <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
-              </>
-            ) : (
-              <>
-                <ChatUserImg
-                  src={chatDatas.userInfo.userImg}
-                  alt="user image"
-                />
-                <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
-                <ChatSendTime isMe={chat.isMe}>
-                  {convertUTCtoLocalTime(chat.sendTime)}
-                  <ChatReadStatus>{chat.isRead ? '' : '안읽음'}</ChatReadStatus>
-                </ChatSendTime>
-              </>
-            )}
-          </ChatFlexBox>
-        </Fragment>
-      ))}
+      {data?.data &&
+        data.data.chats.map((chat, index) => (
+          <Fragment key={index}>
+            {displayDate(chat.sendTime) !== null ? (
+              <ChatDate>{displayDate(chat.sendTime)}</ChatDate>
+            ) : null}
+            <ChatFlexBox isMe={chat.isMe}>
+              {chat.isMe ? (
+                <>
+                  <ChatSendTime isMe={chat.isMe}>
+                    {convertUTCtoLocalTime(chat.sendTime)}
+                    {/*                     <ChatReadStatus>
+                      {chat.isRead ? '' : '안읽음'}
+                    </ChatReadStatus> */}
+                  </ChatSendTime>
+                  <ChatBox isMe={chat.isMe}>{chat.message}</ChatBox>
+                </>
+              ) : (
+                <>
+                  <ChatUserImg src={userProfileImg} alt="user image" />
+                  <ChatBox isMe={chat.isMe}>{chat.message}</ChatBox>
+                  <ChatSendTime isMe={chat.isMe}>
+                    {convertUTCtoLocalTime(chat.sendTime)}
+                    {/*                     <ChatReadStatus>
+                      {chat.isRead ? '' : '안읽음'}
+                    </ChatReadStatus> */}
+                  </ChatSendTime>
+                </>
+              )}
+            </ChatFlexBox>
+          </Fragment>
+        ))}
+      <EmptyChatRoomMessage>
+        {data?.data && data.data.chats.length <= 0
+          ? '채팅 내역이 없습니다!'
+          : null}
+      </EmptyChatRoomMessage>
       <ChatSendBox>
         <ChatSendIconButton>
           <ChatSendIcon icon={faCamera} />

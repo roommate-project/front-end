@@ -112,3 +112,11 @@ export const ChatDate = styled.div`
   font-size: 16px;
   justify-content: center;
 `;
+
+export const EmptyChatRoomMessage = styled.h1`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 16px;
+`;

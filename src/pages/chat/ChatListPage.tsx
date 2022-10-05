@@ -19,10 +19,14 @@ interface IChatListData {
   data: [
     {
       roomId: number;
-      sender: string;
       lastMessage: string;
       sendTime: string;
-      userId: number;
+      userInfo: {
+        userId: number;
+        age: number;
+        location: string;
+        userName: string;
+      };
     }
   ];
 }
@@ -31,7 +35,10 @@ function ChatListPage() {
   const { data, isLoading } = useQuery<IChatListData>(
     ['getChatListData'],
     () => getChatList(sessionStorage.getItem('userId')),
-    { onError: error => alert(error) }
+    {
+      onError: error => alert(error),
+      onSuccess: data => console.log(data),
+    }
   );
 
   if (isLoading) {
@@ -47,12 +54,14 @@ function ChatListPage() {
             <ChatListBox key={index}>
               <Link to={`chat/${room.roomId}`}>
                 <ChatListImg
-                  src={`${process.env.REACT_APP_SERVER_IP}/api/user/${room.userId}/img/represents`}
+                  src={`${process.env.REACT_APP_SERVER_IP}/api/user/${room.userInfo.userId}/img/represents`}
                   alt="채팅 대표 이미지"
                 />
                 <ChatListflexColumnBox>
                   <ChatListflexRowBox margin={10}>
-                    <ChatListUserName>{room.sender}</ChatListUserName>
+                    <ChatListUserName>
+                      {room.userInfo.userName}
+                    </ChatListUserName>
                     <ChatListContent fontSize={8}>
                       {convertUTCtoLocalTime(room.sendTime)}
                     </ChatListContent>
