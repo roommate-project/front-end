@@ -20,6 +20,7 @@ export const HeaderStyle = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid ${props => props.theme.backgroundGrey};
 `;
 
 export const HeaderTitle = styled.div`
@@ -31,7 +32,7 @@ export const HeaderTitle = styled.div`
 export const HeaderIcon = styled('span')<IconStyled>`
   font-size: 24px;
   position: absolute;
-  right: ${props => props.rights && '30px'};
-  left: ${props => props.left && '30px'};
+  right: ${props => props.rights && '20px'};
+  left: ${props => props.left && '20px'};
   cursor: pointer;
 `;

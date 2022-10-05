@@ -6,7 +6,7 @@ import {
   HeaderIcon,
   HeaderStyle,
   HeaderTitle,
-} from './headerStyles';
+} from 'components/header/headerStyles';
 import { useNavigate, useLocation, useMatch } from 'react-router-dom';
 
 const pageDatas = [
@@ -32,11 +32,11 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const matchingDetail = useMatch('matching/detail/:userId');
-  const chatPage = useMatch('chat-list/chat/:chatId');
+  const chatPage = useMatch('chat-list/chat/:roomId');
 
   const noneBackButton = () => {
     if (chatPage) {
-      return false;
+      return true;
     }
     if (
       location.pathname === '/' ||

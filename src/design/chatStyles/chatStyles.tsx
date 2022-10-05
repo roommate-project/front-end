@@ -1,27 +1,29 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const ChatBackground = styled.div`
+export const ChatHeader = styled.div`
+  position: fixed;
   width: 100%;
-  height: 60px;
+  max-width: 76.8rem;
+  height: 48px;
   display: flex;
-  flex-direction: column;
+  background-color: ${props => props.theme.mainWhite};
+  z-index: 10;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const ChatFlexRowDiv = styled.div`
+export const ChatHeaderContents = styled.div`
   display: flex;
-  flex-direction: row;
-  border: solid 1px ${props => props.theme.mainGrey};
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  margin: 10px;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const ChatUserImg = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  margin: 5px;
+  margin-right: 8px;
 `;
 
 export const ChatMarginDiv = styled.div`
@@ -37,7 +39,7 @@ export const ChatFlexBox = styled.div<{ isMe: boolean }>`
   top: 50px;
   display: flex;
   width: 100%;
-  padding: 10px 20px;
+  padding: 15px 20px;
   align-items: center;
   justify-content: ${props => (props.isMe ? 'flex-end' : 'flex-start')};
 `;
@@ -64,23 +66,25 @@ export const ChatReadStatus = styled.p`
 
 export const ChatSendBox = styled.div`
   display: flex;
-  border: 1px solid #000000;
-  margin: 5px;
   position: fixed;
-  bottom: 80px;
+  bottom: 10px;
   max-width: 700px;
   width: 90%;
+  height: 40px;
   left: 50%;
   transform: translate(-50%, 0);
-  border-radius: 15px;
-  background-color: ${props => props.theme.mainWhite};
+  border-radius: 20px;
+  background-color: ${props => props.theme.backgroundGrey};
+  z-index: 1;
 `;
 
 export const ChatSendInput = styled.input`
+  background-color: transparent;
   border: none;
-  padding: 8px;
-  width: 80%;
+  padding: 10px;
+  width: 90%;
   margin: 0 auto;
+  font-size: 16px;
   :focus {
     outline: none;
   }
@@ -96,4 +100,15 @@ export const ChatSendIconButton = styled.button`
 export const ChatSendIcon = styled(FontAwesomeIcon)`
   font-size: 20px;
   margin: 5px;
+  color: rgb(133, 133, 133);
+`;
+
+export const ChatDate = styled.div`
+  position: relative;
+  top: 50px;
+  display: flex;
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 16px;
+  justify-content: center;
 `;

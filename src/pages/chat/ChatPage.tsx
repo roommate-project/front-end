@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { PageContainer } from 'design/commonStyles';
-import { convertUTCtoLocalTime } from 'utils/convertUTCtoLocalTime';
 import {
-  ChatBackground,
+  convertUTCtoLocalDate,
+  convertUTCtoLocalTime,
+} from 'utils/convertUTCtoLocalTime';
+import {
+  ChatHeader,
   ChatBox,
   ChatContent,
   ChatFlexBox,
-  ChatFlexRowDiv,
-  ChatMarginDiv,
+  ChatHeaderContents,
   ChatUserImg,
   ChatSendTime,
   ChatReadStatus,
@@ -15,13 +17,20 @@ import {
   ChatSendIcon,
   ChatSendInput,
   ChatSendIconButton,
+  ChatDate,
 } from 'design/chatStyles/chatStyles';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowLeft,
+  faCamera,
+  faPaperPlane,
+} from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@tanstack/react-query';
 import { getChatRoom } from 'api/chatApi';
-import { useParams } from 'react-router-dom';
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
+import { useNavigate, useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { HeaderIcon } from 'components/header/headerStyles';
+/* import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs'; */
 
 const chatDatas = {
   userInfo: {
@@ -53,20 +62,20 @@ const chatDatas = {
     {
       sendData: '네 그렇습니다.',
       isMe: false,
-      sendTime: '2022-08-14T11:57:30',
+      sendTime: '2022-08-15T11:57:30',
       isRead: true,
     },
     {
       sendData:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel minima velit alias corrupti ea eius molestias? Eius, voluptatem beatae esse, nesciunt error quasi minima earum similique illum quam quidem voluptate!',
       isMe: false,
-      sendTime: '2022-08-14T11:58:30',
+      sendTime: '2022-08-15T11:58:30',
       isRead: true,
     },
     {
       sendData: '그렇시군요',
       isMe: true,
-      sendTime: '2022-08-14T13:10:30',
+      sendTime: '2022-08-15T13:10:30',
       isRead: false,
     },
   ],
@@ -74,6 +83,8 @@ const chatDatas = {
 
 function ChatPage() {
   const { roomId } = useParams();
+  const navigation = useNavigate();
+
   const chatRoomMutation = useMutation(getChatRoom, {
     onSuccess: data => console.log(data.data),
     onError: error => alert(error),
@@ -82,6 +93,16 @@ function ChatPage() {
   useEffect(() => {
     chatRoomMutation.mutate(roomId);
   }, []);
+
+  const displayDate = (date: string) => {
+    const newDate = convertUTCtoLocalDate(date);
+    const prevDate = convertUTCtoLocalDate(chatDatas.chats[0].sendTime);
+    if (prevDate !== newDate && prevDate < newDate) {
+      return newDate;
+    } else if (prevDate === newDate) {
+      return null;
+    }
+  };
 
   /* let stompClient: any;
   const socket = new SockJS(`${process.env.REACT_APP_SERVER_IP}/ws-stomp`);
@@ -114,43 +135,62 @@ function ChatPage() {
 
   return (
     <PageContainer>
-      {/*       <ChatBackground>
-        <ChatFlexRowDiv>
-          <ChatUserImg src={chatDatas.userInfo.userImg} alt="user image" />
-          <ChatMarginDiv style={{ margin: '5px' }}>
-            <ChatContent fontSize={20}>
-              {chatDatas.userInfo.userName}
-            </ChatContent>
-            <ChatContent fontSize={12}>
-              {chatDatas.userInfo.userRegion} | {chatDatas.userInfo.userAge} |{' '}
-              {chatDatas.userInfo.userRegion}
-            </ChatContent>
-          </ChatMarginDiv>
-        </ChatFlexRowDiv>
-      </ChatBackground> */}
+      <ChatHeader>
+        <HeaderIcon rights={false} left={true}>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            onClick={() => {
+              navigation(-1);
+            }}
+          />
+        </HeaderIcon>
+        <ChatHeaderContents>
+          <ChatContent fontSize={20}>{chatDatas.userInfo.userName}</ChatContent>
+          <ChatContent fontSize={12}>
+            {chatDatas.userInfo.userRegion} | {chatDatas.userInfo.userAge}
+          </ChatContent>
+        </ChatHeaderContents>
+      </ChatHeader>
       {chatDatas.chats.map((chat, index) => (
-        <ChatFlexBox key={index} isMe={chat.isMe}>
-          {chat.isMe ? (
-            <>
-              <ChatSendTime isMe={chat.isMe}>
-                <ChatReadStatus>{chat.isRead ? '' : '안읽음'}</ChatReadStatus>
-                {convertUTCtoLocalTime(chat.sendTime)}
-              </ChatSendTime>
-              <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
-            </>
-          ) : (
-            <>
-              <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
-              <ChatSendTime isMe={chat.isMe}>
-                <ChatReadStatus>{chat.isRead ? '' : '안읽음'}</ChatReadStatus>
-                {convertUTCtoLocalTime(chat.sendTime)}
-              </ChatSendTime>
-            </>
-          )}
-        </ChatFlexBox>
+        <Fragment key={index}>
+          {displayDate(chat.sendTime) !== null ? (
+            <ChatDate>{displayDate(chat.sendTime)}</ChatDate>
+          ) : null}
+          <ChatFlexBox isMe={chat.isMe}>
+            {chat.isMe ? (
+              <>
+                <ChatSendTime isMe={chat.isMe}>
+                  {convertUTCtoLocalTime(chat.sendTime)}
+                  <ChatReadStatus>{chat.isRead ? '' : '안읽음'}</ChatReadStatus>
+                </ChatSendTime>
+                <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
+              </>
+            ) : (
+              <>
+                <ChatUserImg
+                  src={chatDatas.userInfo.userImg}
+                  alt="user image"
+                />
+                <ChatBox isMe={chat.isMe}>{chat.sendData}</ChatBox>
+                <ChatSendTime isMe={chat.isMe}>
+                  {convertUTCtoLocalTime(chat.sendTime)}
+                  <ChatReadStatus>{chat.isRead ? '' : '안읽음'}</ChatReadStatus>
+                </ChatSendTime>
+              </>
+            )}
+          </ChatFlexBox>
+        </Fragment>
       ))}
       <ChatSendBox>
-        <ChatSendInput type="text" name="message" id="message" />
+        <ChatSendIconButton>
+          <ChatSendIcon icon={faCamera} />
+        </ChatSendIconButton>
+        <ChatSendInput
+          type="text"
+          name="message"
+          id="message"
+          placeholder="메세지를 입력하세요!"
+        />
         <ChatSendIconButton>
           <ChatSendIcon icon={faPaperPlane} />
         </ChatSendIconButton>

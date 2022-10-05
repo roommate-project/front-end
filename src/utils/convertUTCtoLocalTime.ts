@@ -1,12 +1,16 @@
 export const convertUTCtoLocalTime = (utcDate: string) => {
   const date = new Date(utcDate);
-  const today = new Date();
 
-  if (
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth()
-  ) {
-    return `${date.getHours()}:${date.getMinutes()}`;
-  }
-  return date.toLocaleDateString();
+  return `${date.getHours()}:${date.getMinutes()}`;
+};
+
+export const convertUTCtoLocalDate = (utcDate: string) => {
+  const date = new Date(utcDate);
+
+  const dateString = date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  return `${dateString}`;
 };

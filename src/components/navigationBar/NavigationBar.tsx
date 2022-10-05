@@ -73,27 +73,29 @@ function NavigationBar() {
       return false;
     }
     if (chatPage) {
-      return false;
+      return true;
     }
     return true;
   };
 
   return (
     <NavigationDiv visible={isVisible()}>
-      {tabInfo.map((info, index) => {
-        return (
-          <NavigationTabIcon
-            key={info.path}
-            path={info.path}
-            title={info.title}
-            icon={info.icon}
-            isActive={activePage[index]}
-            onClickBtn={() => {
-              isActive(index);
-            }}
-          />
-        );
-      })}
+      {chatPage
+        ? null
+        : tabInfo.map((info, index) => {
+            return (
+              <NavigationTabIcon
+                key={info.path}
+                path={info.path}
+                title={info.title}
+                icon={info.icon}
+                isActive={activePage[index]}
+                onClickBtn={() => {
+                  isActive(index);
+                }}
+              />
+            );
+          })}
     </NavigationDiv>
   );
 }
