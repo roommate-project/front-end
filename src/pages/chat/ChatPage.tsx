@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import { PageContainer } from 'design/commonStyles';
 import {
   convertUTCtoLocalDate,
@@ -12,7 +12,6 @@ import {
   ChatHeaderContents,
   ChatUserImg,
   ChatSendTime,
-  /* ChatReadStatus, */
   ChatSendBox,
   ChatSendIcon,
   ChatSendInput,
@@ -31,8 +30,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HeaderIcon } from 'components/header/headerStyles';
 import { AxiosError } from 'axios';
-/* import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs'; */
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface IChatData {
   data: {
@@ -53,10 +53,17 @@ interface IChatData {
     };
   };
 }
+interface FormValue {
+  message: string;
+}
+
+let stompClient: any;
 
 function ChatPage() {
   const { roomId } = useParams();
   const navigation = useNavigate();
+  const [messages, setMessages] = useState<any[]>([]);
+  const { register, handleSubmit, reset } = useForm<FormValue>();
   const { mutate, data } = useMutation<
     IChatData,
     AxiosError,
@@ -64,11 +71,17 @@ function ChatPage() {
     MutationFunction
   >(getChatRoom, {
     onError: error => alert(error),
-    onSuccess: data => console.log(data.data),
   });
 
   useEffect(() => {
     if (roomId !== undefined) mutate(roomId);
+
+    stompClient = Stomp.over(function () {
+      return new SockJS(`${process.env.REACT_APP_SERVER_IP}/ws-stomp`);
+    });
+    stompClient.connect({}, onConnected, (error: any) => {
+      alert(error);
+    });
   }, []);
 
   const userProfileImg = `${process.env.REACT_APP_SERVER_IP}/api/user/${data?.data.userInfo.userId}/img/represents`;
@@ -83,34 +96,32 @@ function ChatPage() {
     }
   };
 
-  /* let stompClient: any;
-  const socket = new SockJS(`${process.env.REACT_APP_SERVER_IP}/ws-stomp`);
-  stompClient = Stomp.over(socket);
+  const onMessageReceived = (chatMessage: any) => {
+    if (chatMessage.body) {
+      setMessages(prev => [...prev, JSON.parse(chatMessage.body)]);
+    } else {
+      alert('got empty message');
+    }
+  };
+
+  const sendMessage = (input: string) => {
+    let chatMessage = {
+      type: 'CHAT',
+      roomId,
+      message: input,
+      senderId: sessionStorage.getItem('userId'),
+    };
+    stompClient.send(`/pub/chat/message`, {}, JSON.stringify(chatMessage));
+  };
 
   const onConnected = () => {
-    stompClient.subscribe(`/sub/chat/room/${roomId}`, function (frame) {
-      console.log(JSON.parse(frame.body));
-    });
+    stompClient.subscribe(`/sub/chat/room/${roomId}`, onMessageReceived);
   };
 
-  const sendMessage = () => {
-    const message = {
-      sender: user.nickname,
-      message: userData.message,
-      status: 'MESSAGE',
-      type: 'TALK',
-      roomId: ctId,
-      profileImg_url: user.profile_image_url + user.file_name,
-    };
-    stompClient.send(`/pub/chat/room/${roomId}`, {}, JSON.stringify(message));
+  const onSumbitMessages: SubmitHandler<FormValue> = data => {
+    sendMessage(data.message);
+    reset();
   };
-
-  stompClient.connect(
-    {},
-    () => console.log('stomp connection'),
-    onConnected,
-    sendMessage
-  ); */
 
   return (
     <PageContainer>
@@ -144,9 +155,6 @@ function ChatPage() {
                 <>
                   <ChatSendTime isMe={chat.isMe}>
                     {convertUTCtoLocalTime(chat.sendTime)}
-                    {/*                     <ChatReadStatus>
-                      {chat.isRead ? '' : '안읽음'}
-                    </ChatReadStatus> */}
                   </ChatSendTime>
                   <ChatBox isMe={chat.isMe}>{chat.message}</ChatBox>
                 </>
@@ -156,31 +164,32 @@ function ChatPage() {
                   <ChatBox isMe={chat.isMe}>{chat.message}</ChatBox>
                   <ChatSendTime isMe={chat.isMe}>
                     {convertUTCtoLocalTime(chat.sendTime)}
-                    {/*                     <ChatReadStatus>
-                      {chat.isRead ? '' : '안읽음'}
-                    </ChatReadStatus> */}
                   </ChatSendTime>
                 </>
               )}
             </ChatFlexBox>
           </Fragment>
         ))}
+      {messages.map((item, index) => (
+        <div key={index}>{item.message}</div>
+      ))}
       <EmptyChatRoomMessage>
         {data?.data && data.data.chats.length <= 0
           ? '채팅 내역이 없습니다!'
           : null}
       </EmptyChatRoomMessage>
-      <ChatSendBox>
+      <ChatSendBox onSubmit={handleSubmit(onSumbitMessages)}>
         <ChatSendIconButton>
           <ChatSendIcon icon={faCamera} />
         </ChatSendIconButton>
         <ChatSendInput
+          {...register('message')}
           type="text"
           name="message"
           id="message"
           placeholder="메세지를 입력하세요!"
         />
-        <ChatSendIconButton>
+        <ChatSendIconButton type="submit">
           <ChatSendIcon icon={faPaperPlane} />
         </ChatSendIconButton>
       </ChatSendBox>

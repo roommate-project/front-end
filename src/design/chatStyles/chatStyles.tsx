@@ -60,11 +60,7 @@ export const ChatSendTime = styled('div')<{ isMe: boolean }>`
   font-size: 12px;
 `;
 
-export const ChatReadStatus = styled.p`
-  font-size: 10px;
-`;
-
-export const ChatSendBox = styled.div`
+export const ChatSendBox = styled.form`
   display: flex;
   position: fixed;
   bottom: 10px;

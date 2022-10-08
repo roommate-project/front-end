@@ -72,9 +72,6 @@ function ChatListPage() {
                     <ChatListContent fontSize={8}>
                       {convertUTCtoLocalTime(room.sendTime)}
                     </ChatListContent>
-                    {/*                     <ChatListContent fontSize={10}>
-                      {room.isRead ? '읽음' : '안읽음'}
-                    </ChatListContent> */}
                   </ChatListTimeflexBox>
                 </ChatListInfoBox>
               </Link>
