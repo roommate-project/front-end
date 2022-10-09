@@ -11,6 +11,7 @@ import ChatListPage from 'pages/chat/ChatListPage';
 import ChatPage from 'pages/chat/ChatPage';
 import MyPage from 'pages/myPage/MyPage';
 import ResidentialPropensityTest from 'pages/residentialPropensityTest/ResidentialPropensityTest';
+import RegisterHousInfoPage from 'pages/registerHouseInfo/RegisterHouseInfo';
 
 function RoutePage() {
   return (
@@ -24,12 +25,13 @@ function RoutePage() {
       <Route path="/sign-up/email-auth" element={<SignUpEmailAuthPage />} />
       <Route path="/sign-up/email/info" element={<SignUpLastPage />} />
       <Route path="/my-page" element={<MyPage />} />
-      <Route path="/sign-up/email-auth/last" element={<SignUpLastPage />} />
+      <Route path="/sign-up/last" element={<SignUpLastPage />} />
       <Route path="/matching/detail/:userId" element={<MatchingDetailPage />} />
       <Route path="/chat-list" element={<ChatListPage />} />
       <Route path="/chat-list/chat/:chatId" element={<ChatPage />} />
       <Route path="/my-page" element={<MyPage />} />
       <Route path="/residential-test" element={<ResidentialPropensityTest />} />
+      <Route path="/register-house-info" element={<RegisterHousInfoPage />} />
     </Routes>
   );
 }

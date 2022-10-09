@@ -26,6 +26,10 @@ const pageDatas = [
     route: '/my-page',
     name: '마이 페이지',
   },
+  {
+    route: '/register-house-info',
+    name: '집 등록 페이지',
+  },
 ];
 
 function Header() {
