@@ -61,14 +61,14 @@ function NavigationBar() {
 
   const isVisible = () => {
     if (
-      location.pathname ===
-      ('/login' ||
-        '/login/email' ||
-        '/sign-up' ||
-        '/sign-up/email' ||
-        '/sign-up/email-auth' ||
-        '/sign-up/email-auth/last' ||
-        '/matching-filter')
+      location.pathname === '/login' ||
+      '/login/email' ||
+      '/sign-up' ||
+      '/sign-up/email' ||
+      '/sign-up/email-auth' ||
+      '/sign-up/email-auth/last' ||
+      '/matching-filter' ||
+      '/register-house-info'
     ) {
       return false;
     }

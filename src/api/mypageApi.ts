@@ -72,3 +72,10 @@ export const deleteHousePhoto = async (photoId: number) => {
   const response = await privateApi.delete(`/api/mypage/image/rest/${photoId}`);
   return response;
 };
+
+export const postFirstRegisterHouseInfo = async (houseInfo: object) => {
+  const response = await privateApi.post(`/api/mypage/info`, {
+    houseInfo,
+  });
+  return response;
+};
