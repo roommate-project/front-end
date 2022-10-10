@@ -11,7 +11,7 @@ import ChatListPage from 'pages/chat/ChatListPage';
 import ChatPage from 'pages/chat/ChatPage';
 import MyPage from 'pages/myPage/MyPage';
 import ResidentialPropensityTest from 'pages/residentialPropensityTest/ResidentialPropensityTest';
-import RegisterHousInfoPage from 'pages/registerHouseInfo/RegisterHouseInfo';
+import RegisterInfoPage from 'pages/registerInfo/RegisterInfo';
 
 function RoutePage() {
   return (
@@ -31,7 +31,7 @@ function RoutePage() {
       <Route path="/chat-list/chat/:chatId" element={<ChatPage />} />
       <Route path="/my-page" element={<MyPage />} />
       <Route path="/residential-test" element={<ResidentialPropensityTest />} />
-      <Route path="/register-house-info" element={<RegisterHousInfoPage />} />
+      <Route path="/register-house-info" element={<RegisterInfoPage />} />
     </Routes>
   );
 }

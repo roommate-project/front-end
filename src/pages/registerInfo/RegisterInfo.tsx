@@ -12,8 +12,9 @@ import { postFirstRegisterHouseInfo } from '../../api/mypageApi';
 
 const roomCount: Array<String> = ['기숙사', '1개', '2개', '3개', '3개 이상'];
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
+const period = [...new Array(14)].map((_, i) => i);
 
-function RegisterHousInfoPage() {
+function RegisterInfoPage() {
   const [houseInfo, setHouseInfo] = useState({});
   const mutation = useMutation(postFirstRegisterHouseInfo, {
     onSuccess({ data }: any) {
@@ -36,6 +37,44 @@ function RegisterHousInfoPage() {
 
   return (
     <PageContainer>
+      <p>사용자 정보 등록</p>
+      <MyIntroduceContentTitle>거주 경험 기간</MyIntroduceContentTitle>
+      <MyIntroduceSelectBox
+        name="experience"
+        id="period"
+        onChange={e => {
+          onChangeDatas(e);
+        }}
+      >
+        {period.map(period => (
+          <MyIntroduceOptionBox value={period}>
+            {period < 13 ? `${period}개월` : '1년 이상'}
+          </MyIntroduceOptionBox>
+        ))}
+      </MyIntroduceSelectBox>
+      <MyIntroduceContentTitle>원하는 거주 기간</MyIntroduceContentTitle>
+      <MyIntroduceSelectBox
+        name="want_long"
+        id="period"
+        onChange={e => {
+          onChangeDatas(e);
+        }}
+      >
+        {period.map(period => (
+          <MyIntroduceOptionBox value={period}>
+            {period < 13 ? `${period}개월` : '1년 이상'}
+          </MyIntroduceOptionBox>
+        ))}
+      </MyIntroduceSelectBox>
+      <MyIntroduceContentTitle>내 소개</MyIntroduceContentTitle>
+      <MyIntroduceTextArea
+        name="info"
+        id="myInfo"
+        onChange={(e: any) => {
+          onChangeDatas(e);
+        }}
+      />
+      <p>집 정보 등록</p>
       <MyIntroduceContentTitle>방 개수</MyIntroduceContentTitle>
       <MyIntroduceSelectBox
         name="room"
@@ -71,7 +110,7 @@ function RegisterHousInfoPage() {
         }}
       />
       <Link
-        to={'/'}
+        to={'/residential-test'}
         onClick={() => {
           saveHouseInfo();
         }}
@@ -82,4 +121,4 @@ function RegisterHousInfoPage() {
   );
 }
 
-export default RegisterHousInfoPage;
+export default RegisterInfoPage;
