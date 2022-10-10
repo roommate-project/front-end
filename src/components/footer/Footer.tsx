@@ -8,11 +8,20 @@ import {
   FooterContentBox,
   FooterContainer,
 } from 'components/footer/footerStyles';
+import { useMatch } from 'react-router-dom';
 
 function Footer() {
+  const chatPage = useMatch('chat-list/chat/:roomId');
+
+  const visibleFooter = () => {
+    if (chatPage) {
+      return false;
+    } else return true;
+  };
+
   return (
     <>
-      <FooterDiv>
+      <FooterDiv visible={visibleFooter()}>
         <FooterTitle>ROOM-MATE-PROJECT</FooterTitle>
         <FooterContainer>
           <FooterContentBox>
@@ -34,7 +43,7 @@ function Footer() {
           Copyright2022.roommate-project All rights reserved.
         </FooterContent>
       </FooterDiv>
-      <FooterSeat />
+      <FooterSeat visible={visibleFooter()} />
     </>
   );
 }

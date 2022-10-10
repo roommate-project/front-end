@@ -1,6 +1,23 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+export const ChatListContainer = styled.div`
+  position: relative;
+  overflow: auto;
+  height: calc(100vh - 110px);
+  top: 50px;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+  }
+`;
+
 export const ChatHeader = styled.div`
   position: fixed;
   width: 100%;
@@ -19,11 +36,12 @@ export const ChatHeaderContents = styled.div`
   align-items: center;
 `;
 
-export const ChatUserImg = styled.img`
+export const ChatUserImg = styled.img<{ isMe: boolean }>`
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  margin-right: 8px;
+  margin-right: 4px;
+  display: ${props => (props.isMe ? 'none' : 'block')};
 `;
 
 export const ChatMarginDiv = styled.div`
@@ -36,15 +54,15 @@ export const ChatContent = styled.p<{ fontSize: number }>`
 
 export const ChatFlexBox = styled.div<{ isMe: boolean }>`
   position: relative;
-  top: 50px;
   display: flex;
   width: 100%;
   padding: 15px 20px;
-  align-items: center;
-  justify-content: ${props => (props.isMe ? 'flex-end' : 'flex-start')};
+  align-items: ${props => (props.isMe ? 'flex-end' : 'flex-start')};
+  flex-direction: ${props => (props.isMe ? 'row-reverse' : 'row')};
+  gap: 5px;
 `;
 
-export const ChatBox = styled('p')<{ isMe: boolean }>`
+export const ChatBubble = styled('p')<{ isMe: boolean }>`
   max-width: 70%;
   height: auto;
   background-color: ${props =>
@@ -56,8 +74,9 @@ export const ChatBox = styled('p')<{ isMe: boolean }>`
   font-size: 16px;
 `;
 
-export const ChatSendTime = styled('div')<{ isMe: boolean }>`
+export const ChatSendTime = styled.div`
   font-size: 12px;
+  margin: auto 0 3px 0;
 `;
 
 export const ChatSendBox = styled.form`
@@ -101,10 +120,9 @@ export const ChatSendIcon = styled(FontAwesomeIcon)`
 
 export const ChatDate = styled.div`
   position: relative;
-  top: 50px;
   display: flex;
   width: 100%;
-  padding: 15px 20px;
+  padding: 30px 20px;
   font-size: 16px;
   justify-content: center;
 `;
@@ -113,6 +131,6 @@ export const EmptyChatRoomMessage = styled.h1`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 110px);
   font-size: 16px;
 `;

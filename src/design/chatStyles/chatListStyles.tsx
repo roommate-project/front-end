@@ -43,8 +43,8 @@ export const ChatListImg = styled.img`
 `;
 
 export const ChatListUserName = styled.p`
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 500;
 `;
 
 export const ChatListContent = styled.p<{ fontSize: number }>`

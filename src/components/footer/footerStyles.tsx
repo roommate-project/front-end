@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
-export const FooterDiv = styled.div`
+export const FooterDiv = styled.div<{ visible: boolean }>`
+  display: ${props => (props.visible ? 'block' : 'none')};
   height: auto;
   min-height: 100%;
   padding-bottom: 30px;
   color: ${props => props.theme.mainGrey};
 `;
 
-export const FooterSeat = styled.footer`
+export const FooterSeat = styled.footer<{ visible: boolean }>`
+  display: ${props => (props.visible ? 'block' : 'none')};
   height: 30px;
   position: relative;
   transform: translateY(-100%);

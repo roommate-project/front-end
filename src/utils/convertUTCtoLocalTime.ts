@@ -14,7 +14,7 @@ export const convertUTCtoLocalDate = (utcDate: string) => {
   const dateString = date.toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
+    day: '2-digit',
   });
   return `${dateString}`;
 };

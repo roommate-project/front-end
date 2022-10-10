@@ -1,12 +1,11 @@
-import React, { useEffect, Fragment, useState } from 'react';
-import { PageContainer } from 'design/commonStyles';
+import React, { useEffect, Fragment, useState, useRef } from 'react';
 import {
   convertUTCtoLocalDate,
   convertUTCtoLocalTime,
 } from 'utils/convertUTCtoLocalTime';
 import {
   ChatHeader,
-  ChatBox,
+  ChatBubble,
   ChatContent,
   ChatFlexBox,
   ChatHeaderContents,
@@ -18,6 +17,7 @@ import {
   ChatSendIconButton,
   ChatDate,
   EmptyChatRoomMessage,
+  ChatListContainer,
 } from 'design/chatStyles/chatStyles';
 import {
   faArrowLeft,
@@ -33,6 +33,7 @@ import { AxiosError } from 'axios';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { PageContainer } from 'design/commonStyles';
 
 interface IChatData {
   data: {
@@ -72,28 +73,41 @@ function ChatPage() {
   >(getChatRoom, {
     onError: error => alert(error),
   });
+  const currentTime = new Date() + '';
+  const datesArray = new Set();
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (roomId !== undefined) mutate(roomId);
 
+    //webSocket handshake
     stompClient = Stomp.over(function () {
       return new SockJS(`${process.env.REACT_APP_SERVER_IP}/ws-stomp`);
     });
     stompClient.connect({}, onConnected, (error: any) => {
       alert(error);
     });
+
+    //채팅방 입장 시 하단 이동
+    setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 500);
   }, []);
+
+  useEffect(() => {
+    //새 메세지 입력 시 하단으로 이동
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const userProfileImg = `${process.env.REACT_APP_SERVER_IP}/api/user/${data?.data.userInfo.userId}/img/represents`;
 
-  const displayDate = (date: string) => {
-    const newDate = convertUTCtoLocalDate(date);
-    const prevDate = convertUTCtoLocalDate(data!.data.chats[0].sendTime);
-    if (prevDate !== newDate && prevDate < newDate) {
-      return newDate;
-    } else if (prevDate === newDate) {
-      return null;
-    }
+  const displayDate = (sendDate: string) => {
+    datesArray.add(sendDate);
+    return sendDate;
+  };
+
+  const onConnected = () => {
+    stompClient.subscribe(`/sub/chat/room/${roomId}`, onMessageReceived);
   };
 
   const onMessageReceived = (chatMessage: any) => {
@@ -114,14 +128,12 @@ function ChatPage() {
     stompClient.send(`/pub/chat/message`, {}, JSON.stringify(chatMessage));
   };
 
-  const onConnected = () => {
-    stompClient.subscribe(`/sub/chat/room/${roomId}`, onMessageReceived);
-  };
-
   const onSumbitMessages: SubmitHandler<FormValue> = data => {
     sendMessage(data.message);
     reset();
   };
+
+  const sendImageHandler = () => {};
 
   return (
     <PageContainer>
@@ -144,55 +156,76 @@ function ChatPage() {
           </ChatContent>
         </ChatHeaderContents>
       </ChatHeader>
-      {data?.data &&
-        data.data.chats.map((chat, index) => (
-          <Fragment key={index}>
-            {displayDate(chat.sendTime) !== null ? (
-              <ChatDate>{displayDate(chat.sendTime)}</ChatDate>
-            ) : null}
-            <ChatFlexBox isMe={chat.isMe}>
-              {chat.isMe ? (
-                <>
-                  <ChatSendTime isMe={chat.isMe}>
+      <ChatListContainer>
+        {data?.data &&
+          data.data.chats.map((chat, index) => {
+            const sendDate = convertUTCtoLocalDate(chat.sendTime);
+            return (
+              <Fragment key={index}>
+                {datesArray.has(sendDate) ? null : (
+                  <ChatDate>{displayDate(sendDate)}</ChatDate>
+                )}
+                <ChatFlexBox isMe={chat.isMe}>
+                  <ChatUserImg
+                    src={userProfileImg}
+                    alt="user image"
+                    isMe={chat.isMe}
+                  />
+                  <ChatBubble isMe={chat.isMe}>{chat.message}</ChatBubble>
+                  <ChatSendTime>
                     {convertUTCtoLocalTime(chat.sendTime)}
                   </ChatSendTime>
-                  <ChatBox isMe={chat.isMe}>{chat.message}</ChatBox>
-                </>
-              ) : (
-                <>
-                  <ChatUserImg src={userProfileImg} alt="user image" />
-                  <ChatBox isMe={chat.isMe}>{chat.message}</ChatBox>
-                  <ChatSendTime isMe={chat.isMe}>
-                    {convertUTCtoLocalTime(chat.sendTime)}
-                  </ChatSendTime>
-                </>
+                </ChatFlexBox>
+              </Fragment>
+            );
+          })}
+        {messages.map((chat, index) => {
+          const sendDate = convertUTCtoLocalDate(currentTime);
+          return (
+            <Fragment key={index}>
+              {datesArray.has(sendDate) ? null : (
+                <ChatDate>{displayDate(sendDate)}</ChatDate>
               )}
-            </ChatFlexBox>
-          </Fragment>
-        ))}
-      {messages.map((item, index) => (
-        <div key={index}>{item.message}</div>
-      ))}
-      <EmptyChatRoomMessage>
-        {data?.data && data.data.chats.length <= 0
-          ? '채팅 내역이 없습니다!'
-          : null}
-      </EmptyChatRoomMessage>
-      <ChatSendBox onSubmit={handleSubmit(onSumbitMessages)}>
-        <ChatSendIconButton>
-          <ChatSendIcon icon={faCamera} />
-        </ChatSendIconButton>
-        <ChatSendInput
-          {...register('message')}
-          type="text"
-          name="message"
-          id="message"
-          placeholder="메세지를 입력하세요!"
-        />
-        <ChatSendIconButton type="submit">
-          <ChatSendIcon icon={faPaperPlane} />
-        </ChatSendIconButton>
-      </ChatSendBox>
+              <ChatFlexBox
+                isMe={chat.senderId == sessionStorage.getItem('userId')}
+              >
+                <ChatUserImg
+                  src={userProfileImg}
+                  alt="user image"
+                  isMe={chat.senderId == sessionStorage.getItem('userId')}
+                />
+                <ChatBubble
+                  isMe={chat.senderId == sessionStorage.getItem('userId')}
+                >
+                  {chat.message}
+                </ChatBubble>
+                <ChatSendTime>
+                  {convertUTCtoLocalTime(currentTime)}
+                </ChatSendTime>
+              </ChatFlexBox>
+            </Fragment>
+          );
+        })}
+        <div ref={bottomRef} />
+        {data?.data && data.data.chats.length <= 0 ? (
+          <EmptyChatRoomMessage>'채팅 내역이 없습니다!'</EmptyChatRoomMessage>
+        ) : null}
+        <ChatSendBox onSubmit={handleSubmit(onSumbitMessages)}>
+          <ChatSendIconButton type="button" onClick={sendImageHandler}>
+            <ChatSendIcon icon={faCamera} />
+          </ChatSendIconButton>
+          <ChatSendInput
+            {...register('message', { required: true })}
+            type="text"
+            name="message"
+            id="message"
+            placeholder="메세지를 입력하세요!"
+          />
+          <ChatSendIconButton type="submit">
+            <ChatSendIcon icon={faPaperPlane} />
+          </ChatSendIconButton>
+        </ChatSendBox>
+      </ChatListContainer>
     </PageContainer>
   );
 }

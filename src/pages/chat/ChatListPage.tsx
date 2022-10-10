@@ -38,7 +38,6 @@ function ChatListPage() {
     () => getChatList(sessionStorage.getItem('userId')),
     {
       onError: error => alert(error),
-      onSuccess: data => console.log(data),
     }
   );
 
@@ -62,14 +61,14 @@ function ChatListPage() {
                     <ChatListUserName>
                       {room.userInfo.userName}
                     </ChatListUserName>
-                    <ChatListContent fontSize={12}>
+                    <ChatListContent fontSize={14}>
                       {room.lastMessage
                         ? room.lastMessage
                         : '대화기록이 없습니다.'}
                     </ChatListContent>
                   </ChatListflexBox>
                   <ChatListTimeflexBox>
-                    <ChatListContent fontSize={8}>
+                    <ChatListContent fontSize={12}>
                       {convertUTCtoLocalTime(room.sendTime)}
                     </ChatListContent>
                   </ChatListTimeflexBox>
