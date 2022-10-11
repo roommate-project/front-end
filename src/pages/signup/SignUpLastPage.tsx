@@ -52,7 +52,7 @@ function SignUpLastPage() {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
         alert('회원가입이 완료되었습니다.');
-        navegation('/');
+        navegation('/register-house-info');
       } else if (data.code === 400) {
         alert('중복된 이메일 입니다.');
       } else {
