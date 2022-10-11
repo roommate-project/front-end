@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { privateApi } from 'api/authApi';
+import { houseInfoType } from 'utils/houseInfoType';
 
 //TODO 페이지네이션 추가하기
 export const getMypageData = async (userId: string) => {
@@ -73,25 +74,15 @@ export const deleteHousePhoto = async (photoId: number) => {
   return response;
 };
 
-// type houseInfoType = {
-//   experience: string;
-//   want_long: string;
-//   room: string;
-//   cost: string;
-//   info: string;
-//   houseInfo: string;
-// };
-
-export const postFirstRegisterHouseInfo = async (houseInfo: object) => {
+export const postFirstRegisterHouseInfo = async (houseInfo: houseInfoType) => {
   console.log(houseInfo);
   const response = await privateApi.post(`/api/mypage/info`, {
-    // experiece: houseInfo.experience,
-    // want_long: houseInfo.want_long,
-    // room: houseInfo.room,
-    // cost: houseInfo.cost,
-    // info: houseInfo.info,
-    // houseInfo: houseInfo.houseInfo,
-    houseInfo,
+    experiece: houseInfo.experience,
+    want_long: houseInfo.want_long,
+    room: houseInfo.room,
+    cost: houseInfo.cost,
+    info: houseInfo.info,
+    houseInfo: houseInfo.houseInfo,
   });
   return response;
 };

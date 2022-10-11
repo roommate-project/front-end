@@ -10,13 +10,21 @@ import {
   EmailSignUpBtn,
 } from 'design/signupStyles/SignUpStyle';
 import { PageContainer } from 'design/commonStyles';
+import { houseInfoType } from 'utils/houseInfoType';
 
 const roomCount: Array<String> = ['기숙사', '1개', '2개', '3개', '3개 이상'];
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
 const period = [...new Array(14)].map((_, i) => i);
 
 function RegisterInfoPage() {
-  const [houseInfo, setHouseInfo] = useState<object>();
+  const [houseInfo, setHouseInfo] = useState<houseInfoType>({
+    experience: '1',
+    want_long: '1',
+    room: '1',
+    cost: '100000',
+    info: 'helloWorld',
+    houseInfo: 'helloHouse',
+  });
   const mutation = useMutation(postFirstRegisterHouseInfo, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
@@ -27,14 +35,14 @@ function RegisterInfoPage() {
     },
   });
   const saveHouseInfo = () => {
-    mutation.mutate(houseInfo ?? {});
+    mutation.mutate(houseInfo);
   };
-  const onChangeDatas = (e: any) => {
-    setHouseInfo({
-      ...houseInfo,
-      [e.target.name]: e.target.value.toString(),
-    });
-  };
+  // const onChangeDatas = (e: any) => {
+  //   setHouseInfo({
+  //     ...houseInfo,
+  //     [e.target.name]: e.target.value.toString(),
+  //   });
+  // };
 
   return (
     <PageContainer>
@@ -47,7 +55,11 @@ function RegisterInfoPage() {
         name="experience"
         id="period"
         onChange={e => {
-          onChangeDatas(e);
+          setHouseInfo(() => {
+            const temp = houseInfo;
+            temp.experience = e.target.value.toString();
+            return temp;
+          });
         }}
         defaultValue={'1개월'}
       >
@@ -66,7 +78,11 @@ function RegisterInfoPage() {
         name="want_long"
         id="period"
         onChange={e => {
-          onChangeDatas(e);
+          setHouseInfo(() => {
+            const temp = houseInfo;
+            temp.want_long = e.target.value.toString();
+            return temp;
+          });
         }}
         defaultValue={'1개월'}
       >
@@ -84,7 +100,11 @@ function RegisterInfoPage() {
         name="info"
         id="myInfo"
         onChange={(e: any) => {
-          onChangeDatas(e);
+          setHouseInfo(() => {
+            const temp = houseInfo;
+            temp.info = e.target.value.toString();
+            return temp;
+          });
         }}
       />
 
@@ -95,7 +115,11 @@ function RegisterInfoPage() {
         name="room"
         defaultValue={1}
         onChange={(e: any) => {
-          onChangeDatas(e);
+          setHouseInfo(() => {
+            const temp = houseInfo;
+            temp.room = e.target.value.toString();
+            return temp;
+          });
         }}
       >
         {roomCount.map((roomCount, index) => (
@@ -109,7 +133,11 @@ function RegisterInfoPage() {
         name="cost"
         defaultValue={'100000'}
         onChange={(e: any) => {
-          onChangeDatas(e);
+          setHouseInfo(() => {
+            const temp = houseInfo;
+            temp.cost = e.target.value.toString();
+            return temp;
+          });
         }}
       >
         {costRange.map(costRange => (
@@ -125,7 +153,11 @@ function RegisterInfoPage() {
         name="houseInfo"
         id="houseInfo"
         onChange={(e: any) => {
-          onChangeDatas(e);
+          setHouseInfo(() => {
+            const temp = houseInfo;
+            temp.houseInfo = e.target.value.toString();
+            return temp;
+          });
         }}
       />
 
