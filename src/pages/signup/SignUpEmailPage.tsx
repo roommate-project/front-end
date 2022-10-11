@@ -32,7 +32,9 @@ function SignUpEmailPage() {
       refetchOnWindowFocus: false,
       enabled: false,
       retry: 0,
-      onSuccess: () => navigation('/sign-up/email-auth'),
+      onSuccess: () => {
+        navigation('/sign-up/email-auth');
+      },
     }
   );
 
