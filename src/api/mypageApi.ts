@@ -73,8 +73,24 @@ export const deleteHousePhoto = async (photoId: number) => {
   return response;
 };
 
+// type houseInfoType = {
+//   experience: string;
+//   want_long: string;
+//   room: string;
+//   cost: string;
+//   info: string;
+//   houseInfo: string;
+// };
+
 export const postFirstRegisterHouseInfo = async (houseInfo: object) => {
+  console.log(houseInfo);
   const response = await privateApi.post(`/api/mypage/info`, {
+    // experiece: houseInfo.experience,
+    // want_long: houseInfo.want_long,
+    // room: houseInfo.room,
+    // cost: houseInfo.cost,
+    // info: houseInfo.info,
+    // houseInfo: houseInfo.houseInfo,
     houseInfo,
   });
   return response;

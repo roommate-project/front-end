@@ -168,7 +168,11 @@ export const SignUpImgInput = styled.input`
   opacity: 0;
 `;
 
-export const LocationSelect = styled.select``;
+export const LocationSelect = styled.select`
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+`;
 
 export const GenderRadio = styled.div`
   display: flex;
