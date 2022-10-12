@@ -106,6 +106,8 @@ export const ChatSendInput = styled.input`
 `;
 
 export const ChatSendIconButton = styled.button`
+  position: relative;
+  overflow: hidden;
   border: 0;
   outline: 0;
   background-color: transparent;

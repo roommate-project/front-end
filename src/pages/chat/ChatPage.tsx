@@ -33,7 +33,7 @@ import { AxiosError } from 'axios';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { PageContainer } from 'design/commonStyles';
+import { ImgInput, PageContainer } from 'design/commonStyles';
 
 interface IChatData {
   data: {
@@ -56,6 +56,7 @@ interface IChatData {
 }
 interface FormValue {
   message: string;
+  image: FileList;
 }
 
 let stompClient: any;
@@ -111,29 +112,42 @@ function ChatPage() {
   };
 
   const onMessageReceived = (chatMessage: any) => {
-    if (chatMessage.body) {
-      setMessages(prev => [...prev, JSON.parse(chatMessage.body)]);
+    if (chatMessage.headers['content-type'] === 'application/octet-stream') {
+      console.log(chatMessage.binaryBody);
     } else {
-      alert('got empty message');
+      console.log('massagessssss');
+      setMessages(prev => [...prev, JSON.parse(chatMessage.body)]);
     }
   };
 
-  const sendMessage = (input: string) => {
+  const sendMessage = (chat: FormValue) => {
     let chatMessage = {
       type: 'CHAT',
       roomId,
-      message: input,
+      message: chat.message,
       senderId: sessionStorage.getItem('userId'),
     };
+    /*     let chatImage = {
+      type: 'IMAGE',
+      roomId,
+      image: image,
+      senderId: sessionStorage.getItem('userId'),
+    };
+    if (chat.image.length > 0) {
+      stompClient.send(
+        `/pub/chat/message`,
+        { 'content-type': 'application/octet-stream' },
+        JSON.stringify(chatImage)
+      );
+    } else */
     stompClient.send(`/pub/chat/message`, {}, JSON.stringify(chatMessage));
   };
 
-  const onSumbitMessages: SubmitHandler<FormValue> = data => {
-    sendMessage(data.message);
+  const onSumbitMessages: SubmitHandler<FormValue> = async data => {
+    sendMessage(data);
     reset();
+    //이미지나 메세지 둘중하나라도 있어야 제출하도록 변경
   };
-
-  const sendImageHandler = () => {};
 
   return (
     <PageContainer>
@@ -211,11 +225,12 @@ function ChatPage() {
           <EmptyChatRoomMessage>'채팅 내역이 없습니다!'</EmptyChatRoomMessage>
         ) : null}
         <ChatSendBox onSubmit={handleSubmit(onSumbitMessages)}>
-          <ChatSendIconButton type="button" onClick={sendImageHandler}>
+          <ChatSendIconButton type="button">
             <ChatSendIcon icon={faCamera} />
+            <ImgInput type="file" accept="image/*" {...register('image')} />
           </ChatSendIconButton>
           <ChatSendInput
-            {...register('message', { required: true })}
+            {...register('message')}
             type="text"
             name="message"
             id="message"

@@ -159,16 +159,6 @@ export const ProfileImgSelect = styled.div`
   }
 `;
 
-export const SignUpImgInput = styled.input`
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  width: 44px;
-  transform: scale(2.1);
-  line-height: 40px;
-  opacity: 0;
-`;
-
 export const LocationSelect = styled.select``;
 
 export const GenderRadio = styled.div`

@@ -8,7 +8,6 @@ import {
   ProfileThumbNail,
   SignUpImgUploader,
   ProfileImgSelect,
-  SignUpImgInput,
   ProfileThumbNailImg,
   LocationSelect,
   GenderRadio,
@@ -22,6 +21,7 @@ import { useMutation } from '@tanstack/react-query';
 import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 import { locationData } from 'utils/locationData';
+import { ImgInput } from 'design/commonStyles';
 
 type FormValue = {
   name: string;
@@ -156,7 +156,7 @@ function SignUpLastPage() {
               )}
               <ProfileImgSelect>
                 <FontAwesomeIcon icon={faCirclePlus} />
-                <SignUpImgInput
+                <ImgInput
                   type="file"
                   accept="image/*"
                   {...register('representImage', {

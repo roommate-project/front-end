@@ -9,3 +9,13 @@ export const PageContainer = styled.div`
   flex-direction: column;
   background-color: ${props => props.theme.mainWhite};
 `;
+
+export const ImgInput = styled.input`
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 44px;
+  transform: scale(2.1);
+  line-height: 40px;
+  opacity: 0;
+`;
