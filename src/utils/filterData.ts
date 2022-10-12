@@ -1,5 +1,4 @@
 export const checkItemGender = ['남자', '여자'];
-export const checkItemHost = ['집 소유자만 보기', '룸메이트만 보기'];
 export const checkItemRoom = ['기숙사', '원룸', '투룸', '쓰리룸이상'];
 export const matchingRate = [...new Array(21)].map((_, i) => 5 * i);
 export const rangeData = [

@@ -12,7 +12,9 @@ const Stack = styled(MatchingStack)`
 
 function MatchingPage() {
   const isMain = useMatch('/');
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState({
+    room4: 0,
+  });
 
   return (
     <PageContainer>
