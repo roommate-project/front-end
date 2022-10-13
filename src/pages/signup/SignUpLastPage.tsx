@@ -23,7 +23,6 @@ import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 import { locationData } from 'utils/locationData';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
-import { fetchEmailLogin } from 'api/loginApi';
 
 type FormValue = {
   name: string;
@@ -52,8 +51,9 @@ function SignUpLastPage() {
   const mutation = useMutation(fetchEmailRegister, {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
+        console.log(data);
         alert('회원가입이 완료되었습니다.');
-        navegation('/login');
+        navegation('/register-house-info');
       } else if (data.code === 400) {
         alert('중복된 이메일 입니다.');
       } else {
@@ -61,19 +61,6 @@ function SignUpLastPage() {
       }
     },
     onError: error => alert(error),
-  });
-
-  const loginMutation = useMutation(fetchEmailLogin, {
-    onSuccess: ({ data }) => {
-      if (data.code === 200) {
-        console.log(data);
-        let accessToken = data.message.split(' ')[0];
-        let refreshToken = data.message.split(' ')[1];
-        sessionStorage.setItem('accessToken', accessToken);
-        sessionStorage.setItem('refreshToken', refreshToken);
-        sessionStorage.setItem('userId', data.id);
-      }
-    },
   });
 
   useEffect(() => {
@@ -88,12 +75,8 @@ function SignUpLastPage() {
   };
 
   const onValid: SubmitHandler<FormValue> = data => {
+    sessionStorage.setItem('password', data.password);
     mutation.mutate(data);
-    const loginData = {
-      email: sessionStorage.getItem('email'),
-      password: data.password,
-    };
-    loginMutation.mutate(loginData);
   };
 
   return (

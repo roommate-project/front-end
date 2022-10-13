@@ -12,37 +12,31 @@ import ChatPage from 'pages/chat/ChatPage';
 import MyPage from 'pages/myPage/MyPage';
 import ResidentialPropensityTest from 'pages/residentialPropensityTest/ResidentialPropensityTest';
 import RegisterInfoPage from 'pages/registerInfo/RegisterInfo';
-import PrivateRoute from './PrivateRoute';
+// import PrivateRoute from './PrivateRoute';
 
 function RoutePage() {
   return (
     <Routes>
-      <Route element={<PrivateRoute authentication={false} />}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/login/email" element={<EmailLoginPage />} />
-        <Route path="/sign-up" element={<SignUpMain />} />
-        <Route path="/sign-up/email" element={<SignUpEmail />} />
-        <Route path="/sign-up/email-auth" element={<SignUpEmailAuthPage />} />
-        <Route path="/sign-up/email/info" element={<SignUpLastPage />} />
-        <Route path="/sign-up/last" element={<SignUpLastPage />} />
-      </Route>
-      <Route element={<PrivateRoute authentication={true} />}>
-        <Route path="/" element={<MatchingPage />} />
-        <Route path="/filter" element={<MatchingPage />} />
-        <Route
-          path="/residential-test"
-          element={<ResidentialPropensityTest />}
-        />
-        <Route path="/register-house-info" element={<RegisterInfoPage />} />
-        <Route path="/my-page" element={<MyPage />} />
-        <Route
-          path="/matching/detail/:userId"
-          element={<MatchingDetailPage />}
-        />
-        <Route path="/chat-list" element={<ChatListPage />} />
-        <Route path="/chat-list/chat/:chatId" element={<ChatPage />} />
-        <Route path="/my-page" element={<MyPage />} />
-      </Route>
+      {/* <Route element={<PrivateRoute authentication={false} />}> */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login/email" element={<EmailLoginPage />} />
+      <Route path="/sign-up" element={<SignUpMain />} />
+      <Route path="/sign-up/email" element={<SignUpEmail />} />
+      <Route path="/sign-up/email-auth" element={<SignUpEmailAuthPage />} />
+      <Route path="/sign-up/email/info" element={<SignUpLastPage />} />
+      <Route path="/sign-up/last" element={<SignUpLastPage />} />
+      {/* </Route> */}
+      {/* <Route element={<PrivateRoute authentication={true} />}> */}
+      <Route path="/" element={<MatchingPage />} />
+      <Route path="/filter" element={<MatchingPage />} />
+      <Route path="/residential-test" element={<ResidentialPropensityTest />} />
+      <Route path="/register-house-info" element={<RegisterInfoPage />} />
+      <Route path="/my-page" element={<MyPage />} />
+      <Route path="/matching/detail/:userId" element={<MatchingDetailPage />} />
+      <Route path="/chat-list" element={<ChatListPage />} />
+      <Route path="/chat-list/chat/:chatId" element={<ChatPage />} />
+      <Route path="/my-page" element={<MyPage />} />
+      {/* </Route> */}
     </Routes>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MyIntroduceOptionBox } from 'design/myPageStyles/myIntroduceSelfStyles';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -11,6 +11,7 @@ import {
 } from 'design/signupStyles/SignUpStyle';
 import { PageContainer } from 'design/commonStyles';
 import { houseInfoType } from 'utils/houseInfoType';
+import { fetchEmailLogin } from 'api/loginApi';
 
 const roomCount: Array<String> = ['기숙사', '1개', '2개', '3개', '3개 이상'];
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
@@ -43,6 +44,26 @@ function RegisterInfoPage() {
   //     [e.target.name]: e.target.value.toString(),
   //   });
   // };
+  const loginMutation = useMutation(fetchEmailLogin, {
+    onSuccess: ({ data }) => {
+      console.log(data);
+      if (data.code === 200) {
+        let accessToken = data.message.split(' ')[0];
+        let refreshToken = data.message.split(' ')[1];
+        sessionStorage.setItem('accessToken', accessToken);
+        sessionStorage.setItem('refreshToken', refreshToken);
+        sessionStorage.setItem('userId', data.id);
+      }
+    },
+  });
+
+  useEffect(() => {
+    const loginData = {
+      email: sessionStorage.getItem('email'),
+      password: sessionStorage.getItem('password'),
+    };
+    loginMutation.mutate(loginData);
+  }, []);
 
   return (
     <PageContainer>
