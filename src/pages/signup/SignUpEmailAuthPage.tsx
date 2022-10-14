@@ -2,18 +2,17 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   EmailAuthSubmiBtn,
-  PageContainer,
-  SignUpForm,
-  SignUpInput,
   EmailReSendBtn,
-  Title,
+  SignUpPageContainer,
 } from 'design/signupStyles/SignUpStyle';
 import AuthTimer from 'components/authTimer/AuthTimer';
 import { TimerContainer } from 'components/authTimer/AuthTimerStyles';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchAuthNumValidation } from 'api/api';
+import { fetchAuthNumValidation } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
+import { Form, Input, Title } from 'design/commonStyles';
 
 type FormValue = {
   authNum: number;
@@ -23,9 +22,8 @@ function SignUpEmailAuthPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    clearErrors,
-  } = useForm<FormValue>();
+    formState: { errors, isValid },
+  } = useForm<FormValue>({ mode: 'all' });
 
   const mutation = useMutation(fetchAuthNumValidation, {
     onSuccess: ({ data }) => {
@@ -43,19 +41,13 @@ function SignUpEmailAuthPage() {
 
   const navigation = useNavigate();
   const savedEmail = sessionStorage.getItem('email');
-  const [isActive, setIsActive] = useState(false);
+  const [isResend, setIsResend] = useState(true);
 
   const queryClient = useQueryClient();
 
-  const onChangeAuthNum = (event: React.FormEvent<HTMLInputElement>) => {
-    event.currentTarget.value ? setIsActive(true) : setIsActive(false);
-    !event.currentTarget.value && clearErrors();
-  };
-
   const onClickResend = () => {
     queryClient.refetchQueries(['sendEmail']);
-    //캐시가 사라지므로 새로고침이아닌 타이머만 리셋되도록 바꿔야함.
-    /* location.reload(); */
+    setIsResend(true);
   };
 
   const onValid: SubmitHandler<FormValue> = authNum => {
@@ -63,14 +55,14 @@ function SignUpEmailAuthPage() {
   };
 
   return (
-    <PageContainer>
+    <SignUpPageContainer>
       <Title>
-        ROOMMATE
-        <div>{savedEmail}로 인증번호를 전송하였습니다. </div>
+        <RoommateLogo height={48} />
+        <p>{savedEmail}로 인증번호를 전송하였습니다. </p>
       </Title>
-      <SignUpForm onSubmit={handleSubmit(onValid)}>
+      <Form onSubmit={handleSubmit(onValid)}>
         <TimerContainer>
-          <SignUpInput
+          <Input
             type="text"
             {...register('authNum', {
               required: true,
@@ -79,16 +71,15 @@ function SignUpEmailAuthPage() {
                 message: '인증번호 형식이 올바르지 않습니다.',
               },
             })}
-            onChange={event => onChangeAuthNum(event)}
           />
-          <AuthTimer />
+          <AuthTimer isResend={isResend} setIsResend={setIsResend} />
         </TimerContainer>
         <span>{errors?.authNum?.message}</span>
         <EmailReSendBtn onClick={onClickResend}>인증번호 재전송</EmailReSendBtn>
-        <EmailAuthSubmiBtn isActive={isActive}>인증하기</EmailAuthSubmiBtn>
-      </SignUpForm>
-      <ProgressBar width={66} />
-    </PageContainer>
+        <EmailAuthSubmiBtn disabled={!isValid}>인증하기</EmailAuthSubmiBtn>
+      </Form>
+      <ProgressBar width={40} />
+    </SignUpPageContainer>
   );
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {
+  HeaderContentsBox,
   HeaderDiv,
   HeaderIcon,
   HeaderStyle,
@@ -34,27 +35,17 @@ function Header() {
   const matchingDetail = useMatch('matching/detail/:userId');
   const chatPage = useMatch('chat-list/chat/:chatId');
 
-  const noneHeader = () => {
-    if (
-      location.pathname ===
-      ('/login' ||
-        '/login/email' ||
-        '/sign-up' ||
-        '/sign-up/email' ||
-        '/sign-up/email-auth' ||
-        '/sign-up/email-auth/last' ||
-        '/matching-filter')
-    ) {
-      return true;
-    }
-    return false;
-  };
-
   const noneBackButton = () => {
     if (chatPage) {
       return false;
     }
-    if (location.pathname === '/' || '/chat-list' || '/my-page') {
+    if (
+      location.pathname === '/' ||
+      location.pathname === '/chat-list' ||
+      location.pathname === '/my-page' ||
+      location.pathname === '/sign-up' ||
+      location.pathname === '/login'
+    ) {
       return true;
     }
     return false;
@@ -66,7 +57,6 @@ function Header() {
     }
     return false;
   };
-
   const setPageName = () => {
     let pageName = '';
     pageDatas.forEach(page => {
@@ -74,37 +64,42 @@ function Header() {
         pageName = page.name;
       }
     });
-    if (matchingDetail) {
-      pageName = '상세 페이지';
-    }
     if (chatPage) {
       pageName = '채팅 페이지';
     }
     return pageName;
   };
 
+  const visibleHeader = () => {
+    if (matchingDetail) {
+      return false;
+    } else return true;
+  };
+
   return (
-    <HeaderDiv visible={noneHeader()}>
-      <HeaderStyle>
-        <HeaderIcon rights={false} left={true}>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            onClick={() => {
-              navigate(-1);
-            }}
-            style={{ display: `${noneBackButton() ? 'none' : ''}` }}
-          />
-        </HeaderIcon>
-        <HeaderTitle>{setPageName()}</HeaderTitle>
-        <HeaderIcon rights={true} left={false}>
-          <FontAwesomeIcon
-            icon={faFilter}
-            onClick={() => {
-              navigate('/filter');
-            }}
-            style={{ display: `${visibleFilterButton() ? '' : 'none'} ` }}
-          />
-        </HeaderIcon>
+    <HeaderDiv>
+      <HeaderStyle isVisible={visibleHeader()}>
+        <HeaderContentsBox>
+          <HeaderIcon rights={false} left={true} isVisible={visibleHeader()}>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              onClick={() => {
+                navigate(-1);
+              }}
+              style={{ display: `${noneBackButton() ? 'none' : ''}` }}
+            />
+          </HeaderIcon>
+          <HeaderTitle>{setPageName()}</HeaderTitle>
+          <HeaderIcon rights={true} left={false} isVisible={visibleHeader()}>
+            <FontAwesomeIcon
+              icon={faFilter}
+              onClick={() => {
+                navigate('/filter');
+              }}
+              style={{ display: `${visibleFilterButton() ? '' : 'none'} ` }}
+            />
+          </HeaderIcon>
+        </HeaderContentsBox>
       </HeaderStyle>
     </HeaderDiv>
   );

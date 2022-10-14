@@ -1,21 +1,32 @@
 import RangeSlider from 'components/rangeSlider/RangeSlider';
+import { BtnBox } from 'design/commonStyles';
 import {
   CheckBoxLabel,
   CheckBoxWrraper,
   FilterBox,
   FilterBtn,
   FilterModalContainer,
-  Select,
+  MatchingRateSelect,
   SelectBoxWrraper,
   SliderFilterBox,
 } from 'design/matchingStyles/MatchingFilterStyle';
-import { BtnBox } from 'design/signupStyles/SignUpStyle';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import {
+  checkItemGender,
+  checkItemRoom,
+  matchingRate,
+  rangeData,
+} from 'utils/filterData';
 
-function MatchingFilter() {
+interface IMatchingfilterProps {
+  setFilter: any;
+}
+
+function MatchingFilter({ setFilter }: IMatchingfilterProps) {
   const { register, handleSubmit, setValue } = useForm();
-  const [isCheckGender, setIsCheckGender] = useState([true, true, true]);
+  const [isCheckGender, setIsCheckGender] = useState([true, true]);
   const [isCheckRoom, setIsCheckRoom] = useState([true, true, true, true]);
   const [sliderMin, setSliderMin] = useState([0, 0, 0]);
   const [sliderMax, setSliderMax] = useState<(number | string)[]>([
@@ -30,9 +41,33 @@ function MatchingFilter() {
       setValue(`${rangeData[i].max}`, sliderMax[i]);
     }
   }, [sliderMin, sliderMax]);
+  const navigation = useNavigate();
 
   const onValid = (data: any) => {
     console.log(data);
+    setFilter({
+      rate: data.matchingRate,
+      gender:
+        data.남자 && data.여자
+          ? null
+          : data.남자 && !data.여자
+          ? 'male'
+          : !data.남자 && data.여자
+          ? 'female'
+          : 0,
+      wantLongMax: data.maxMonth === '무제한' ? null : data.maxMonth,
+      wantLongMin: data.minMonth,
+      ageMax: data.maxAge === '무제한' ? null : data.maxAge,
+      ageMin: data.minAge,
+      costMax: data.maxCost === '무제한' ? null : data.maxCost,
+      costMin: data.minCost,
+      room0: data.기숙사,
+      room1: data.원룸,
+      room2: data.투룸,
+      room3: data.쓰리룸이상,
+      room4: 0,
+    });
+    navigation('/');
   };
 
   const genderCheckToggle = (index: number) => {
@@ -51,48 +86,18 @@ function MatchingFilter() {
     ]);
   };
 
-  const checkItemGender = ['남자', '여자', '기타'];
-  const checkItemRoom = ['기숙사', '원룸', '투룸', '쓰리룸이상'];
-  const matchingRate = [...new Array(21)].map((_, i) => 5 * i);
-  const rangeData = [
-    {
-      name: '거주기간',
-      min: 'minMonth',
-      max: 'maxMonth',
-      maxValue: 25,
-      unit: 1,
-      index: ' 개월',
-    },
-    {
-      name: '나이',
-      min: 'minAge',
-      max: 'maxAge',
-      maxValue: 101,
-      unit: 1,
-      index: ' 세',
-    },
-    {
-      name: '월세',
-      min: 'minCost',
-      max: 'maxCost',
-      maxValue: 105,
-      unit: 5,
-      index: ' 만원',
-    },
-  ];
-
   return (
     <FilterModalContainer onSubmit={handleSubmit(onValid)}>
       <FilterBox>
         매칭률
         <SelectBoxWrraper>
-          <Select {...register('matchingRate')}>
+          <MatchingRateSelect {...register('matchingRate')}>
             {matchingRate.map((value, index) => (
               <option value={value} key={index}>
                 {value}%
               </option>
             ))}
-          </Select>
+          </MatchingRateSelect>
           <p>이상</p>
         </SelectBoxWrraper>
       </FilterBox>

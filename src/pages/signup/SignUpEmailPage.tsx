@@ -1,16 +1,14 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchEmailValidation, fetchSendEmailAuth } from 'api/api';
+import { fetchEmailValidation, fetchSendEmailAuth } from 'api/signUpApi';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import {
-  PageContainer,
-  SignUpForm,
-  SignUpInput,
   EmailSendBtn,
-  Title,
+  SignUpPageContainer,
 } from 'design/signupStyles/SignUpStyle';
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
+import { Form, Input, Title } from 'design/commonStyles';
 
 type FormValue = {
   email: string;
@@ -20,9 +18,10 @@ function SignUpEmailPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    clearErrors,
-  } = useForm<FormValue>();
+    formState: { errors, isValid },
+  } = useForm<FormValue>({ mode: 'all' });
+
+  const navigation = useNavigate();
 
   const { refetch: refetchSendEmail } = useQuery(
     ['sendEmail'],
@@ -49,33 +48,18 @@ function SignUpEmailPage() {
     },
   });
 
-  const navigation = useNavigate();
-  const [isActive, setIsActive] = useState(false);
-
-  //watch()는 함수가 종료되고 재렌더링 되기 때문에 event를 통해 SignUpinput변화 체크
-  const onChangeEmail = (event: React.FormEvent<HTMLInputElement>) => {
-    event.currentTarget.value ? setIsActive(true) : setIsActive(false);
-    !event.currentTarget.value && clearErrors();
-  };
-
   const onValid: SubmitHandler<FormValue> = email => {
     mutation.mutate(email);
   };
 
   return (
-    <PageContainer>
+    <SignUpPageContainer>
       <Title>
-        ROOMMATE
-        <div>
-          룸메이트찾기 어쩌고 저쩌고
-          <br />
-          룸메이트찾기 어쩌고 저쩌고
-          <br />
-          룸메이트찾기 어쩌고 저쩌고
-        </div>
+        <RoommateLogo height={48} />
+        <p> 로그인 시 사용할 이메일을 입력해주세요!</p>
       </Title>
-      <SignUpForm onSubmit={handleSubmit(onValid)}>
-        <SignUpInput
+      <Form onSubmit={handleSubmit(onValid)}>
+        <Input
           type="text"
           {...register('email', {
             required: true,
@@ -85,13 +69,12 @@ function SignUpEmailPage() {
               message: '이메일 형식이 올바르지 않습니다.',
             },
           })}
-          onChange={event => onChangeEmail(event)}
         />
         <span>{errors?.email?.message}</span>
-        <EmailSendBtn isActive={isActive}>인증번호 전송</EmailSendBtn>
-      </SignUpForm>
-      <ProgressBar width={33} />
-    </PageContainer>
+        <EmailSendBtn disabled={!isValid}>인증번호 전송</EmailSendBtn>
+      </Form>
+      <ProgressBar width={20} />
+    </SignUpPageContainer>
   );
 }
 

@@ -138,7 +138,7 @@ function RangeSlider({
             const maxValue = Number(getValue(maxHandle));
             setSliderMax([
               ...sliderMax.slice(0, keyNum),
-              maxValue,
+              maxValue === max ? '무제한' : maxValue,
               ...sliderMax.slice(1 + keyNum),
             ]);
           }}
