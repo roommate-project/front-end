@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DetailPageResultCard,
   DetailTestDiv,
@@ -18,24 +18,57 @@ import {
   MyIntroduceContentTitle,
 } from 'design/myPageStyles/myIntroduceSelfStyles';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import { putUserDatas } from 'api/mypageApi';
+import { useMutation } from '@tanstack/react-query';
 
 const period = [...new Array(14)].map((_, i) => i);
 
-const dummyUserData = {
-  experience: '10',
-  want_long: '24',
-  info: '시끄러운 사람 ㄴㄴ',
-  test_result: [
-    { questionId: 1, answer: true },
-    { questionId: 2, answer: false },
-    { questionId: 3, answer: true },
-    { questionId: 4, answer: false },
-    { questionId: 5, answer: false },
-    { questionId: 6, answer: true },
-  ],
+type myIntroduceSelfProps = {
+  myInfoData: {
+    experience: number;
+    wantPeriod: number;
+    userMessage: string;
+  };
+  userTestResult: Array<boolean>;
 };
 
-function MyIntroduceSelf() {
+function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
+  const [editUserMessage, setEditUserMessage] = useState(true);
+  const [userData, setUserData] = useState({
+    want_long: myInfoData.wantPeriod.toString(),
+    experience: myInfoData.experience.toString(),
+    info: myInfoData.userMessage,
+  });
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
+
+  const userDataMutation = useMutation(putUserDatas, {
+    onSuccess({ data }: any) {
+      if (data.code == 200) {
+        alert('정보 수정 완료');
+      }
+    },
+  });
+
+  const saveUserDatas = () => {
+    userDataMutation.mutate(userData);
+    setEditUserMessage(true);
+  };
+
+  const onChangeDatas = (e: any, type: string) => {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value.toString(),
+    });
+    if (type !== 'text') {
+      saveUserDatas();
+    }
+  };
+
   return (
     <MyIntroduceBackground>
       <MyIntroduceTitle>내 정보</MyIntroduceTitle>
@@ -44,9 +77,12 @@ function MyIntroduceSelf() {
         <MyIntroduceContent>
           다른 사람과
           <MyIntroduceSelectBox
-            name="period"
+            name="experience"
             id="period"
-            defaultValue={dummyUserData.experience}
+            defaultValue={myInfoData.experience}
+            onChange={e => {
+              onChangeDatas(e, 'select');
+            }}
           >
             {period.map(period => (
               <MyIntroduceOptionBox value={period}>
@@ -60,13 +96,16 @@ function MyIntroduceSelf() {
       <MyIntroduceContentTitle> 희망 거주 기간</MyIntroduceContentTitle>
       <div style={{ marginBottom: '10px' }}>
         <MyIntroduceSelectBox
-          name="period"
+          name="want_long"
           id="period"
           defaultValue={
-            parseInt(dummyUserData.want_long) >= 12
+            parseInt(myInfoData.wantPeriod.toString()) >= 12
               ? 13
-              : dummyUserData.want_long
+              : myInfoData.wantPeriod
           }
+          onChange={e => {
+            onChangeDatas(e, 'select');
+          }}
         >
           {period.map(period => (
             <MyIntroduceOptionBox value={period}>
@@ -79,20 +118,31 @@ function MyIntroduceSelf() {
         <MyIntroduceContentTitle>
           {' '}
           이런 사람과 함께 살고 싶어요
-          <MyIntroducePutButton icon={faPencil} />
+          <MyIntroducePutButton
+            icon={editUserMessage ? faPencil : faFloppyDisk}
+            onClick={() => {
+              editUserMessage ? setEditUserMessage(false) : saveUserDatas();
+            }}
+          />
         </MyIntroduceContentTitle>
       </MyIntroduceRowBox>
       <MyIntroduceRowBox>
         <MyIntroduceTextArea
-          defaultValue={dummyUserData.info}
-          name="etcMessage"
+          defaultValue={myInfoData.userMessage}
+          name="info"
           id="etcMessage"
+          onChange={e => {
+            onChangeDatas(e, 'text');
+          }}
+          disabled={editUserMessage}
         />
       </MyIntroduceRowBox>
       <MyIntroduceRowBox>
         <MyIntroduceContentTitle>
           성향 테스트
-          <MyIntroducePutButton icon={faPencil} />
+          <Link to={'/residential-test'}>
+            <MyIntroducePutButton icon={faPencil} />
+          </Link>
         </MyIntroduceContentTitle>
       </MyIntroduceRowBox>
 
@@ -103,7 +153,7 @@ function MyIntroduceSelf() {
               <ResultCardQuestion>
                 Q{index + 1}.{list.question}
               </ResultCardQuestion>
-              {dummyUserData.test_result[index].answer ? (
+              {userTestResult[index] ? (
                 <ResultCardAnswer>A.{list.answer1}</ResultCardAnswer>
               ) : (
                 <ResultCardAnswer>B.{list.answer2}</ResultCardAnswer>

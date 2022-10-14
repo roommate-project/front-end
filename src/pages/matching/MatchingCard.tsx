@@ -1,13 +1,39 @@
 import React, { useRef, useState } from 'react';
 import { PanInfo, useAnimation, useMotionValue } from 'framer-motion';
-import { MatchingImgContainer } from 'design/matchingStyles/MatchingPageStyles';
+import {
+  MatchingCircle,
+  MatchingCircleBox,
+  MatchingImgContainer,
+} from 'design/matchingStyles/MatchingPageStyles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment, faHeart } from '@fortawesome/free-solid-svg-icons';
+import MatchingCardInfo from './MatchingCardInfo';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { fetchMatchingLike } from 'api/matchingApi';
+import { useNavigate } from 'react-router-dom';
 
-function MachingCard({ onMove, children }: any) {
+interface IMachingCardProps {
+  onMove: any;
+  children: any;
+  fetchData: any;
+  fetchNextPage: any;
+}
+
+function MachingCard({ onMove, fetchData, fetchNextPage }: IMachingCardProps) {
   const cardRef = useRef(null);
+  const likeButtonRef = useRef<HTMLDivElement>(null);
+  const chatButtonRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const controls = useAnimation();
   const [direction, setDirection] = useState<string | undefined>();
   const [velocity, setVelocity] = useState(0);
+  const navigation = useNavigate();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(fetchMatchingLike, {
+    onSuccess: () => queryClient.invalidateQueries(['matchingPageData']),
+    onError: error => console.log(error),
+  });
 
   const getDirection = () => {
     return velocity >= 1 ? 'right' : velocity <= -1 ? 'left' : undefined;
@@ -21,6 +47,29 @@ function MachingCard({ onMove, children }: any) {
   const onDragEndHandler = () => {
     if (direction && Math.abs(velocity) > 500) {
       onMove(direction);
+      if (fetchData.isLast === true && direction === 'left') {
+        fetchNextPage();
+        fetchData.isLast = false;
+      }
+    }
+  };
+
+  const chatRequestHandler = () => {
+    console.log('chat');
+  };
+
+  const likeHandler = () => {
+    mutation.mutate(fetchData.userId + '');
+  };
+
+  const lookDetailHandler = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (
+      !chatButtonRef.current!.contains(event.target as HTMLButtonElement) &&
+      !likeButtonRef.current!.contains(event.target as HTMLButtonElement)
+    ) {
+      navigation(`/matching/detail/${fetchData.userId}`);
     }
   };
 
@@ -35,8 +84,27 @@ function MachingCard({ onMove, children }: any) {
       whileTap={{ scale: 1.05 }}
       style={{ x }}
       animate={controls}
+      $bgImage={`${process.env.REACT_APP_SERVER_IP}/api/user/${fetchData.userId}/img/represents`}
+      onDoubleClick={event => lookDetailHandler(event)}
     >
-      {children}
+      <MatchingCardInfo data={fetchData} />
+      <MatchingCircleBox>
+        <MatchingCircle
+          types="chat"
+          onClick={chatRequestHandler}
+          ref={chatButtonRef}
+        >
+          <FontAwesomeIcon icon={faComment} />
+        </MatchingCircle>
+        <MatchingCircle
+          types="like"
+          $isLike={fetchData.isLiked}
+          onClick={likeHandler}
+          ref={likeButtonRef}
+        >
+          <FontAwesomeIcon icon={faHeart} />
+        </MatchingCircle>
+      </MatchingCircleBox>
     </MatchingImgContainer>
   );
 }

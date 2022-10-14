@@ -3,31 +3,29 @@ import {
   DetailImg,
   DetailImgInfoWrapper,
   DetailImgInfoContent,
-  DetailImgInfoDiv,
   ChatButtonDiv,
   ChatButtonIcon,
   RelativeDiv,
-  LikeIconDiv,
 } from 'design/mathingDetailStyles/matchingDetailStyles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-type DetailPhotoProps = {
+interface IDetailPhotoProps {
   userBasicInfo: {
-    nickname: string;
-    address: string;
+    name: string;
+    nickName: string;
     age: number;
-    sex: string;
+    address: string;
+    gender: string;
     experience: number;
   };
   photoUrls: Array<string>;
-};
+}
 
-function DetailPhotos({ userBasicInfo, photoUrls }: DetailPhotoProps) {
+function DetailPhotos({ userBasicInfo, photoUrls }: IDetailPhotoProps) {
   const settings = {
     dots: true,
     infinite: false,
@@ -41,33 +39,25 @@ function DetailPhotos({ userBasicInfo, photoUrls }: DetailPhotoProps) {
       <RelativeDiv>
         <Slider {...settings}>
           {photoUrls.map((photo, index) => (
-            <div>
-              <DetailImg src={photo} width="100%" key={index} />
-            </div>
+            <DetailImg src={photo} key={index} />
           ))}
         </Slider>
-
-        <LikeIconDiv>
-          <FontAwesomeIcon icon={faHeart} />
-        </LikeIconDiv>
+        <DetailImgInfoWrapper>
+          <DetailImgInfoContent>
+            <span>{userBasicInfo.nickName}</span> 님은 <br />
+            타인과 공동 거주 경험이{' '}
+            <span>
+              {parseInt((userBasicInfo.experience / 30).toString())} 개월
+            </span>
+            있어요!
+          </DetailImgInfoContent>
+          <ChatButtonDiv>
+            <ChatButtonIcon>
+              <FontAwesomeIcon icon={faComment} />
+            </ChatButtonIcon>
+          </ChatButtonDiv>
+        </DetailImgInfoWrapper>
       </RelativeDiv>
-      <DetailImgInfoWrapper>
-        <DetailImgInfoDiv>
-          <DetailImgInfoContent>
-            {userBasicInfo.nickname} | 동거 경험 :
-            {parseInt((userBasicInfo.experience / 30).toString())}개월
-          </DetailImgInfoContent>
-          <DetailImgInfoContent>
-            {userBasicInfo.address} | {userBasicInfo.age} | {userBasicInfo.sex}
-          </DetailImgInfoContent>
-        </DetailImgInfoDiv>
-
-        <ChatButtonDiv>
-          <ChatButtonIcon>
-            <FontAwesomeIcon icon={faComment} />
-          </ChatButtonIcon>
-        </ChatButtonDiv>
-      </DetailImgInfoWrapper>
     </DetailImgWrapper>
   );
 }

@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-  PageContainer,
-  SignUpForm,
-  SignUpInput,
   SignUpBtn,
   ProfileThumbNail,
   SignUpImgUploader,
@@ -12,13 +9,20 @@ import {
   ProfileThumbNailImg,
   LocationSelect,
   GenderRadio,
+  SignUpSection,
+  SignUpAgeSelect,
+  RadioLabel,
+  SignUpPageContainer,
 } from 'design/signupStyles/SignUpStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import { useMutation } from '@tanstack/react-query';
-import { fetchEmailRegister } from 'api/api';
+import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
+import { locationData } from 'utils/locationData';
+import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
+import { Form, Input, InputLabel, Title } from 'design/commonStyles';
 
 type FormValue = {
   name: string;
@@ -36,42 +40,14 @@ function SignUpLastPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    clearErrors,
-    setError,
+    formState: { errors, isValid },
     watch,
-  } = useForm<FormValue>();
-  const [isActive, setIsActive] = useState(false);
+  } = useForm<FormValue>({ mode: 'all' });
+  const [formStep, setFormStep] = useState(1);
   const [profilePreview, setProfilePreview] = useState('');
+  const [genderRadio, setGenderRadio] = useState('');
   const profileImg = watch('representImage');
   const navegation = useNavigate();
-  const locationData = [
-    '종로구',
-    '중구',
-    '용산구',
-    '성동구',
-    '광진구',
-    '동대문구',
-    '중랑구',
-    '성북구',
-    '강북구',
-    '도봉구',
-    '노원구',
-    '은평구',
-    '서대문구',
-    '마포구',
-    '양천구',
-    '강서구',
-    '구로구',
-    '금천구',
-    '영등포구',
-    '동작구',
-    '관악구',
-    '서초구',
-    '강남구',
-    '송파구',
-    '강동구',
-  ];
 
   const mutation = useMutation(fetchEmailRegister, {
     onSuccess: ({ data }) => {
@@ -94,165 +70,204 @@ function SignUpLastPage() {
     }
   }, [profileImg]);
 
-  const onChangeName = (event: React.FormEvent<HTMLInputElement>) => {
-    event.currentTarget.value &&
-    watch('nickName') &&
-    watch('password') &&
-    watch('passwordCheck')
-      ? setIsActive(true)
-      : setIsActive(false);
-    event.currentTarget.value ? null : clearErrors();
+  const nextPage = () => {
+    setFormStep(prev => prev + 1);
   };
 
-  const onChangeNickName = (event: React.FormEvent<HTMLInputElement>) => {
-    event.currentTarget.value &&
-    watch('name') &&
-    watch('password') &&
-    watch('passwordCheck')
-      ? setIsActive(true)
-      : setIsActive(false);
-    event.currentTarget.value ? null : clearErrors();
-  };
+  const AgeArray = [...new Array(81)].map((_, i) => 19 + i);
 
-  const onChangePassword = (event: React.FormEvent<HTMLInputElement>) => {
-    event.currentTarget.value &&
-    watch('nickName') &&
-    watch('name') &&
-    watch('passwordCheck')
-      ? setIsActive(true)
-      : setIsActive(false);
-    event.currentTarget.value ? null : clearErrors();
-  };
-
-  const onChangePasswordCheck = (event: React.FormEvent<HTMLInputElement>) => {
-    event.currentTarget.value &&
-    watch('nickName') &&
-    watch('password') &&
-    watch('name')
-      ? setIsActive(true)
-      : setIsActive(false);
-    event.currentTarget.value ? null : clearErrors();
+  const genderRaioToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGenderRadio(event.target.value);
   };
 
   const onValid: SubmitHandler<FormValue> = data => {
-    if (data.password !== data.passwordCheck) {
-      setError(
-        'passwordCheck',
-        {
-          message: '비밀번호 확인이 일치하지 않습니다.',
-        },
-        { shouldFocus: true }
-      );
-    }
-    console.log(data);
     mutation.mutate(data);
+    console.log(data);
   };
+
   return (
-    <PageContainer>
-      <SignUpForm onSubmit={handleSubmit(onValid)}>
-        <SignUpImgUploader>
-          {profilePreview ? (
-            <ProfileThumbNailImg src={profilePreview} />
-          ) : (
-            <ProfileThumbNail>
-              <FontAwesomeIcon icon={faUser} />
-            </ProfileThumbNail>
-          )}
-          <ProfileImgSelect>
-            <FontAwesomeIcon icon={faCirclePlus} />
-            <SignUpImgInput
-              type="file"
-              accept="image/*"
-              {...register('representImage', {
-                required: '프로필 혹은 집 대표 사진은 필수입니다.',
+    <SignUpPageContainer>
+      {formStep === 1 ? (
+        <Title>
+          <RoommateLogo height={48} />
+          <p>비밀번호는 영문, 숫자를 포함하여 8글자 이상으로 생성해주세요.</p>
+        </Title>
+      ) : formStep === 2 ? (
+        <Title>
+          <RoommateLogo height={48} />
+          <p>다른 룸메이트들에게 보여질 이름과 닉네임을 입력해주세요!</p>
+        </Title>
+      ) : null}
+      <Form onSubmit={handleSubmit(onValid)}>
+        {formStep === 1 && (
+          <SignUpSection>
+            <InputLabel htmlFor="password">비밀번호</InputLabel>
+            <Input
+              id="password"
+              type="password"
+              {...register('password', {
+                required: true,
+                pattern: {
+                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
+                  message: '비밀번호는 영문, 숫자 포함 8글자 이상입니다. ',
+                },
               })}
+              placeholder="비밀번호"
             />
-          </ProfileImgSelect>
-        </SignUpImgUploader>
-        <span>{errors.representImage?.message}</span>
-        <SignUpInput
-          type="text"
-          {...register('name', {
-            required: true,
-            minLength: { value: 2, message: '이름을 두글자 이상 입력해주세요' },
-          })}
-          onChange={onChangeName}
-          placeholder="이름"
-        />
-        <span>{errors.name?.message}</span>
-        <SignUpInput
-          type="text"
-          {...register('age', {
-            required: true,
-            valueAsNumber: true,
-          })}
-          placeholder="나이"
-        />
-        <span>{errors.age?.message}</span>
-        <GenderRadio>
-          <input type="radio" id="male" value="male" {...register('gender')} />
-          <label htmlFor="male">남자</label>
-          <input
-            type="radio"
-            id="female"
-            value="female"
-            {...register('gender')}
-          />
-          <label htmlFor="female">여자</label>
-          <input type="radio" id="etc" value="etc" {...register('gender')} />
-          <label htmlFor="etc">기타</label>
-        </GenderRadio>
-        <span>{errors.gender?.message}</span>
-        <LocationSelect {...register('location')}>
-          {locationData.map((data, index) => (
-            <option value={data} key={index}>
-              {data}
-            </option>
-          ))}
-        </LocationSelect>
-        <SignUpInput
-          type="dormitory"
-          {...register('dormitory', { required: true })}
-          placeholder="ex)숭실대학교"
-        />
-        <span>{errors.dormitory?.message}</span>
-        <SignUpInput
-          type="text"
-          {...register('nickName', {
-            required: true,
-            minLength: {
-              value: 2,
-              message: '닉네임을 두글자 이상 입력해주세요',
-            },
-          })}
-          onChange={onChangeNickName}
-          placeholder="닉네임"
-        />
-        <span>{errors.nickName?.message}</span>
-        <SignUpInput
-          type="password"
-          {...register('password', {
-            required: true,
-            pattern: {
-              value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
-              message: '비밀번호는 영문, 숫자 포함 8글자 이상입니다. ',
-            },
-          })}
-          onChange={onChangePassword}
-          placeholder="비밀번호"
-        />
-        <span>{errors.password?.message}</span>
-        <SignUpInput
-          type="password"
-          {...register('passwordCheck', { required: true })}
-          onChange={onChangePasswordCheck}
-          placeholder="비밀번호 확인"
-        />
-        <span>{errors.passwordCheck?.message}</span>
-        <SignUpBtn isActive={isActive}>회원가입</SignUpBtn>
-      </SignUpForm>
-      <ProgressBar width={100} />
-    </PageContainer>
+            <span>{errors.password?.message}</span>
+            <InputLabel htmlFor="passwordCheck">비밀번호 확인</InputLabel>
+            <Input
+              id="passwordCheck"
+              type="password"
+              {...register('passwordCheck', {
+                required: true,
+                validate: value =>
+                  value === watch('password') ||
+                  '비밀번호 확인이 일치하지 않습니다.',
+              })}
+              placeholder="비밀번호 확인"
+            />
+            <span>{errors.passwordCheck?.message}</span>
+          </SignUpSection>
+        )}
+        {formStep === 2 && (
+          <SignUpSection>
+            <InputLabel htmlFor="name">이름</InputLabel>
+            <Input
+              id="name"
+              type="text"
+              {...register('name', {
+                required: true,
+                minLength: {
+                  value: 2,
+                  message: '이름을 두글자 이상 입력해주세요',
+                },
+              })}
+              placeholder="이름"
+            />
+            <span>{errors.name?.message}</span>
+            <InputLabel htmlFor="nickName">닉네임</InputLabel>
+            <Input
+              id="nickName"
+              type="text"
+              {...register('nickName', {
+                required: true,
+                minLength: {
+                  value: 2,
+                  message: '닉네임을 두글자 이상 입력해주세요',
+                },
+              })}
+              placeholder="닉네임"
+            />
+            <span>{errors.nickName?.message}</span>
+          </SignUpSection>
+        )}
+        {formStep === 3 && (
+          <SignUpSection>
+            <SignUpImgUploader>
+              {profilePreview ? (
+                <ProfileThumbNailImg src={profilePreview} />
+              ) : (
+                <ProfileThumbNail>
+                  <FontAwesomeIcon icon={faUser} />
+                </ProfileThumbNail>
+              )}
+              <ProfileImgSelect>
+                <FontAwesomeIcon icon={faCirclePlus} />
+                <SignUpImgInput
+                  type="file"
+                  accept="image/*"
+                  {...register('representImage', {
+                    required: '프로필 혹은 집 대표 사진은 필수입니다.',
+                  })}
+                />
+              </ProfileImgSelect>
+            </SignUpImgUploader>
+            <span>{errors.representImage?.message}</span>
+            <InputLabel htmlFor="age">나이</InputLabel>
+            <SignUpAgeSelect
+              id="age"
+              {...register('age', { required: true })}
+              defaultValue={''}
+            >
+              <option value="" disabled hidden>
+                나이를 선택하세요
+              </option>
+              {AgeArray.map((value, index) => (
+                <option value={value} key={index}>
+                  {value}
+                </option>
+              ))}
+            </SignUpAgeSelect>
+            <InputLabel htmlFor="gender">성별</InputLabel>
+            <GenderRadio id="gender">
+              <RadioLabel
+                htmlFor="male"
+                checked={genderRadio === 'male' ? true : false}
+              >
+                남자
+                <input
+                  type="radio"
+                  id="male"
+                  value="male"
+                  {...register('gender')}
+                  onChange={event => genderRaioToggle(event)}
+                />
+              </RadioLabel>
+              <RadioLabel
+                htmlFor="female"
+                checked={genderRadio === 'female' ? true : false}
+              >
+                여자
+                <input
+                  type="radio"
+                  id="female"
+                  value="female"
+                  {...register('gender', { required: true })}
+                  onChange={event => genderRaioToggle(event)}
+                />
+              </RadioLabel>
+            </GenderRadio>
+            <InputLabel htmlFor="location">지역</InputLabel>
+            <LocationSelect
+              id="location"
+              {...register('location', { required: true })}
+              defaultValue={''}
+            >
+              <option value="" disabled hidden>
+                지역을 선택하세요
+              </option>
+              {locationData.map((data, index) => (
+                <option value={data} key={index}>
+                  {data}
+                </option>
+              ))}
+            </LocationSelect>
+            <InputLabel htmlFor="dormitory">기숙사</InputLabel>
+            <Input
+              id="dormitory"
+              type="dormitory"
+              {...register('dormitory', { required: true })}
+              placeholder="ex)숭실대학교 or 자취"
+            />
+          </SignUpSection>
+        )}
+        {formStep === 3 ? (
+          <SignUpBtn disabled={!isValid}>회원가입</SignUpBtn>
+        ) : (
+          <SignUpBtn disabled={!isValid} onClick={nextPage}>
+            다음
+          </SignUpBtn>
+        )}
+      </Form>
+      {formStep === 1 ? (
+        <ProgressBar width={60} />
+      ) : formStep === 2 ? (
+        <ProgressBar width={80} />
+      ) : (
+        <ProgressBar width={100} />
+      )}
+    </SignUpPageContainer>
   );
 }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { PageContainer } from 'design/commonStyles';
 import { convertUTCtoLocalTime } from 'utils/convertUTCtoLocalTime';
 import { Link } from 'react-router-dom';
 import {
@@ -12,6 +11,7 @@ import {
   ChatListflexColumnBox,
   ChatListflexRowBox,
 } from 'design/chatStyles/chatListStyles';
+import { ChatPageContainer } from 'design/chatStyles/chatStyles';
 
 const chatList = [
   {
@@ -57,7 +57,7 @@ const chatList = [
 
 function ChatListPage() {
   return (
-    <PageContainer>
+    <ChatPageContainer>
       <ChatListTitle>채팅 목록</ChatListTitle>
       <ChatListBackgroundBox>
         {chatList.map((chat, index) => (
@@ -87,7 +87,7 @@ function ChatListPage() {
           </Link>
         ))}
       </ChatListBackgroundBox>
-    </PageContainer>
+    </ChatPageContainer>
   );
 }
 

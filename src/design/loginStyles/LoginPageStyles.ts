@@ -4,20 +4,6 @@ export const LoginMainDiv = styled.div`
   text-align: center;
 `;
 
-export const LoginMarginTopTitle = styled('div')`
-  font-size: 48px;
-  font-weight: 600;
-  text-align: center;
-  color: ${props => props.theme.mainRed};
-  div {
-    margin-top: 30px;
-    margin-bottom: 40px;
-    font-size: 20px;
-    font-weight: 300;
-    color: ${props => props.theme.mainBlack};
-  }
-`;
-
 export const LoginSubTitle = styled.p`
   margin-top: 5%;
   line-height: 35px;
@@ -28,11 +14,10 @@ export const LoginDivs = styled.div`
   margin-top: 25px;
 `;
 
-export const LoginButton = styled('button')<{ types: string }>`
+export const LoginButton = styled.button<{ types: string }>`
   width: 20vw;
   height: 42px;
   display: block;
-  item-align: center;
   margin: 0 auto;
   margin-top: 12px;
   border: 0;
@@ -48,10 +33,11 @@ export const LoginButton = styled('button')<{ types: string }>`
 `;
 
 export const SignUpButton = styled.p`
-  color: ${props => props.theme.mainBlack};
-  margin-top: 20px;
+  position: absolute;
+  color: ${props => props.theme.fontGrey};
   font-size: 18px;
   text-decoration: underline;
+  bottom: 50px;
 `;
 
 export const LoginIcon = styled.span`

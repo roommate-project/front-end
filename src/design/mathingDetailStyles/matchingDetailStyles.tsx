@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const IntroductionContainer = styled.div`
+  width: 100%;
+`;
+
 export const DetailImgWrapper = styled.div`
   width: 100%;
   height: auto;
@@ -7,51 +11,72 @@ export const DetailImgWrapper = styled.div`
 
 export const DetailImg = styled.img`
   min-width: 100%;
-  height: 300px;
+  height: 320px;
+  object-fit: cover;
 `;
 
 export const DetailImgInfoWrapper = styled.div`
+  position: absolute;
+  bottom: 40px;
   width: 100%;
-  height: 60px;
-  background-color: ${props => props.theme.mainWhite};
+  background-color: transparent;
   display: flex;
   justify-content: space-between;
-`;
-
-export const DetailImgInfoDiv = styled.div`
-  flex-direction: column;
-  margin-left: 20px;
+  align-items: center;
 `;
 
 export const DetailImgInfoContent = styled.p`
+  flex-direction: column;
+  margin-left: 20px;
   font-size: 16px;
-  font-weight: bold;
-  line-height: 28px;
+  line-height: 20px;
+  color: ${props => props.theme.mainWhite};
+  span {
+    font-size: 18px;
+  }
+`;
+
+export const DetailInfoContainer = styled.div`
+  position: absolute;
+  top: 290px;
+  max-width: 76.8rem;
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  box-shadow: 0px -8px 10px rgba(0, 0, 0, 0.15);
+  background-color: ${props => props.theme.mainWhite};
 `;
 
 export const DetailTabButtonDiv = styled.div`
   display: flex;
-  width: 100%;
   align-items: center;
   text-align: center;
 `;
 
 export const DetailTabButton = styled.div<{ isTap: boolean }>`
   width: 50%;
-  height: 38px;
-  font-size: 18px;
-  border-bottom: 4px solid
-    ${props => (props.isTap ? props.theme.mainOrange : props.theme.mainGrey)};
-  align-items: center;
-  padding: 8px;
-  background-color: ${props =>
-    props.isTap ? props.theme.mainRed : props.theme.mainWhite};
+  height: 44px;
+  background: ${props =>
+    props.isTap ? props.theme.mainWhite : props.theme.backgroundGrey};
+  background-color: ${props => (props.isTap ? 'none' : props.theme.mainGrey)};
+  color: ${props =>
+    props.isTap ? props.theme.mainBlack : props.theme.mainWhite};
+  p {
+    line-height: 44px;
+    font-size: 18px;
+  }
+`;
+
+export const IntroductionBox = styled.div`
+  margin: 20px 0px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const DetailContentTitle = styled.p`
-  font-size: 18px;
-  line-height: 28px;
-  padding: 5px 5px 0 10px;
+  font-size: 16px;
+  margin: 10px;
   font-weight: 700;
 `;
 
@@ -61,8 +86,18 @@ export const DetailContent = styled.p`
   padding: 10px;
   background-color: ${props => props.theme.backgroundGrey};
   width: 100%;
-  margin: 10px;
   border-radius: 8px;
+  margin-bottom: 30px;
+`;
+
+export const MatchingRateInfo = styled(DetailContent)`
+  text-align: center;
+  background-color: transparent;
+  span {
+    font-size: 28px;
+    color: ${props => props.theme.mainRed};
+  }
+  margin-bottom: 20px;
 `;
 
 export const IntroductionEmphasis = styled.span`
@@ -78,27 +113,27 @@ export const ChatButtonDiv = styled.div`
   align-items: center;
   border-radius: 100px;
   font-size: 30px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: 0;
   box-sizing: border-box;
   color: #111827;
   font-weight: 600;
   line-height: 1.25rem;
-  padding: .75rem 1rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  padding: 0.75rem 1rem;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  margin-right:20px;
-
-}
+  margin-right: 20px;
 `;
 
 export const ChatButtonIcon = styled.span`
   display: flex;
   text-align: center;
   justify-content: center;
+  color: ${props => props.theme.mainPurple};
+  font-size: 26px;
 `;
 
 export const MatchingRateMessage = styled.div`
@@ -115,12 +150,4 @@ export const MatchingRateMessage = styled.div`
 export const RelativeDiv = styled.div`
   position: relative;
   width: 100%;
-`;
-
-export const LikeIconDiv = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 24px;
-  cursor: pointer;
 `;
