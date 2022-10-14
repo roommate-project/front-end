@@ -2,18 +2,19 @@ import kakaoImg from 'assets/kakaoImg.png';
 import naverImg from 'assets/naverImg.png';
 import {
   EmailSignUpBtn,
+  SignUpPageContainer,
   SocialSignUpBtn,
 } from 'design/signupStyles/SignUpStyle';
 import { Link } from 'react-router-dom';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
-import { BtnBox, PageContainer, Title } from 'design/commonStyles';
+import { BtnBox, Title } from 'design/commonStyles';
 import { LoginIcon } from 'design/loginStyles/LoginPageStyles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 function SignUpMainPage() {
   return (
-    <PageContainer>
+    <SignUpPageContainer>
       <Title>
         <RoommateLogo height={48} />
         <p>
@@ -40,7 +41,7 @@ function SignUpMainPage() {
           </EmailSignUpBtn>
         </Link>
       </BtnBox>
-    </PageContainer>
+    </SignUpPageContainer>
   );
 }
 

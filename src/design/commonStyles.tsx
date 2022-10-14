@@ -5,7 +5,6 @@ export const PageContainer = styled.div`
   min-height: 100vh;
   height: auto;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   background-color: ${props => props.theme.mainWhite};

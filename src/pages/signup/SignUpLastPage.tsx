@@ -12,6 +12,7 @@ import {
   SignUpSection,
   SignUpAgeSelect,
   RadioLabel,
+  SignUpPageContainer,
 } from 'design/signupStyles/SignUpStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -21,13 +22,7 @@ import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 import { locationData } from 'utils/locationData';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
-import {
-  Form,
-  Input,
-  InputLabel,
-  PageContainer,
-  Title,
-} from 'design/commonStyles';
+import { Form, Input, InputLabel, Title } from 'design/commonStyles';
 
 type FormValue = {
   name: string;
@@ -91,7 +86,7 @@ function SignUpLastPage() {
   };
 
   return (
-    <PageContainer>
+    <SignUpPageContainer>
       {formStep === 1 ? (
         <Title>
           <RoommateLogo height={48} />
@@ -272,7 +267,7 @@ function SignUpLastPage() {
       ) : (
         <ProgressBar width={100} />
       )}
-    </PageContainer>
+    </SignUpPageContainer>
   );
 }
 

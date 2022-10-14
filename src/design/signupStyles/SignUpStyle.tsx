@@ -1,5 +1,9 @@
-import { NextBtn, SubmitBtn } from 'design/commonStyles';
+import { NextBtn, PageContainer, SubmitBtn } from 'design/commonStyles';
 import styled from 'styled-components';
+
+export const SignUpPageContainer = styled(PageContainer)`
+  justify-content: center;
+`;
 
 export const EmailSignUpBtn = styled(NextBtn)`
   background-color: ${props => props.theme.mainWhite};

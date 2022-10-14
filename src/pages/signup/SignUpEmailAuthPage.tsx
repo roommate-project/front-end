@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   EmailAuthSubmiBtn,
   EmailReSendBtn,
+  SignUpPageContainer,
 } from 'design/signupStyles/SignUpStyle';
 import AuthTimer from 'components/authTimer/AuthTimer';
 import { TimerContainer } from 'components/authTimer/AuthTimerStyles';
@@ -11,7 +12,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchAuthNumValidation } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
-import { Form, Input, PageContainer, Title } from 'design/commonStyles';
+import { Form, Input, Title } from 'design/commonStyles';
 
 type FormValue = {
   authNum: number;
@@ -54,7 +55,7 @@ function SignUpEmailAuthPage() {
   };
 
   return (
-    <PageContainer>
+    <SignUpPageContainer>
       <Title>
         <RoommateLogo height={48} />
         <p>{savedEmail}로 인증번호를 전송하였습니다. </p>
@@ -78,7 +79,7 @@ function SignUpEmailAuthPage() {
         <EmailAuthSubmiBtn disabled={!isValid}>인증하기</EmailAuthSubmiBtn>
       </Form>
       <ProgressBar width={40} />
-    </PageContainer>
+    </SignUpPageContainer>
   );
 }
 

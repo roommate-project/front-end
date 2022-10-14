@@ -2,10 +2,11 @@ import React from 'react';
 import { SignUpButton, LoginIcon } from 'design/loginStyles/LoginPageStyles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { BtnBox, PageContainer, Title } from 'design/commonStyles';
+import { BtnBox, Title } from 'design/commonStyles';
 import {
   SocialSignUpBtn,
   EmailSignUpBtn,
+  SignUpPageContainer,
 } from 'design/signupStyles/SignUpStyle';
 import kakaoImg from 'assets/kakaoImg.png';
 import naverImg from 'assets/naverImg.png';
@@ -14,7 +15,7 @@ import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 
 function LoginPage() {
   return (
-    <PageContainer>
+    <SignUpPageContainer>
       <Title>
         <RoommateLogo height={48} />
         <p>
@@ -44,7 +45,7 @@ function LoginPage() {
       <SignUpButton>
         <Link to={'/sign-up'}>여기를 눌러 회원가입하기</Link>
       </SignUpButton>
-    </PageContainer>
+    </SignUpPageContainer>
   );
 }
 

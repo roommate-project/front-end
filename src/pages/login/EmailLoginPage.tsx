@@ -3,17 +3,12 @@ import {
   LoginDiv,
   LoginSubmitBtn,
 } from 'design/loginStyles/EmailLoginPageStyles';
-import {
-  Form,
-  Input,
-  InputLabel,
-  PageContainer,
-  Title,
-} from 'design/commonStyles';
+import { Form, Input, InputLabel, Title } from 'design/commonStyles';
 import { useMutation } from '@tanstack/react-query';
 import { fetchEmailLogin } from 'api/loginApi';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
+import { SignUpPageContainer } from 'design/signupStyles/SignUpStyle';
 
 type FormValue = {
   email: string;
@@ -46,7 +41,7 @@ function EmailLoginPage() {
   };
 
   return (
-    <PageContainer>
+    <SignUpPageContainer>
       <Title>
         <RoommateLogo height={48} />
         <p>
@@ -94,7 +89,7 @@ function EmailLoginPage() {
           로그인
         </LoginSubmitBtn>
       </Form>
-    </PageContainer>
+    </SignUpPageContainer>
   );
 }
 
