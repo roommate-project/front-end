@@ -72,6 +72,10 @@ export const ChatBubble = styled('p')<{ isMe: boolean }>`
   border: ${props => (props.isMe ? '' : `1px solid ${props.theme.mainGrey}`)};
   padding: 10px;
   font-size: 16px;
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 `;
 
 export const ChatSendTime = styled.div`
@@ -91,6 +95,7 @@ export const ChatSendBox = styled.form`
   border-radius: 20px;
   background-color: ${props => props.theme.backgroundGrey};
   z-index: 1;
+  align-items: center;
 `;
 
 export const ChatSendInput = styled.input`
@@ -106,7 +111,6 @@ export const ChatSendInput = styled.input`
 `;
 
 export const ChatSendIconButton = styled.button`
-  position: relative;
   overflow: hidden;
   border: 0;
   outline: 0;
@@ -135,4 +139,11 @@ export const EmptyChatRoomMessage = styled.h1`
   align-items: center;
   height: calc(100vh - 110px);
   font-size: 16px;
+`;
+
+export const PreviewImage = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  object-fit: cover;
 `;

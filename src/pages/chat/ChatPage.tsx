@@ -18,6 +18,7 @@ import {
   ChatDate,
   EmptyChatRoomMessage,
   ChatListContainer,
+  PreviewImage,
 } from 'design/chatStyles/chatStyles';
 import {
   faArrowLeft,
@@ -34,6 +35,7 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ImgInput, PageContainer } from 'design/commonStyles';
+import { convertFileToBase64 } from 'utils/convertFileToBase64';
 
 interface IChatData {
   data: {
@@ -65,7 +67,8 @@ function ChatPage() {
   const { roomId } = useParams();
   const navigation = useNavigate();
   const [messages, setMessages] = useState<any[]>([]);
-  const { register, handleSubmit, reset } = useForm<FormValue>();
+  const [previewImg, setPreviewImg] = useState('');
+  const { register, handleSubmit, reset, watch } = useForm<FormValue>();
   const { mutate, data } = useMutation<
     IChatData,
     AxiosError,
@@ -77,6 +80,7 @@ function ChatPage() {
   const currentTime = new Date() + '';
   const datesArray = new Set();
   const bottomRef = useRef<HTMLDivElement>(null);
+  const uploadImg = watch('image');
 
   useEffect(() => {
     if (roomId !== undefined) mutate(roomId);
@@ -100,6 +104,13 @@ function ChatPage() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => {
+    if (uploadImg && uploadImg.length > 0) {
+      const file = uploadImg[0];
+      setPreviewImg(URL.createObjectURL(file));
+    }
+  }, [uploadImg]);
+
   const userProfileImg = `${process.env.REACT_APP_SERVER_IP}/api/user/${data?.data.userInfo.userId}/img/represents`;
 
   const displayDate = (sendDate: string) => {
@@ -112,41 +123,32 @@ function ChatPage() {
   };
 
   const onMessageReceived = (chatMessage: any) => {
-    if (chatMessage.headers['content-type'] === 'application/octet-stream') {
-      console.log(chatMessage.binaryBody);
-    } else {
-      console.log('massagessssss');
-      setMessages(prev => [...prev, JSON.parse(chatMessage.body)]);
-    }
+    setMessages(prev => [...prev, JSON.parse(chatMessage.body)]);
   };
 
-  const sendMessage = (chat: FormValue) => {
+  const sendMessage = (chat: FormValue, convertedImage?: string) => {
     let chatMessage = {
-      type: 'CHAT',
+      type: convertedImage ? 'IMAGE' : 'CHAT',
       roomId,
-      message: chat.message,
+      message: convertedImage ? null : chat.message,
+      image: convertedImage ? convertedImage : null,
       senderId: sessionStorage.getItem('userId'),
     };
-    /*     let chatImage = {
-      type: 'IMAGE',
-      roomId,
-      image: image,
-      senderId: sessionStorage.getItem('userId'),
-    };
-    if (chat.image.length > 0) {
-      stompClient.send(
-        `/pub/chat/message`,
-        { 'content-type': 'application/octet-stream' },
-        JSON.stringify(chatImage)
-      );
-    } else */
     stompClient.send(`/pub/chat/message`, {}, JSON.stringify(chatMessage));
   };
 
-  const onSumbitMessages: SubmitHandler<FormValue> = async data => {
-    sendMessage(data);
-    reset();
-    //이미지나 메세지 둘중하나라도 있어야 제출하도록 변경
+  const onSumbitMessages: SubmitHandler<FormValue> = data => {
+    if (data.image.length > 0) {
+      const file = data.image[0];
+      convertFileToBase64(file, (convertedImage: string) => {
+        sendMessage(data, convertedImage);
+        reset();
+        setPreviewImg('');
+      });
+    } else if (data.message.length > 0) {
+      sendMessage(data);
+      reset();
+    }
   };
 
   return (
@@ -185,7 +187,13 @@ function ChatPage() {
                     alt="user image"
                     isMe={chat.isMe}
                   />
-                  <ChatBubble isMe={chat.isMe}>{chat.message}</ChatBubble>
+                  <ChatBubble isMe={chat.isMe}>
+                    {chat.isImage === true ? (
+                      <img src={`data:image/png;base64,${chat.image}`} />
+                    ) : (
+                      chat.message
+                    )}
+                  </ChatBubble>
                   <ChatSendTime>
                     {convertUTCtoLocalTime(chat.sendTime)}
                   </ChatSendTime>
@@ -211,7 +219,11 @@ function ChatPage() {
                 <ChatBubble
                   isMe={chat.senderId == sessionStorage.getItem('userId')}
                 >
-                  {chat.message}
+                  {chat.type === 'IMAGE' ? (
+                    <img src={`data:image/png;base64,${chat.image}`} />
+                  ) : (
+                    chat.message
+                  )}
                 </ChatBubble>
                 <ChatSendTime>
                   {convertUTCtoLocalTime(currentTime)}
@@ -229,13 +241,19 @@ function ChatPage() {
             <ChatSendIcon icon={faCamera} />
             <ImgInput type="file" accept="image/*" {...register('image')} />
           </ChatSendIconButton>
-          <ChatSendInput
-            {...register('message')}
-            type="text"
-            name="message"
-            id="message"
-            placeholder="메세지를 입력하세요!"
-          />
+          {previewImg ? (
+            <div style={{ width: '90%' }}>
+              <PreviewImage src={previewImg} />
+            </div>
+          ) : (
+            <ChatSendInput
+              {...register('message')}
+              type="text"
+              name="message"
+              id="message"
+              placeholder="메세지를 입력하세요!"
+            />
+          )}
           <ChatSendIconButton type="submit">
             <ChatSendIcon icon={faPaperPlane} />
           </ChatSendIconButton>
