@@ -74,13 +74,16 @@ export const ChatFlexBox = styled.div<{ isMe: boolean }>`
 export const ChatBubble = styled('p')<{ isMe: boolean }>`
   max-width: 70%;
   height: auto;
-  background-color: ${props =>
-    props.isMe ? props.theme.mainYellow : props.theme.mainWhite};
+  background: ${props =>
+    props.isMe ? props.theme.mainGradient : props.theme.backgroundGrey};
   border-radius: ${props =>
     props.isMe ? '10px 10px 0 10px' : '0 10px 10px 10px'};
-  border: ${props => (props.isMe ? '' : `1px solid ${props.theme.mainGrey}`)};
+  /*   border: ${props =>
+    props.isMe ? '' : `1px solid ${props.theme.mainGrey}`}; */
   padding: 10px;
   font-size: 16px;
+  color: ${props =>
+    props.isMe ? props.theme.mainWhite : props.theme.mainBlack};
   img {
     max-width: 100%;
     height: auto;
@@ -127,10 +130,11 @@ export const ChatSendIconButton = styled.button`
   cursor: pointer;
 `;
 
-export const ChatSendIcon = styled(FontAwesomeIcon)`
+export const ChatSendIcon = styled(FontAwesomeIcon)<{ isActive?: boolean }>`
   font-size: 20px;
   margin: 5px;
-  color: rgb(133, 133, 133);
+  color: ${props =>
+    props.isActive ? props.theme.mainRed : 'rgb(133, 133, 133)'};
 `;
 
 export const ChatDate = styled.div`
@@ -142,8 +146,8 @@ export const ChatDate = styled.div`
   justify-content: center;
 `;
 
-export const EmptyChatRoomMessage = styled.h1`
-  display: flex;
+export const EmptyChatRoomMessage = styled.h1<{ isEmpty?: boolean }>`
+  display: ${props => (props.isEmpty ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   height: calc(100vh - 110px);

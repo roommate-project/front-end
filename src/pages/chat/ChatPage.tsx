@@ -69,7 +69,13 @@ function ChatPage() {
   const navigation = useNavigate();
   const [messages, setMessages] = useState<any[]>([]);
   const [previewImg, setPreviewImg] = useState('');
-  const { register, handleSubmit, reset, watch } = useForm<FormValue>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { isValid, dirtyFields },
+  } = useForm<FormValue>({ mode: 'all' });
   const { mutate, data } = useMutation<
     IChatData,
     AxiosError,
@@ -235,7 +241,9 @@ function ChatPage() {
         })}
         <div ref={bottomRef} />
         {data?.data && data.data.chats.length <= 0 ? (
-          <EmptyChatRoomMessage>'채팅 내역이 없습니다!'</EmptyChatRoomMessage>
+          <EmptyChatRoomMessage isEmpty={messages.length <= 0}>
+            '채팅 내역이 없습니다!'
+          </EmptyChatRoomMessage>
         ) : null}
         <ChatSendBox onSubmit={handleSubmit(onSumbitMessages)}>
           <ChatSendIconButton type="button">
@@ -248,7 +256,7 @@ function ChatPage() {
             </div>
           ) : (
             <ChatSendInput
-              {...register('message')}
+              {...register('message', { required: true })}
               type="text"
               name="message"
               id="message"
@@ -256,7 +264,10 @@ function ChatPage() {
             />
           )}
           <ChatSendIconButton type="submit">
-            <ChatSendIcon icon={faPaperPlane} />
+            <ChatSendIcon
+              icon={faPaperPlane}
+              isActive={isValid || !!dirtyFields.image}
+            />
           </ChatSendIconButton>
         </ChatSendBox>
       </ChatListContainer>

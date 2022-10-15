@@ -38,6 +38,7 @@ function ChatListPage() {
     () => getChatList(sessionStorage.getItem('userId')),
     {
       onError: error => alert(error),
+      onSuccess: data => console.log(data.data),
     }
   );
 
@@ -63,8 +64,10 @@ function ChatListPage() {
                     </ChatListUserName>
                     <ChatListContent fontSize={14}>
                       {room.lastMessage
-                        ? room.lastMessage
-                        : '대화기록이 없습니다.'}
+                        ? room.lastMessage.length > 16
+                          ? `${room.lastMessage.substring(0, 16)}...`
+                          : room.lastMessage
+                        : '이미지'}
                     </ChatListContent>
                   </ChatListflexBox>
                   <ChatListTimeflexBox>
@@ -76,9 +79,9 @@ function ChatListPage() {
               </Link>
             </ChatListBox>
           ))}
-        <EmptyChatRoomMessage>
-          {data?.data && data.data.length <= 0 ? '채팅 내역이 없습니다!' : null}
-        </EmptyChatRoomMessage>
+        {data?.data && data.data.length <= 0 ? (
+          <EmptyChatRoomMessage>'채팅 내역이 없습니다!'</EmptyChatRoomMessage>
+        ) : null}
       </ChatListBackgroundBox>
     </ChatPageContainer>
   );
