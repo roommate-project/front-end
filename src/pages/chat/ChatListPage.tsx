@@ -1,5 +1,4 @@
 import React from 'react';
-import { PageContainer } from 'design/commonStyles';
 import { convertUTCtoLocalTime } from 'utils/convertUTCtoLocalTime';
 import { Link } from 'react-router-dom';
 import {
@@ -15,6 +14,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { getChatList } from 'api/chatApi';
 import { EmptyChatRoomMessage } from 'design/chatStyles/chatStyles';
+import { ChatPageContainer } from 'design/chatStyles/chatStyles';
 
 interface IChatListData {
   data: [
@@ -46,7 +46,7 @@ function ChatListPage() {
   }
 
   return (
-    <PageContainer>
+    <ChatPageContainer>
       <ChatListBackgroundBox>
         {data &&
           data.data.map((room, index) => (
@@ -80,7 +80,7 @@ function ChatListPage() {
           {data?.data && data.data.length <= 0 ? '채팅 내역이 없습니다!' : null}
         </EmptyChatRoomMessage>
       </ChatListBackgroundBox>
-    </PageContainer>
+    </ChatPageContainer>
   );
 }
 

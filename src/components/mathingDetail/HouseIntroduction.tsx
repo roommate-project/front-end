@@ -1,6 +1,7 @@
 import {
   DetailContent,
   DetailContentTitle,
+  IntroductionBox,
 } from 'design/mathingDetailStyles/matchingDetailStyles';
 
 type HouseIntroductionProps = {
@@ -13,7 +14,7 @@ type HouseIntroductionProps = {
 
 function HouseIntroduction({ houseIntroduction }: HouseIntroductionProps) {
   return (
-    <>
+    <IntroductionBox>
       <DetailContentTitle>방 개수</DetailContentTitle>
       <DetailContent>{houseIntroduction.room}개</DetailContent>
       <DetailContentTitle>주거비용</DetailContentTitle>
@@ -24,7 +25,7 @@ function HouseIntroduction({ houseIntroduction }: HouseIntroductionProps) {
         저희 집은 이런 특징을 가지고 있어요.
       </DetailContentTitle>
       <DetailContent>{houseIntroduction.houseInfo}</DetailContent>
-    </>
+    </IntroductionBox>
   );
 }
 

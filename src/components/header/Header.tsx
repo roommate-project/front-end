@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {
+  HeaderContentsBox,
   HeaderDiv,
   HeaderIcon,
   HeaderStyle,
@@ -36,7 +37,7 @@ function Header() {
 
   const noneBackButton = () => {
     if (chatPage) {
-      return true;
+      return false;
     }
     if (
       location.pathname === '/' ||
@@ -56,6 +57,7 @@ function Header() {
     }
     return false;
   };
+
   const setPageName = () => {
     let pageName = '';
     pageDatas.forEach(page => {
@@ -63,37 +65,39 @@ function Header() {
         pageName = page.name;
       }
     });
-    if (matchingDetail) {
-      pageName = '상세 페이지';
-    }
-    if (chatPage) {
-      pageName = '채팅 페이지';
-    }
     return pageName;
+  };
+
+  const visibleHeader = () => {
+    if (matchingDetail) {
+      return false;
+    } else return true;
   };
 
   return (
     <HeaderDiv>
-      <HeaderStyle>
-        <HeaderIcon rights={false} left={true}>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            onClick={() => {
-              navigate(-1);
-            }}
-            style={{ display: `${noneBackButton() ? 'none' : ''}` }}
-          />
-        </HeaderIcon>
-        <HeaderTitle>{setPageName()}</HeaderTitle>
-        <HeaderIcon rights={true} left={false}>
-          <FontAwesomeIcon
-            icon={faFilter}
-            onClick={() => {
-              navigate('/filter');
-            }}
-            style={{ display: `${visibleFilterButton() ? '' : 'none'} ` }}
-          />
-        </HeaderIcon>
+      <HeaderStyle isVisible={visibleHeader()}>
+        <HeaderContentsBox>
+          <HeaderIcon rights={false} left={true} isVisible={visibleHeader()}>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              onClick={() => {
+                navigate(-1);
+              }}
+              style={{ display: `${noneBackButton() ? 'none' : ''}` }}
+            />
+          </HeaderIcon>
+          <HeaderTitle>{setPageName()}</HeaderTitle>
+          <HeaderIcon rights={true} left={false} isVisible={visibleHeader()}>
+            <FontAwesomeIcon
+              icon={faFilter}
+              onClick={() => {
+                navigate('/filter');
+              }}
+              style={{ display: `${visibleFilterButton() ? '' : 'none'} ` }}
+            />
+          </HeaderIcon>
+        </HeaderContentsBox>
       </HeaderStyle>
     </HeaderDiv>
   );

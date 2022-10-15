@@ -19,6 +19,7 @@ import {
   EmptyChatRoomMessage,
   ChatListContainer,
   PreviewImage,
+  ChatPageContainer,
 } from 'design/chatStyles/chatStyles';
 import {
   faArrowLeft,
@@ -34,7 +35,7 @@ import { AxiosError } from 'axios';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ImgInput, PageContainer } from 'design/commonStyles';
+import { ImgInput } from 'design/commonStyles';
 import { convertFileToBase64 } from 'utils/convertFileToBase64';
 
 interface IChatData {
@@ -152,9 +153,9 @@ function ChatPage() {
   };
 
   return (
-    <PageContainer>
+    <ChatPageContainer>
       <ChatHeader>
-        <HeaderIcon rights={false} left={true}>
+        <HeaderIcon rights={false} left={true} isVisible={true}>
           <FontAwesomeIcon
             icon={faArrowLeft}
             onClick={() => {
@@ -259,7 +260,7 @@ function ChatPage() {
           </ChatSendIconButton>
         </ChatSendBox>
       </ChatListContainer>
-    </PageContainer>
+    </ChatPageContainer>
   );
 }
 

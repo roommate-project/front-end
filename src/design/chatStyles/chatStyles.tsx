@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+export const ChatPageContainer = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: ${props => props.theme.mainWhite};
+`;
+
 export const ChatListContainer = styled.div`
   position: relative;
   overflow: auto;
