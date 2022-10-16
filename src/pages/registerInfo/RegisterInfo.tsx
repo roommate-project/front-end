@@ -37,6 +37,8 @@ function RegisterInfoPage() {
   });
   const saveHouseInfo = () => {
     mutation.mutate(houseInfo);
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('password');
   };
   // const onChangeDatas = (e: any) => {
   //   setHouseInfo({
