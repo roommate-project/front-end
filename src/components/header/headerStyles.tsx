@@ -35,8 +35,6 @@ export const HeaderContentsBox = styled.div`
 
 export const HeaderTitle = styled.div`
   text-align: center;
-  font-size: 30px;
-  color: ${props => props.theme.mainRed};
 `;
 
 export const HeaderIcon = styled('span')<IconStyled>`

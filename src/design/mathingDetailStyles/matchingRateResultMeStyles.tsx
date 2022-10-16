@@ -38,6 +38,7 @@ export const ResultCardAnswer = styled.p`
 `;
 
 export const ResultCardMessage = styled.p`
-  font-size: 14px;
+  font-size: 16px;
   padding: 5px;
+  font-weight: 500;
 `;

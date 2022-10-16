@@ -9,23 +9,22 @@ import {
   HeaderTitle,
 } from 'components/header/headerStyles';
 import { useNavigate, useLocation, useMatch } from 'react-router-dom';
+import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
+import { ReactComponent as MessagesLogo } from 'assets/messages.svg';
+import { ReactComponent as MypageLogo } from 'assets/mypage.svg';
 
 const pageDatas = [
   {
     route: '/chat-list',
-    name: '채팅 목록',
+    name: <MessagesLogo height={30} />,
   },
   {
     route: '/',
-    name: '룸-메이트',
-  },
-  {
-    route: '/matching/detail',
-    name: '상세보기',
+    name: <RoommateLogo height={28} />,
   },
   {
     route: '/my-page',
-    name: '마이 페이지',
+    name: <MypageLogo height={30} />,
   },
 ];
 
@@ -58,8 +57,8 @@ function Header() {
     return false;
   };
 
-  const setPageName = () => {
-    let pageName = '';
+  const setPageTitle = () => {
+    let pageName;
     pageDatas.forEach(page => {
       if (page.route === location.pathname) {
         pageName = page.name;
@@ -87,7 +86,7 @@ function Header() {
               style={{ display: `${noneBackButton() ? 'none' : ''}` }}
             />
           </HeaderIcon>
-          <HeaderTitle>{setPageName()}</HeaderTitle>
+          <HeaderTitle>{setPageTitle()}</HeaderTitle>
           <HeaderIcon rights={true} left={false} isVisible={visibleHeader()}>
             <FontAwesomeIcon
               icon={faFilter}

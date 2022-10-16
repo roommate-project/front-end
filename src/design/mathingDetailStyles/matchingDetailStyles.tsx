@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const IntroductionContainer = styled.div`
   width: 100%;
+  margin-bottom: 60px;
 `;
 
 export const DetailImgWrapper = styled.div`

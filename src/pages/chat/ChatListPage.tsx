@@ -38,7 +38,6 @@ function ChatListPage() {
     () => getChatList(sessionStorage.getItem('userId')),
     {
       onError: error => alert(error),
-      onSuccess: data => console.log(data.data),
     }
   );
 

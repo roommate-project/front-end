@@ -134,7 +134,7 @@ export const ChatSendIcon = styled(FontAwesomeIcon)<{ isActive?: boolean }>`
   font-size: 20px;
   margin: 5px;
   color: ${props =>
-    props.isActive ? props.theme.mainRed : 'rgb(133, 133, 133)'};
+    props.isActive ? props.theme.darkRed : 'rgb(133, 133, 133)'};
 `;
 
 export const ChatDate = styled.div`
