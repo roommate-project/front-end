@@ -181,7 +181,7 @@ function ChatPage() {
       </ChatHeader>
       <ChatListContainer>
         {data?.data &&
-          data.data.chats.reverse().map((chat, index) => {
+          data.data.chats.map((chat, index) => {
             const sendDate = convertUTCtoLocalDate(chat.sendTime);
             return (
               <Fragment key={index}>
