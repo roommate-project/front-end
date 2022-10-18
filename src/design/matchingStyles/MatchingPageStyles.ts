@@ -58,7 +58,7 @@ export const MatchingCircleBtnBox = styled.div`
   bottom: 30px;
 `;
 
-export const MatchingCircleBtn = styled(motion.div)<IMatchingCircleBtnProps>`
+export const MatchingCircleBtn = styled.div<IMatchingCircleBtnProps>`
   width: 70px;
   height: 70px;
   border-radius: 50%;

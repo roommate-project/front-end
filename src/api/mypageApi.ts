@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { privateApi } from 'api/authApi';
 
-//TODO 페이지네이션 추가하기
 export const getMypageData = async () => {
   const response = await privateApi.get(
     `${process.env.REACT_APP_SERVER_IP}/api/mypage/1`

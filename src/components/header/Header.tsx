@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import {
   HeaderContentsBox,
   HeaderDiv,
@@ -12,6 +12,7 @@ import { useNavigate, useLocation, useMatch } from 'react-router-dom';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 import { ReactComponent as MessagesLogo } from 'assets/messages.svg';
 import { ReactComponent as MypageLogo } from 'assets/mypage.svg';
+import { ReactComponent as FilterIcon } from 'assets/filterIcon.svg';
 
 const pageDatas = [
   {
@@ -88,12 +89,12 @@ function Header() {
           </HeaderIcon>
           <HeaderTitle>{setPageTitle()}</HeaderTitle>
           <HeaderIcon rights={true} left={false} isVisible={visibleHeader()}>
-            <FontAwesomeIcon
-              icon={faFilter}
+            <FilterIcon
+              height={24}
               onClick={() => {
                 navigate('/filter');
               }}
-              style={{ display: `${visibleFilterButton() ? '' : 'none'} ` }}
+              style={{ display: `${visibleFilterButton() ? '' : 'none'}` }}
             />
           </HeaderIcon>
         </HeaderContentsBox>

@@ -37,8 +37,11 @@ export const ResultCardAnswer = styled.p`
   padding: 5px;
 `;
 
-export const ResultCardMessage = styled.p`
-  font-size: 16px;
+export const ResultCardMessage = styled.div`
+  font-size: 20px;
   padding: 5px;
-  font-weight: 500;
+  span {
+    font-size: 16px;
+    font-weight: 500;
+  }
 `;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   DetailPageResultCard,
   DetailTestDiv,
@@ -14,7 +14,6 @@ import {
   MyIntroduceRowBox,
   MyIntroduceSelectBox,
   MyIntroduceTextArea,
-  MyIntroduceTitle,
   MyIntroduceContentTitle,
 } from 'design/myPageStyles/myIntroduceSelfStyles';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
@@ -42,10 +41,6 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
     info: myInfoData.userMessage,
   });
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
   const userDataMutation = useMutation(putUserDatas, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
@@ -71,8 +66,7 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
 
   return (
     <MyIntroduceBackground>
-      <MyIntroduceTitle>내 정보</MyIntroduceTitle>
-      <MyIntroduceContentTitle> 동거 경험 기간</MyIntroduceContentTitle>
+      <MyIntroduceContentTitle>동거 경험 기간</MyIntroduceContentTitle>
       <div>
         <MyIntroduceContent>
           다른 사람과
@@ -84,8 +78,8 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
               onChangeDatas(e, 'select');
             }}
           >
-            {period.map(period => (
-              <MyIntroduceOptionBox value={period}>
+            {period.map((period, index) => (
+              <MyIntroduceOptionBox key={index} value={period}>
                 {period < 13 ? `${period}개월` : '1년 이상'}
               </MyIntroduceOptionBox>
             ))}
@@ -93,8 +87,8 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
           살았어요.
         </MyIntroduceContent>
       </div>
-      <MyIntroduceContentTitle> 희망 거주 기간</MyIntroduceContentTitle>
-      <div style={{ marginBottom: '10px' }}>
+      <MyIntroduceContentTitle>희망 거주 기간</MyIntroduceContentTitle>
+      <MyIntroduceContent>
         <MyIntroduceSelectBox
           name="want_long"
           id="period"
@@ -107,13 +101,13 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
             onChangeDatas(e, 'select');
           }}
         >
-          {period.map(period => (
-            <MyIntroduceOptionBox value={period}>
+          {period.map((period, index) => (
+            <MyIntroduceOptionBox key={index} value={period}>
               {period < 13 ? `${period}개월` : '1년 이상'}
             </MyIntroduceOptionBox>
           ))}
         </MyIntroduceSelectBox>{' '}
-      </div>
+      </MyIntroduceContent>
       <MyIntroduceRowBox>
         <MyIntroduceContentTitle>
           {' '}
@@ -127,15 +121,17 @@ function MyIntroduceSelf({ myInfoData, userTestResult }: myIntroduceSelfProps) {
         </MyIntroduceContentTitle>
       </MyIntroduceRowBox>
       <MyIntroduceRowBox>
-        <MyIntroduceTextArea
-          defaultValue={myInfoData.userMessage}
-          name="info"
-          id="etcMessage"
-          onChange={e => {
-            onChangeDatas(e, 'text');
-          }}
-          disabled={editUserMessage}
-        />
+        <MyIntroduceContent>
+          <MyIntroduceTextArea
+            defaultValue={myInfoData.userMessage}
+            name="info"
+            id="etcMessage"
+            onChange={e => {
+              onChangeDatas(e, 'text');
+            }}
+            disabled={editUserMessage}
+          />
+        </MyIntroduceContent>
       </MyIntroduceRowBox>
       <MyIntroduceRowBox>
         <MyIntroduceContentTitle>

@@ -26,7 +26,7 @@ function Footer() {
           <FooterContentBox>
             <FooterCategory>개발자</FooterCategory>
             <FooterContent>
-              프론트 엔드 | 김원희, 박수진 <br />백 엔드 | 최재성,
+              프론트 엔드 | 김원희, 박수진 <br /> 백 엔드 | 최재성, 임서영
             </FooterContent>
           </FooterContentBox>
           <FooterContentBox>

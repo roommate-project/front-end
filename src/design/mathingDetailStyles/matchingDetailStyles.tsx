@@ -8,12 +8,29 @@ export const IntroductionContainer = styled.div`
 export const DetailImgWrapper = styled.div`
   width: 100%;
   height: auto;
+  position: relative;
+`;
+
+export const MypageHouseImage = styled.img`
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
 `;
 
 export const DetailImg = styled.img`
   min-width: 100%;
   height: 320px;
   object-fit: cover;
+`;
+
+export const ImageDeleteBtn = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  font-size: 28px;
+  line-height: 28px;
+  color: ${props => props.theme.mainGrey};
 `;
 
 export const DetailImgInfoWrapper = styled.div`
@@ -94,11 +111,14 @@ export const DetailContent = styled.p`
 export const MatchingRateInfo = styled(DetailContent)`
   text-align: center;
   background-color: transparent;
+  margin-bottom: 20px;
   span {
     font-size: 28px;
     color: ${props => props.theme.mainRed};
   }
-  margin-bottom: 20px;
+  p {
+    font-size: 18px;
+  }
 `;
 
 export const IntroductionEmphasis = styled.span`

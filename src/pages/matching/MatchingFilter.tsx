@@ -44,7 +44,6 @@ function MatchingFilter({ setFilter }: IMatchingfilterProps) {
   const navigation = useNavigate();
 
   const onValid = (data: any) => {
-    console.log(data);
     setFilter({
       rate: data.matchingRate,
       gender:

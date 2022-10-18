@@ -51,7 +51,7 @@ function MatchingStack({ children, filter }: IMatchingStackProps) {
   }, [array]);
 
   const handleMove = (direction: string | undefined) => {
-    if (direction === 'left') {
+    if (direction === 'left' && nextArray.length > 0) {
       setPreviousArray([...previousArray, nextArray.pop()]);
       setNextArray([...nextArray]);
     } else if (direction === 'right' && previousArray.length > 0) {

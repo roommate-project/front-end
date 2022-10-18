@@ -2,7 +2,7 @@ import { privateApi } from 'api/authApi';
 
 interface ICreateChatRoomProps {
   senderId: string | null;
-  receiverId: number;
+  receiverId: number | undefined;
 }
 
 export async function getChatList(userId: string | null) {

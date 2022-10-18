@@ -1,5 +1,9 @@
-import { DetailImgWrapper } from 'design/mathingDetailStyles/matchingDetailStyles';
-import React, { useState, useEffect } from 'react';
+import {
+  DetailImgWrapper,
+  ImageDeleteBtn,
+  MypageHouseImage,
+} from 'design/mathingDetailStyles/matchingDetailStyles';
+import React, { useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -8,7 +12,6 @@ import {
   MyIntroducePutButton,
   MyIntroduceRowBox,
   MyIntroduceTextArea,
-  MyIntroduceTitle,
   MyIntroduceContentTitle,
   MyIntroduceContent,
   MyIntroduceOptionBox,
@@ -58,10 +61,6 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
   });
   const [housePhotoId, setHousePhotoId] = useState(houseInfo.restImagesId);
 
-  useEffect(() => {
-    console.log(houseData);
-  }, [houseData]);
-
   const houseDataMutation = useMutation(putUserDatas, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
@@ -110,15 +109,9 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     housePhotoPostMutation.mutate(e.target.files[0]);
   };
 
-  useEffect(() => {
-    console.log(housePhotoId);
-  }, [housePhotoId]);
-
   return (
     <MyIntroduceBackground>
-      <MyIntroduceTitle>집 소개</MyIntroduceTitle>
       <MyIntroduceContentTitle>집 상세 정보</MyIntroduceContentTitle>
-      {/* TODO 기숙사일때 문구 변경해주기 */}
       <MyIntroduceContent>
         저희 집은 방이{' '}
         <MyIntroduceSelectBox
@@ -178,22 +171,22 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
       <DetailImgWrapper>
         <Slider {...settings}>
           {houseInfo.restImagesId.map(photo => (
-            <div>
-              <img
+            <div key={photo.toString()}>
+              <MypageHouseImage
                 src={`${
                   process.env.REACT_APP_SERVER_IP
                 }/api/user/${sessionStorage.getItem(
                   'userId'
                 )}/img/rest/${photo}`}
-                key={photo.toString()}
-                style={{ width: '100%', height: '300px' }}
               />
-              <FontAwesomeIcon
-                icon={faCircleXmark}
-                onClick={() => {
-                  removeHousePhoto(photo);
-                }}
-              />
+              <ImageDeleteBtn>
+                <FontAwesomeIcon
+                  icon={faCircleXmark}
+                  onClick={() => {
+                    removeHousePhoto(photo);
+                  }}
+                />
+              </ImageDeleteBtn>
             </div>
           ))}
         </Slider>
