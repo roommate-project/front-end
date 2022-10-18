@@ -79,7 +79,9 @@ function ChatListPage() {
             </ChatListBox>
           ))}
         {data?.data && data.data.length <= 0 ? (
-          <EmptyChatRoomMessage>'채팅 내역이 없습니다!'</EmptyChatRoomMessage>
+          <EmptyChatRoomMessage isEmpty={true}>
+            '채팅 내역이 없습니다!'
+          </EmptyChatRoomMessage>
         ) : null}
       </ChatListBackgroundBox>
     </ChatPageContainer>

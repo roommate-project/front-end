@@ -181,7 +181,7 @@ function ChatPage() {
       </ChatHeader>
       <ChatListContainer>
         {data?.data &&
-          data.data.chats.map((chat, index) => {
+          data.data.chats.reverse().map((chat, index) => {
             const sendDate = convertUTCtoLocalDate(chat.sendTime);
             return (
               <Fragment key={index}>
@@ -266,7 +266,7 @@ function ChatPage() {
           <ChatSendIconButton type="submit">
             <ChatSendIcon
               icon={faPaperPlane}
-              isActive={isValid || !!dirtyFields.image}
+              $isActive={isValid || !!dirtyFields.image}
             />
           </ChatSendIconButton>
         </ChatSendBox>

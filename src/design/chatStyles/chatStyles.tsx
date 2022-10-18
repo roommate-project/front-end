@@ -130,11 +130,11 @@ export const ChatSendIconButton = styled.button`
   cursor: pointer;
 `;
 
-export const ChatSendIcon = styled(FontAwesomeIcon)<{ isActive?: boolean }>`
+export const ChatSendIcon = styled(FontAwesomeIcon)<{ $isActive?: boolean }>`
   font-size: 20px;
   margin: 5px;
   color: ${props =>
-    props.isActive ? props.theme.darkRed : 'rgb(133, 133, 133)'};
+    props.$isActive ? props.theme.darkRed : 'rgb(133, 133, 133)'};
 `;
 
 export const ChatDate = styled.div`
@@ -146,7 +146,7 @@ export const ChatDate = styled.div`
   justify-content: center;
 `;
 
-export const EmptyChatRoomMessage = styled.h1<{ isEmpty?: boolean }>`
+export const EmptyChatRoomMessage = styled.h1<{ isEmpty: boolean }>`
   display: ${props => (props.isEmpty ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
