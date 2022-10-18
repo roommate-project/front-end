@@ -80,7 +80,9 @@ function UserIntroduction({ userIntroduction }: IUserInformationProps) {
           </IntroductionEmphasis>
           살이고,{'   '}
           <IntroductionEmphasis>
-            {userIntroduction.detailUserInfo.gender}
+            {userIntroduction.detailUserInfo.gender === 'female'
+              ? '여자'
+              : '남자'}
           </IntroductionEmphasis>
           입니다.
           <br />

@@ -1,9 +1,6 @@
-import kakaoImg from 'assets/kakaoImg.png';
-import naverImg from 'assets/naverImg.png';
 import {
   EmailSignUpBtn,
   SignUpPageContainer,
-  SocialSignUpBtn,
 } from 'design/signupStyles/SignUpStyle';
 import { Link } from 'react-router-dom';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
@@ -24,14 +21,6 @@ function SignUpMainPage() {
         </p>
       </Title>
       <BtnBox>
-        <SocialSignUpBtn types="kakao">
-          <img src={kakaoImg} />
-          카카오로 시작하기
-        </SocialSignUpBtn>
-        <SocialSignUpBtn types="naver">
-          <img src={naverImg} />
-          네이버로 시작하기
-        </SocialSignUpBtn>
         <Link to="/sign-up/email">
           <EmailSignUpBtn>
             <LoginIcon>

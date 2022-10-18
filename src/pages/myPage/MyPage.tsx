@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { PageContainer } from 'design/commonStyles';
 import {
   MyPageBasicInfoBox,
+  MyPageContainer,
+  MypageInfoBox,
+  MypageInfoContainer,
   MyPageMenuButton,
 } from 'design/myPageStyles/myPageStyles';
 import MyLikeList from 'components/myPage/MyLikeList';
@@ -37,46 +39,50 @@ function MyPage() {
     return <div>로딩중</div>;
   }
   return (
-    <PageContainer>
+    <MyPageContainer>
       <MyBasicInfo
         userBasicData={userBasicData}
         location={matchingData.location}
       />
-      <MyPageBasicInfoBox marginTop={30}>
-        <MyPageMenuButton
-          menuSelected={menuSelected === 0}
-          onClick={() => {
-            setMenuSelected(0);
-          }}
-        >
-          좋아요
-        </MyPageMenuButton>
-        <MyPageMenuButton
-          menuSelected={menuSelected === 1}
-          onClick={() => {
-            setMenuSelected(1);
-          }}
-        >
-          자기 소개
-        </MyPageMenuButton>
-        <MyPageMenuButton
-          menuSelected={menuSelected === 2}
-          onClick={() => {
-            setMenuSelected(2);
-          }}
-        >
-          집 등록
-        </MyPageMenuButton>
-      </MyPageBasicInfoBox>
-      {menuSelected === 0 && <MyLikeList likeList={likedListData} />}
-      {menuSelected === 1 && (
-        <MyIntroduceSelf
-          myInfoData={myDataInfo}
-          userTestResult={matchingData.question}
-        />
-      )}
-      {menuSelected === 2 && <MyHouseIntroduce houseInfo={houseInfo} />}
-    </PageContainer>
+      <MypageInfoBox>
+        <MyPageBasicInfoBox>
+          <MyPageMenuButton
+            isTap={menuSelected === 0}
+            onClick={() => {
+              setMenuSelected(0);
+            }}
+          >
+            <p>좋아요</p>
+          </MyPageMenuButton>
+          <MyPageMenuButton
+            isTap={menuSelected === 1}
+            onClick={() => {
+              setMenuSelected(1);
+            }}
+          >
+            <p>자기 소개</p>
+          </MyPageMenuButton>
+          <MyPageMenuButton
+            isTap={menuSelected === 2}
+            onClick={() => {
+              setMenuSelected(2);
+            }}
+          >
+            <p>집 등록</p>
+          </MyPageMenuButton>
+        </MyPageBasicInfoBox>
+        <MypageInfoContainer>
+          {menuSelected === 0 && <MyLikeList likeList={likedListData} />}
+          {menuSelected === 1 && (
+            <MyIntroduceSelf
+              myInfoData={myDataInfo}
+              userTestResult={matchingData.question}
+            />
+          )}
+          {menuSelected === 2 && <MyHouseIntroduce houseInfo={houseInfo} />}
+        </MypageInfoContainer>
+      </MypageInfoBox>
+    </MyPageContainer>
   );
 }
 

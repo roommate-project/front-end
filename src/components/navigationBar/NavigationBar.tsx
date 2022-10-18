@@ -3,6 +3,7 @@ import {
   NavigationTabIconStyle,
   NavigationIcon,
   NavigationIconTitle,
+  NavContentsBox,
 } from 'components/navigationBar/navigationBarStyles';
 import {
   faMagnifyingGlass,
@@ -31,9 +32,9 @@ const NavigationTabIcon = ({
 }: NavigationProps) => {
   return (
     <Link to={path}>
-      <NavigationTabIconStyle>
+      <NavigationTabIconStyle onClick={onClickBtn}>
         <NavigationIcon isActive={isActive}>
-          <FontAwesomeIcon icon={icon} onClick={onClickBtn} />
+          <FontAwesomeIcon icon={icon} />
         </NavigationIcon>
         <NavigationIconTitle isActive={isActive}>{title}</NavigationIconTitle>
       </NavigationTabIconStyle>
@@ -73,27 +74,31 @@ function NavigationBar() {
       return false;
     }
     if (chatPage) {
-      return false;
+      return true;
     }
     return true;
   };
 
   return (
     <NavigationDiv visible={isVisible()}>
-      {tabInfo.map((info, index) => {
-        return (
-          <NavigationTabIcon
-            key={info.path}
-            path={info.path}
-            title={info.title}
-            icon={info.icon}
-            isActive={activePage[index]}
-            onClickBtn={() => {
-              isActive(index);
-            }}
-          />
-        );
-      })}
+      <NavContentsBox>
+        {chatPage
+          ? null
+          : tabInfo.map((info, index) => {
+              return (
+                <NavigationTabIcon
+                  key={info.path}
+                  path={info.path}
+                  title={info.title}
+                  icon={info.icon}
+                  isActive={activePage[index]}
+                  onClickBtn={() => {
+                    isActive(index);
+                  }}
+                />
+              );
+            })}
+      </NavContentsBox>
     </NavigationDiv>
   );
 }

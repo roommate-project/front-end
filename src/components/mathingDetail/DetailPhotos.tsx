@@ -12,6 +12,9 @@ import { faComment } from '@fortawesome/free-solid-svg-icons';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useMutation } from '@tanstack/react-query';
+import { postCreateChatRoom } from 'api/chatApi';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface IDetailPhotoProps {
   userBasicInfo: {
@@ -34,6 +37,22 @@ function DetailPhotos({ userBasicInfo, photoUrls }: IDetailPhotoProps) {
     slidesToScroll: 1,
     arrows: false,
   };
+
+  const navigation = useNavigate();
+  const { userId } = useParams();
+  const ChatMutation = useMutation(postCreateChatRoom, {
+    onSuccess: data => navigation(`/chat-list/chat/${data.data.roomId}`),
+    onError: error => alert(error),
+  });
+
+  const chatRequestHandler = () => {
+    const usersId = {
+      senderId: sessionStorage.getItem('userId'),
+      receiverId: Number(userId),
+    };
+    ChatMutation.mutate(usersId);
+  };
+
   return (
     <DetailImgWrapper>
       <RelativeDiv>
@@ -51,7 +70,7 @@ function DetailPhotos({ userBasicInfo, photoUrls }: IDetailPhotoProps) {
             </span>
             있어요!
           </DetailImgInfoContent>
-          <ChatButtonDiv>
+          <ChatButtonDiv onClick={chatRequestHandler}>
             <ChatButtonIcon>
               <FontAwesomeIcon icon={faComment} />
             </ChatButtonIcon>

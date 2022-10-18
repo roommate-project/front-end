@@ -5,7 +5,6 @@ import {
   ProfileThumbNail,
   SignUpImgUploader,
   ProfileImgSelect,
-  SignUpImgInput,
   ProfileThumbNailImg,
   LocationSelect,
   GenderRadio,
@@ -23,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { locationData } from 'utils/locationData';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 import { Form, Input, InputLabel, Title } from 'design/commonStyles';
+import { ImgInput } from 'design/commonStyles';
 
 type FormValue = {
   name: string;
@@ -174,7 +174,7 @@ function SignUpLastPage() {
               )}
               <ProfileImgSelect>
                 <FontAwesomeIcon icon={faCirclePlus} />
-                <SignUpImgInput
+                <ImgInput
                   type="file"
                   accept="image/*"
                   {...register('representImage', {

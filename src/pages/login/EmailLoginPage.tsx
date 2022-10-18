@@ -29,6 +29,7 @@ function EmailLoginPage() {
         let refreshToken = data.message.split(' ')[1];
         sessionStorage.setItem('accessToken', accessToken);
         sessionStorage.setItem('refreshToken', refreshToken);
+        sessionStorage.setItem('userId', data.id);
         navigation('/');
       }
     },
