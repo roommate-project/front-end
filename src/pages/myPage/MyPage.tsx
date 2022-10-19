@@ -17,7 +17,9 @@ import { PageContainer } from 'design/commonStyles';
 
 function MyPage() {
   const [menuSelected, setMenuSelected] = useState(0);
-  const { data, isLoading } = useQuery(['getData'], getMypageData);
+  const { data, isLoading } = useQuery(['getData'], getMypageData, {
+    onSuccess: data => console.log(data.data),
+  });
   let userBasicData;
   let matchingData;
   let likedListData;

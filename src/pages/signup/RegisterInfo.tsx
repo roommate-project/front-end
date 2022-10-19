@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { MyIntroduceOptionBox } from 'design/myPageStyles/myIntroduceSelfStyles';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -10,7 +10,6 @@ import {
   SignUpBtn,
 } from 'design/signupStyles/SignUpStyle';
 import { Form, Input, InputLabel, Title } from 'design/commonStyles';
-import { fetchEmailLogin } from 'api/loginApi';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 
@@ -36,19 +35,6 @@ function RegisterInfoPage() {
   const navigation = useNavigate();
   const [formStep, setFormStep] = useState(1);
 
-  //자동로그인
-  const loginMutation = useMutation(fetchEmailLogin, {
-    onSuccess: ({ data }) => {
-      if (data.code === 200) {
-        let accessToken = data.message.split(' ')[0];
-        let refreshToken = data.message.split(' ')[1];
-        sessionStorage.setItem('accessToken', accessToken);
-        sessionStorage.setItem('refreshToken', refreshToken);
-        sessionStorage.setItem('userId', data.id);
-      }
-    },
-  });
-
   const mutation = useMutation(postFirstRegisterHouseInfo, {
     onSuccess({ data }) {
       if (data.code == 200) {
@@ -63,14 +49,6 @@ function RegisterInfoPage() {
       }
     },
   });
-
-  useEffect(() => {
-    const loginData = {
-      email: sessionStorage.getItem('email'),
-      password: sessionStorage.getItem('password'),
-    };
-    loginMutation.mutate(loginData);
-  }, []);
 
   const nextPage = () => {
     setFormStep(prev => prev + 1);

@@ -23,6 +23,7 @@ import { locationData } from 'utils/locationData';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 import { Form, Input, InputLabel, Title } from 'design/commonStyles';
 import { ImgInput } from 'design/commonStyles';
+import { fetchEmailLogin } from 'api/loginApi';
 
 interface FormValue {
   name: string;
@@ -49,13 +50,31 @@ function SignUpLastPage() {
   const profileImg = watch('representImage');
   const navegation = useNavigate();
 
+  //자동로그인
+  const loginMutation = useMutation(fetchEmailLogin, {
+    onSuccess: ({ data }) => {
+      if (data.code === 200) {
+        let accessToken = data.message.split(' ')[0];
+        let refreshToken = data.message.split(' ')[1];
+        sessionStorage.setItem('accessToken', accessToken);
+        sessionStorage.setItem('refreshToken', refreshToken);
+        sessionStorage.setItem('userId', data.id);
+        navegation('/register-house-info');
+      }
+    },
+  });
+
   const mutation = useMutation(fetchEmailRegister, {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
+        const loginData = {
+          email: sessionStorage.getItem('email'),
+          password: sessionStorage.getItem('password'),
+        };
+        loginMutation.mutate(loginData);
         alert(
           '회원가입이 완료되었습니다. 원활한 서비스 이용을 위해 추가정보를 입력해주세요.'
         );
-        navegation('/register-house-info');
       } else if (data.code === 400) {
         alert('중복된 이메일 입니다.');
       } else {
