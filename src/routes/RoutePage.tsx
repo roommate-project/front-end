@@ -11,9 +11,8 @@ import ChatListPage from 'pages/chat/ChatListPage';
 import ChatPage from 'pages/chat/ChatPage';
 import MyPage from 'pages/myPage/MyPage';
 import ResidentialPropensityTest from 'pages/residentialPropensityTest/ResidentialPropensityTest';
-import RegisterInfoPage from 'pages/registerInfo/RegisterInfo';
-import PrivateRoute from './PrivateRoute';
-// import PrivateRoute from './PrivateRoute';
+import RegisterInfoPage from 'pages/signup/RegisterInfo';
+import PrivateRoute from 'routes/PrivateRoute';
 
 function RoutePage() {
   return (

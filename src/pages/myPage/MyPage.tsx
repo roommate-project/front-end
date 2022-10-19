@@ -17,9 +17,7 @@ import { PageContainer } from 'design/commonStyles';
 
 function MyPage() {
   const [menuSelected, setMenuSelected] = useState(0);
-  const { data, isLoading } = useQuery(['getData'], () =>
-    getMypageData(sessionStorage.getItem('userId') ?? '1')
-  );
+  const { data, isLoading } = useQuery(['getData'], getMypageData);
   let userBasicData;
   let matchingData;
   let likedListData;
@@ -47,6 +45,7 @@ function MyPage() {
       </PageContainer>
     );
   }
+
   return (
     <MyPageContainer>
       <MyBasicInfo

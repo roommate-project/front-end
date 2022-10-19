@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { privateApi } from 'api/authApi';
-import { houseInfoType } from 'utils/houseInfoType';
+import { FormValue } from 'pages/signup/RegisterInfo';
 
-export const getMypageData = async (userId: string) => {
+export const getMypageData = async () => {
   const response = await privateApi.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/mypage/${userId}`
+    `${process.env.REACT_APP_SERVER_IP}/api/mypage/1`
   );
   return response;
 };
@@ -73,8 +73,7 @@ export const deleteHousePhoto = async (photoId: number) => {
   return response;
 };
 
-export const postFirstRegisterHouseInfo = async (houseInfo: houseInfoType) => {
-  console.log(houseInfo);
+export const postFirstRegisterHouseInfo = async (houseInfo: FormValue) => {
   const response = await privateApi.post(`/api/mypage/info`, {
     experiece: houseInfo.experience,
     want_long: houseInfo.want_long,

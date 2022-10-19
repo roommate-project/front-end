@@ -12,7 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { Link, useMatch } from 'react-router-dom';
+import { Link, useLocation, useMatch } from 'react-router-dom';
 import { MouseEventHandler, useState } from 'react';
 
 type NavigationProps = {
@@ -50,6 +50,7 @@ const tabInfo = [
 
 function NavigationBar() {
   const [activePage, setActivePage] = useState([true, false, false]);
+  const location = useLocation();
   const chatPage = useMatch('chat-list/chat/:chatId');
 
   const isActive = (indexs: number) => {
@@ -60,6 +61,17 @@ function NavigationBar() {
   };
 
   const isVisible = () => {
+    if (
+      location.pathname === '/login' ||
+      location.pathname === '/login/email' ||
+      location.pathname === '/sign-up' ||
+      location.pathname === '/sign-up/email' ||
+      location.pathname === '/sign-up/email-auth' ||
+      location.pathname === '/sign-up/email-auth/last' ||
+      location.pathname === '/register-house-info'
+    ) {
+      return false;
+    }
     if (chatPage) {
       return false;
     } else return true;

@@ -24,7 +24,7 @@ import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 import { Form, Input, InputLabel, Title } from 'design/commonStyles';
 import { ImgInput } from 'design/commonStyles';
 
-type FormValue = {
+interface FormValue {
   name: string;
   nickName: string;
   password: string;
@@ -34,7 +34,7 @@ type FormValue = {
   location: string;
   gender: string;
   dormitory: string;
-};
+}
 
 function SignUpLastPage() {
   const {
@@ -52,8 +52,9 @@ function SignUpLastPage() {
   const mutation = useMutation(fetchEmailRegister, {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
-        console.log(data);
-        alert('회원가입이 완료되었습니다.');
+        alert(
+          '회원가입이 완료되었습니다. 원활한 서비스 이용을 위해 추가정보를 입력해주세요.'
+        );
         navegation('/register-house-info');
       } else if (data.code === 400) {
         alert('중복된 이메일 입니다.');
@@ -84,19 +85,18 @@ function SignUpLastPage() {
   const onValid: SubmitHandler<FormValue> = data => {
     sessionStorage.setItem('password', data.password);
     mutation.mutate(data);
-    console.log(data);
   };
 
   return (
     <SignUpPageContainer>
       {formStep === 1 ? (
         <Title>
-          <RoommateLogo height={48} />
+          <RoommateLogo height={44} />
           <p>비밀번호는 영문, 숫자를 포함하여 8글자 이상으로 생성해주세요.</p>
         </Title>
       ) : formStep === 2 ? (
         <Title>
-          <RoommateLogo height={48} />
+          <RoommateLogo height={44} />
           <p>다른 룸메이트들에게 보여질 이름과 닉네임을 입력해주세요!</p>
         </Title>
       ) : null}

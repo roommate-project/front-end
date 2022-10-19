@@ -21,6 +21,6 @@ export const ProgressBarInner = styled('div')<{ width: number }>`
   width: ${props => `${props.width}%`};
   height: 20px;
   border-radius: 10px;
-  background-color: ${props => props.theme.mainRed};
+  background: ${props => props.theme.mainGradient};
   margin: 0 auto;
 `;

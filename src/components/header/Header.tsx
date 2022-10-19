@@ -27,10 +27,6 @@ const pageDatas = [
     route: '/my-page',
     name: <MypageLogo height={30} />,
   },
-  {
-    route: '/register-house-info',
-    name: '집 등록 페이지',
-  },
 ];
 
 function Header() {
