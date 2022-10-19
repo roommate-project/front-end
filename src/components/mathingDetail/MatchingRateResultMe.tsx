@@ -28,11 +28,11 @@ function MatchingRateResultMe({ testResult, userTestResult }: MatchingProps) {
             <ResultCardAnswer>B.{list.answer2}</ResultCardAnswer>
             {testResult[index] === userTestResult[index] ? (
               <ResultCardMessage key={index.toString() + list.answer1}>
-                잘맞아요
+                <span>잘 맞아요!</span> 🙆🏻‍♀️
               </ResultCardMessage>
             ) : (
               <ResultCardMessage key={index.toString() + list.answer2}>
-                이부분은 다르네요
+                <span>안 맞아요!</span> 🙅🏻‍♀️
               </ResultCardMessage>
             )}
           </DetailPageResultCard>

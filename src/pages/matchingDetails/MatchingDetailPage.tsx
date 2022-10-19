@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PageContainer } from 'design/commonStyles';
 import {
+  DetailInfoContainer,
   DetailTabButton,
   DetailTabButtonDiv,
 } from 'design/mathingDetailStyles/matchingDetailStyles';
@@ -42,21 +43,22 @@ function MatchingDetailPage() {
           )}
         />
       )}
-      <DetailTabButtonDiv>
-        <DetailTabButton isTap={introductionType} onClick={setTypePerson}>
-          유저 소개
-        </DetailTabButton>
-        <DetailTabButton isTap={!introductionType} onClick={setTypeHouse}>
-          집 소개
-        </DetailTabButton>
-      </DetailTabButtonDiv>
-
-      {introductionType && data && (
-        <UserIntroduction userIntroduction={data.data} />
-      )}
-      {!introductionType && data && (
-        <HouseIntroduction houseIntroduction={data.data.detailHouseInfo} />
-      )}
+      <DetailInfoContainer>
+        <DetailTabButtonDiv>
+          <DetailTabButton isTap={introductionType} onClick={setTypePerson}>
+            <p>유저 소개</p>
+          </DetailTabButton>
+          <DetailTabButton isTap={!introductionType} onClick={setTypeHouse}>
+            <p>집 소개</p>
+          </DetailTabButton>
+        </DetailTabButtonDiv>
+        {introductionType && data && (
+          <UserIntroduction userIntroduction={data.data} />
+        )}
+        {!introductionType && data && (
+          <HouseIntroduction houseIntroduction={data.data.detailHouseInfo} />
+        )}
+      </DetailInfoContainer>
     </PageContainer>
   );
 }

@@ -40,6 +40,7 @@ export const FilterBtn = styled.button`
   line-height: 48px;
   background-image: ${props => props.theme.mainGradient};
   color: ${props => props.theme.mainWhite};
+  margin-bottom: 60px;
 `;
 
 export const CheckBoxLabel = styled.label<{ isCheck: boolean }>`
@@ -65,7 +66,7 @@ export const CheckBoxWrraper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Select = styled.select`
+export const MatchingRateSelect = styled.select`
   font-size: 48px;
   padding: 10px;
   color: ${props => props.theme.mainRed};

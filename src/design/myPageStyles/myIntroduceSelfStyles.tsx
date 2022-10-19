@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DetailContentTitle } from 'design/mathingDetailStyles/matchingDetailStyles';
 
 export const MyIntroduceBackground = styled.div`
   display: flex;
@@ -9,24 +10,14 @@ export const MyIntroduceBackground = styled.div`
   height: auto;
 `;
 
-export const MyIntroduceTitle = styled.p`
-  font-size: 24px;
-  margin-bottom: 10px;
-  font-weight: 700;
+export const MyIntroduceContentTitle = styled(DetailContentTitle)`
+  display: flex;
 `;
 
-export const MyIntroduceContentTitle = styled.p`
-  font-size: 18px;
-  margin: 10px 0;
-  background-color: ${props => props.theme.mainYellow};
-  padding: 10px;
+export const MyIntroduceContent = styled.div`
   width: 100%;
-  text-align: start;
-`;
-
-export const MyIntroduceContent = styled.p`
   font-size: 14px;
-  margin-bottom: 5px;
+  margin-bottom: 30px;
 `;
 
 export const MyIntroduceSelectBox = styled.select`
@@ -58,7 +49,6 @@ export const MyIntroduceTextArea = styled.textarea`
   width: 60%;
   height: 100px;
   border-radius: 10px;
-  padding: 5px;
 `;
 
 export const MyIntroducePutButton = styled(FontAwesomeIcon)`

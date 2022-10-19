@@ -6,6 +6,7 @@ export const DetailTestDiv = styled.div`
   overflow: scroll;
   width: 100%;
   padding-bottom: 20px;
+  gap: 20px;
 `;
 
 export const DetailPageResultCard = styled.div<{ isMatching: boolean }>`
@@ -13,9 +14,10 @@ export const DetailPageResultCard = styled.div<{ isMatching: boolean }>`
   min-width: 250px;
   height: 150px;
   padding: 10px;
-  margin: 10px;
   background-color: ${props =>
-    props.isMatching ? props.theme.mainRed : props.theme.backgroundGrey};
+    props.isMatching ? 'rgba(255, 73, 73, 0.15)' : 'rgba(223,223,223,0.15)'};
+  border: 1px solid
+    ${props => (props.isMatching ? props.theme.mainRed : props.theme.mainGrey)};
   border-radius: 12px;
   text-align: center;
   display: flex;
@@ -28,7 +30,6 @@ export const ResultCardQuestion = styled.p`
   font-size: 16px;
   font-weight: 600;
   margin: 10px;
-  paddig: 10px;
 `;
 
 export const ResultCardAnswer = styled.p`
@@ -36,7 +37,11 @@ export const ResultCardAnswer = styled.p`
   padding: 5px;
 `;
 
-export const ResultCardMessage = styled.p`
-  font-size: 14px;
+export const ResultCardMessage = styled.div`
+  font-size: 20px;
   padding: 5px;
+  span {
+    font-size: 16px;
+    font-weight: 500;
+  }
 `;

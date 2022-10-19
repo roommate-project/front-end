@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { postFirstRegisterHouseInfo } from '../../api/mypageApi';
 import {
-  Title,
   LocationSelect,
-  SignUpInput,
   EmailSignUpBtn,
 } from 'design/signupStyles/SignUpStyle';
-import { PageContainer } from 'design/commonStyles';
+import { Input, PageContainer, Title } from 'design/commonStyles';
 import { houseInfoType } from 'utils/houseInfoType';
 import { fetchEmailLogin } from 'api/loginApi';
 
@@ -119,7 +117,7 @@ function RegisterInfoPage() {
       <Title>
         <p>내 소개</p>
       </Title>
-      <SignUpInput
+      <Input
         name="info"
         id="myInfo"
         onChange={(e: any) => {
@@ -172,7 +170,7 @@ function RegisterInfoPage() {
       <Title>
         <p>집 소개</p>
       </Title>
-      <SignUpInput
+      <Input
         name="houseInfo"
         id="houseInfo"
         onChange={(e: any) => {

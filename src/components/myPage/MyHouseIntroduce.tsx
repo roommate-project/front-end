@@ -1,5 +1,9 @@
-import { DetailImgWrapper } from 'design/mathingDetailStyles/matchingDetailStyles';
-import React, { useState, useEffect } from 'react';
+import {
+  DetailImgWrapper,
+  ImageDeleteBtn,
+  MypageHouseImage,
+} from 'design/mathingDetailStyles/matchingDetailStyles';
+import React, { useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -8,7 +12,6 @@ import {
   MyIntroducePutButton,
   MyIntroduceRowBox,
   MyIntroduceTextArea,
-  MyIntroduceTitle,
   MyIntroduceContentTitle,
   MyIntroduceContent,
   MyIntroduceOptionBox,
@@ -58,10 +61,6 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
   });
   const [housePhotoId, setHousePhotoId] = useState(houseInfo.restImagesId);
 
-  useEffect(() => {
-    console.log(houseData);
-  }, [houseData]);
-
   const houseDataMutation = useMutation(putUserDatas, {
     onSuccess({ data }: any) {
       if (data.code == 200) {
@@ -110,13 +109,8 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     housePhotoPostMutation.mutate(e.target.files[0]);
   };
 
-  useEffect(() => {
-    console.log(housePhotoId);
-  }, [housePhotoId]);
-
   return (
     <MyIntroduceBackground>
-      <MyIntroduceTitle>집 소개</MyIntroduceTitle>
       <MyIntroduceContentTitle>집 상세 정보</MyIntroduceContentTitle>
       <MyIntroduceContent>
         저희 집은 방이
@@ -128,7 +122,7 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
           }}
         >
           {roomCount.map((roomCount, index) => (
-            <MyIntroduceOptionBox value={index}>
+            <MyIntroduceOptionBox value={index} key={index}>
               {roomCount}
             </MyIntroduceOptionBox>
           ))}{' '}
@@ -144,8 +138,11 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
             onChangeDatas(e, 'select');
           }}
         >
-          {costRange.map(costRange => (
-            <MyIntroduceOptionBox value={costRange * 10000} key={costRange}>
+          {costRange.map((costRange, index) => (
+            <MyIntroduceOptionBox
+              value={costRange * 10000}
+              key={costRange + index}
+            >
               {costRange < 100000000 ? `${costRange} 만원` : '100만원 이상'}
             </MyIntroduceOptionBox>
           ))}{' '}
@@ -176,23 +173,23 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
       </MyIntroduceContentTitle>
       <DetailImgWrapper>
         <Slider {...settings}>
-          {houseInfo.restImagesId.map(photo => (
-            <div>
-              <img
+          {houseInfo.restImagesId.map((photo, index) => (
+            <div key={photo.toString() + index}>
+              <MypageHouseImage
                 src={`${
                   process.env.REACT_APP_SERVER_IP
                 }/api/user/${sessionStorage.getItem(
                   'userId'
                 )}/img/rest/${photo}`}
-                key={photo.toString()}
-                style={{ width: '100%', height: '300px' }}
               />
-              <FontAwesomeIcon
-                icon={faCircleXmark}
-                onClick={() => {
-                  removeHousePhoto(photo);
-                }}
-              />
+              <ImageDeleteBtn>
+                <FontAwesomeIcon
+                  icon={faCircleXmark}
+                  onClick={() => {
+                    removeHousePhoto(photo);
+                  }}
+                />
+              </ImageDeleteBtn>
             </div>
           ))}
         </Slider>

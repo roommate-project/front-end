@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-  PageContainer,
-  SignUpForm,
-  SignUpInput,
   SignUpBtn,
   ProfileThumbNail,
   SignUpImgUploader,
   ProfileImgSelect,
-  SignUpImgInput,
   ProfileThumbNailImg,
   LocationSelect,
   GenderRadio,
-  Title,
   SignUpSection,
+  SignUpAgeSelect,
+  RadioLabel,
+  SignUpPageContainer,
 } from 'design/signupStyles/SignUpStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -23,6 +21,8 @@ import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
 import { locationData } from 'utils/locationData';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
+import { Form, Input, InputLabel, Title } from 'design/commonStyles';
+import { ImgInput } from 'design/commonStyles';
 
 type FormValue = {
   name: string;
@@ -45,6 +45,7 @@ function SignUpLastPage() {
   } = useForm<FormValue>({ mode: 'all' });
   const [formStep, setFormStep] = useState(1);
   const [profilePreview, setProfilePreview] = useState('');
+  const [genderRadio, setGenderRadio] = useState('');
   const profileImg = watch('representImage');
   const navegation = useNavigate();
 
@@ -74,23 +75,37 @@ function SignUpLastPage() {
     setFormStep(prev => prev + 1);
   };
 
+  const AgeArray = [...new Array(81)].map((_, i) => 19 + i);
+
+  const genderRaioToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGenderRadio(event.target.value);
+  };
+
   const onValid: SubmitHandler<FormValue> = data => {
     sessionStorage.setItem('password', data.password);
     mutation.mutate(data);
+    console.log(data);
   };
 
   return (
-    <PageContainer>
-      <SignUpForm onSubmit={handleSubmit(onValid)}>
+    <SignUpPageContainer>
+      {formStep === 1 ? (
+        <Title>
+          <RoommateLogo height={48} />
+          <p>비밀번호는 영문, 숫자를 포함하여 8글자 이상으로 생성해주세요.</p>
+        </Title>
+      ) : formStep === 2 ? (
+        <Title>
+          <RoommateLogo height={48} />
+          <p>다른 룸메이트들에게 보여질 이름과 닉네임을 입력해주세요!</p>
+        </Title>
+      ) : null}
+      <Form onSubmit={handleSubmit(onValid)}>
         {formStep === 1 && (
           <SignUpSection>
-            <Title>
-              <RoommateLogo height={48} />
-              <p>
-                비밀번호는 영문, 숫자를 포함하여 8글자 이상으로 생성해주세요.
-              </p>
-            </Title>
-            <SignUpInput
+            <InputLabel htmlFor="password">비밀번호</InputLabel>
+            <Input
+              id="password"
               type="password"
               {...register('password', {
                 required: true,
@@ -100,9 +115,11 @@ function SignUpLastPage() {
                 },
               })}
               placeholder="비밀번호"
-            ></SignUpInput>
+            />
             <span>{errors.password?.message}</span>
-            <SignUpInput
+            <InputLabel htmlFor="passwordCheck">비밀번호 확인</InputLabel>
+            <Input
+              id="passwordCheck"
               type="password"
               {...register('passwordCheck', {
                 required: true,
@@ -117,11 +134,9 @@ function SignUpLastPage() {
         )}
         {formStep === 2 && (
           <SignUpSection>
-            <Title>
-              <RoommateLogo height={48} />
-              <p>다른 룸메이트들에게 보여질 이름과 닉네임을 입력해주세요!</p>
-            </Title>
-            <SignUpInput
+            <InputLabel htmlFor="name">이름</InputLabel>
+            <Input
+              id="name"
               type="text"
               {...register('name', {
                 required: true,
@@ -133,7 +148,9 @@ function SignUpLastPage() {
               placeholder="이름"
             />
             <span>{errors.name?.message}</span>
-            <SignUpInput
+            <InputLabel htmlFor="nickName">닉네임</InputLabel>
+            <Input
+              id="nickName"
               type="text"
               {...register('nickName', {
                 required: true,
@@ -159,7 +176,7 @@ function SignUpLastPage() {
               )}
               <ProfileImgSelect>
                 <FontAwesomeIcon icon={faCirclePlus} />
-                <SignUpImgInput
+                <ImgInput
                   type="file"
                   accept="image/*"
                   {...register('representImage', {
@@ -169,52 +186,72 @@ function SignUpLastPage() {
               </ProfileImgSelect>
             </SignUpImgUploader>
             <span>{errors.representImage?.message}</span>
-            <SignUpInput
-              type="text"
-              {...register('age', {
-                required: true,
-                valueAsNumber: true,
-              })}
-              placeholder="나이"
-            />
-            <span>{errors.age?.message}</span>
-            <GenderRadio>
-              <input
-                type="radio"
-                id="male"
-                value="male"
-                {...register('gender')}
-              />
-              <label htmlFor="male">남자</label>
-              <input
-                type="radio"
-                id="female"
-                value="female"
-                {...register('gender')}
-              />
-              <label htmlFor="female">여자</label>
-              <input
-                type="radio"
-                id="etc"
-                value="etc"
-                {...register('gender')}
-              />
-              <label htmlFor="etc">기타</label>
+            <InputLabel htmlFor="age">나이</InputLabel>
+            <SignUpAgeSelect
+              id="age"
+              {...register('age', { required: true })}
+              defaultValue={''}
+            >
+              <option value="" disabled hidden>
+                나이를 선택하세요
+              </option>
+              {AgeArray.map((value, index) => (
+                <option value={value} key={index}>
+                  {value}
+                </option>
+              ))}
+            </SignUpAgeSelect>
+            <InputLabel htmlFor="gender">성별</InputLabel>
+            <GenderRadio id="gender">
+              <RadioLabel
+                htmlFor="male"
+                checked={genderRadio === 'male' ? true : false}
+              >
+                남자
+                <input
+                  type="radio"
+                  id="male"
+                  value="male"
+                  {...register('gender')}
+                  onChange={event => genderRaioToggle(event)}
+                />
+              </RadioLabel>
+              <RadioLabel
+                htmlFor="female"
+                checked={genderRadio === 'female' ? true : false}
+              >
+                여자
+                <input
+                  type="radio"
+                  id="female"
+                  value="female"
+                  {...register('gender', { required: true })}
+                  onChange={event => genderRaioToggle(event)}
+                />
+              </RadioLabel>
             </GenderRadio>
-            <span>{errors.gender?.message}</span>
-            <LocationSelect {...register('location')}>
+            <InputLabel htmlFor="location">지역</InputLabel>
+            <LocationSelect
+              id="location"
+              {...register('location', { required: true })}
+              defaultValue={''}
+            >
+              <option value="" disabled hidden>
+                지역을 선택하세요
+              </option>
               {locationData.map((data, index) => (
                 <option value={data} key={index}>
                   {data}
                 </option>
               ))}
             </LocationSelect>
-            <SignUpInput
+            <InputLabel htmlFor="dormitory">기숙사</InputLabel>
+            <Input
+              id="dormitory"
               type="dormitory"
               {...register('dormitory', { required: true })}
-              placeholder="ex)숭실대학교"
+              placeholder="ex)숭실대학교 or 자취"
             />
-            <span>{errors.dormitory?.message}</span>
           </SignUpSection>
         )}
         {formStep === 3 ? (
@@ -224,7 +261,7 @@ function SignUpLastPage() {
             다음
           </SignUpBtn>
         )}
-      </SignUpForm>
+      </Form>
       {formStep === 1 ? (
         <ProgressBar width={60} />
       ) : formStep === 2 ? (
@@ -232,7 +269,7 @@ function SignUpLastPage() {
       ) : (
         <ProgressBar width={100} />
       )}
-    </PageContainer>
+    </SignUpPageContainer>
   );
 }
 

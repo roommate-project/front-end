@@ -1,15 +1,15 @@
 import RangeSlider from 'components/rangeSlider/RangeSlider';
+import { BtnBox } from 'design/commonStyles';
 import {
   CheckBoxLabel,
   CheckBoxWrraper,
   FilterBox,
   FilterBtn,
   FilterModalContainer,
-  Select,
+  MatchingRateSelect,
   SelectBoxWrraper,
   SliderFilterBox,
 } from 'design/matchingStyles/MatchingFilterStyle';
-import { BtnBox } from 'design/signupStyles/SignUpStyle';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +26,7 @@ interface IMatchingfilterProps {
 
 function MatchingFilter({ setFilter }: IMatchingfilterProps) {
   const { register, handleSubmit, setValue } = useForm();
-  const [isCheckGender, setIsCheckGender] = useState([true, true, true]);
+  const [isCheckGender, setIsCheckGender] = useState([true, true]);
   const [isCheckRoom, setIsCheckRoom] = useState([true, true, true, true]);
   const [sliderMin, setSliderMin] = useState([0, 0, 0]);
   const [sliderMax, setSliderMax] = useState<(number | string)[]>([
@@ -90,13 +90,13 @@ function MatchingFilter({ setFilter }: IMatchingfilterProps) {
       <FilterBox>
         매칭률
         <SelectBoxWrraper>
-          <Select {...register('matchingRate')}>
+          <MatchingRateSelect {...register('matchingRate')}>
             {matchingRate.map((value, index) => (
               <option value={value} key={index}>
                 {value}%
               </option>
             ))}
-          </Select>
+          </MatchingRateSelect>
           <p>이상</p>
         </SelectBoxWrraper>
       </FilterBox>

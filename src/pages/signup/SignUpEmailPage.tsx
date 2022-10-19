@@ -2,15 +2,13 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { fetchEmailValidation, fetchSendEmailAuth } from 'api/signUpApi';
 import ProgressBar from 'components/progressBar/ProgressBar';
 import {
-  PageContainer,
-  SignUpForm,
-  SignUpInput,
   EmailSendBtn,
-  Title,
+  SignUpPageContainer,
 } from 'design/signupStyles/SignUpStyle';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
+import { Form, Input, Title } from 'design/commonStyles';
 
 type FormValue = {
   email: string;
@@ -57,13 +55,13 @@ function SignUpEmailPage() {
   };
 
   return (
-    <PageContainer>
+    <SignUpPageContainer>
       <Title>
         <RoommateLogo height={48} />
         <p> 로그인 시 사용할 이메일을 입력해주세요!</p>
       </Title>
-      <SignUpForm onSubmit={handleSubmit(onValid)}>
-        <SignUpInput
+      <Form onSubmit={handleSubmit(onValid)}>
+        <Input
           type="text"
           {...register('email', {
             required: true,
@@ -76,9 +74,9 @@ function SignUpEmailPage() {
         />
         <span>{errors?.email?.message}</span>
         <EmailSendBtn disabled={!isValid}>인증번호 전송</EmailSendBtn>
-      </SignUpForm>
+      </Form>
       <ProgressBar width={20} />
-    </PageContainer>
+    </SignUpPageContainer>
   );
 }
 

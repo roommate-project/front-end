@@ -40,6 +40,12 @@ privateApi.interceptors.response.use(
           axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
           originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axios(originRequest);
+        } else if (response.data.code === 400) {
+          alert(response.data.message);
+          window.location.replace('/login');
+        } else if (response.data.code === 204) {
+          alert('로그인 시간이 만료되었습니다. 재로그인 해주세요!');
+          window.location.replace('/login');
         } else {
           alert(response.data.message);
         }

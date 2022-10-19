@@ -2,7 +2,6 @@ import axios from 'axios';
 import { privateApi } from 'api/authApi';
 import { houseInfoType } from 'utils/houseInfoType';
 
-//TODO 페이지네이션 추가하기
 export const getMypageData = async (userId: string) => {
   const response = await privateApi.get(
     `${process.env.REACT_APP_SERVER_IP}/api/mypage/${userId}`

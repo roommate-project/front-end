@@ -3,6 +3,7 @@ import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     mainRed: string;
+    darkRed: string;
     mainPink: string;
     mainOrange: string;
     mainYellow: string;
@@ -12,5 +13,6 @@ declare module 'styled-components' {
     mainBlack: string;
     mainGrey: string;
     mainGradient: string;
+    fontGrey: string;
   }
 }
