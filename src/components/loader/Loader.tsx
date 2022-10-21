@@ -51,8 +51,7 @@ function Loader() {
           transition={loadingCicleTransition}
         />
       </LoaderStyle>
-      <div style={{ height: '15px', width: '10px' }}></div>
-      <RoommateLogo height={38} />;
+      <RoommateLogo height={20} />;
     </>
   );
 }

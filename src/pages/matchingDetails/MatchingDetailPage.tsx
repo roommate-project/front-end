@@ -11,11 +11,12 @@ import DetailPhotos from 'components/mathingDetail/DetailPhotos';
 import { useQuery } from '@tanstack/react-query';
 import { fetchMatchingDetailInfo } from 'api/matchingDetailApi';
 import { useParams } from 'react-router-dom';
+import Loader from 'components/loader/Loader';
 
 function MatchingDetailPage() {
   const [introductionType, setIntroductionType] = useState(true);
   let { userId } = useParams();
-  const { data } = useQuery(['matchingDetail', userId], () =>
+  const { data, isLoading } = useQuery(['matchingDetail', userId], () =>
     fetchMatchingDetailInfo(userId)
   );
 
@@ -26,6 +27,14 @@ function MatchingDetailPage() {
   const setTypeHouse = () => {
     return setIntroductionType(false);
   };
+
+  if (isLoading) {
+    return (
+      <PageContainer style={{ justifyContent: 'center' }}>
+        <Loader />
+      </PageContainer>
+    );
+  }
 
   return (
     <PageContainer>

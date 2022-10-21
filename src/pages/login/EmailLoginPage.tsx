@@ -3,12 +3,19 @@ import {
   LoginDiv,
   LoginSubmitBtn,
 } from 'design/loginStyles/EmailLoginPageStyles';
-import { Form, Input, InputLabel, Title } from 'design/commonStyles';
+import {
+  Form,
+  Input,
+  InputLabel,
+  PageContainer,
+  Title,
+} from 'design/commonStyles';
 import { useMutation } from '@tanstack/react-query';
 import { fetchEmailLogin } from 'api/loginApi';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 import { SignUpPageContainer } from 'design/signupStyles/SignUpStyle';
+import Loader from 'components/loader/Loader';
 
 type FormValue = {
   email: string;
@@ -22,7 +29,7 @@ function EmailLoginPage() {
     formState: { isValid, errors },
   } = useForm<FormValue>({ mode: 'all' });
 
-  const mutation = useMutation(fetchEmailLogin, {
+  const { mutate: loginMutation, isLoading } = useMutation(fetchEmailLogin, {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
         console.log(data);
@@ -32,6 +39,8 @@ function EmailLoginPage() {
         sessionStorage.setItem('refreshToken', refreshToken);
         sessionStorage.setItem('userId', data.id);
         navigation('/');
+      } else {
+        alert(data.message);
       }
     },
   });
@@ -39,8 +48,16 @@ function EmailLoginPage() {
   const navigation = useNavigate();
 
   const onValid: SubmitHandler<FormValue> = data => {
-    mutation.mutate(data);
+    loginMutation(data);
   };
+
+  if (isLoading) {
+    return (
+      <PageContainer style={{ justifyContent: 'center' }}>
+        <Loader />
+      </PageContainer>
+    );
+  }
 
   return (
     <SignUpPageContainer>

@@ -15,6 +15,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getChatList } from 'api/chatApi';
 import { EmptyChatRoomMessage } from 'design/chatStyles/chatStyles';
 import { ChatPageContainer } from 'design/chatStyles/chatStyles';
+import { PageContainer } from 'design/commonStyles';
+import Loader from 'components/loader/Loader';
 
 interface IChatListData {
   data: [
@@ -42,7 +44,11 @@ function ChatListPage() {
   );
 
   if (isLoading) {
-    return <div>Loading....</div>;
+    return (
+      <PageContainer style={{ justifyContent: 'center' }}>
+        <Loader />
+      </PageContainer>
+    );
   }
 
   return (

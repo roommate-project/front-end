@@ -75,7 +75,7 @@ export const deleteHousePhoto = async (photoId: number) => {
 
 export const postFirstRegisterHouseInfo = async (houseInfo: FormValue) => {
   const response = await privateApi.post(`/api/mypage/info`, {
-    experiece: houseInfo.experience,
+    experience: houseInfo.experience,
     want_long: houseInfo.want_long,
     room: houseInfo.room,
     cost: houseInfo.cost,

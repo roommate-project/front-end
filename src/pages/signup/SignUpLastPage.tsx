@@ -77,6 +77,8 @@ function SignUpLastPage() {
         );
       } else if (data.code === 400) {
         alert('중복된 이메일 입니다.');
+      } else if (data.code === 401) {
+        alert(data.message);
       } else {
         alert('회원가입에 실패하였습니다.');
       }
