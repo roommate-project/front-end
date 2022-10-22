@@ -12,6 +12,7 @@ import {
 import { Form, Input, InputLabel, Title } from 'design/commonStyles';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
+import { locationData } from 'utils/locationData';
 
 const roomCount: Array<String> = ['기숙사', '1개', '2개', '3개', '3개 이상'];
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
@@ -24,6 +25,8 @@ export interface FormValue {
   info: string;
   room: string;
   want_long: string;
+  location: string;
+  dormitory: string;
 }
 
 function RegisterInfoPage() {
@@ -93,8 +96,8 @@ function RegisterInfoPage() {
               <option value="" disabled hidden>
                 공동생활 경험 기간을 선택해주세요.
               </option>
-              {period.map(period => (
-                <MyIntroduceOptionBox value={period}>
+              {period.map((period, index) => (
+                <MyIntroduceOptionBox value={period} key={index}>
                   {period < 13 ? `${period}개월` : '1년 이상'}
                 </MyIntroduceOptionBox>
               ))}
@@ -108,8 +111,8 @@ function RegisterInfoPage() {
               <option value="" disabled hidden>
                 희망 거주 기간을 선택해주세요.
               </option>
-              {period.map(period => (
-                <MyIntroduceOptionBox value={period}>
+              {period.map((period, index) => (
+                <MyIntroduceOptionBox value={period} key={index}>
                   {period < 13 ? `${period}개월` : '1년 이상'}
                 </MyIntroduceOptionBox>
               ))}
@@ -119,6 +122,28 @@ function RegisterInfoPage() {
 
         {formStep === 2 && (
           <SignUpSection>
+            <InputLabel htmlFor="location">지역</InputLabel>
+            <LocationSelect
+              id="location"
+              {...register('location', { required: true })}
+              defaultValue={''}
+            >
+              <option value="" disabled hidden>
+                지역을 선택하세요
+              </option>
+              {locationData.map((data, index) => (
+                <option value={data} key={index}>
+                  {data}
+                </option>
+              ))}
+            </LocationSelect>
+            <InputLabel htmlFor="dormitory">기숙사</InputLabel>
+            <Input
+              id="dormitory"
+              type="dormitory"
+              {...register('dormitory', { required: true })}
+              placeholder="ex)숭실대학교 or 자취"
+            />
             <InputLabel htmlFor="room">방 개수</InputLabel>
             <LocationSelect
               id="room"

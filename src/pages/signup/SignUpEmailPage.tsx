@@ -39,6 +39,7 @@ function SignUpEmailPage() {
   const mutation = useMutation(fetchEmailValidation, {
     onSuccess: ({ data }, variable) => {
       if (data.code === 200) {
+        console.log(data);
         sessionStorage.setItem('email', variable.email);
         refetchSendEmail();
       } else if (data.code === 400) {

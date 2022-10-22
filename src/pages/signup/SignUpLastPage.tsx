@@ -6,7 +6,6 @@ import {
   SignUpImgUploader,
   ProfileImgSelect,
   ProfileThumbNailImg,
-  LocationSelect,
   GenderRadio,
   SignUpSection,
   SignUpAgeSelect,
@@ -19,7 +18,6 @@ import ProgressBar from 'components/progressBar/ProgressBar';
 import { useMutation } from '@tanstack/react-query';
 import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
-import { locationData } from 'utils/locationData';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 import { Form, Input, InputLabel, Title } from 'design/commonStyles';
 import { ImgInput } from 'design/commonStyles';
@@ -32,9 +30,7 @@ interface FormValue {
   passwordCheck: string;
   representImage: FileList;
   age: string;
-  location: string;
   gender: string;
-  dormitory: string;
 }
 
 function SignUpLastPage() {
@@ -104,6 +100,7 @@ function SignUpLastPage() {
   };
 
   const onValid: SubmitHandler<FormValue> = data => {
+    console.log(data);
     sessionStorage.setItem('password', data.password);
     mutation.mutate(data);
   };
@@ -251,28 +248,6 @@ function SignUpLastPage() {
                 />
               </RadioLabel>
             </GenderRadio>
-            <InputLabel htmlFor="location">지역</InputLabel>
-            <LocationSelect
-              id="location"
-              {...register('location', { required: true })}
-              defaultValue={''}
-            >
-              <option value="" disabled hidden>
-                지역을 선택하세요
-              </option>
-              {locationData.map((data, index) => (
-                <option value={data} key={index}>
-                  {data}
-                </option>
-              ))}
-            </LocationSelect>
-            <InputLabel htmlFor="dormitory">기숙사</InputLabel>
-            <Input
-              id="dormitory"
-              type="dormitory"
-              {...register('dormitory', { required: true })}
-              placeholder="ex)숭실대학교 or 자취"
-            />
           </SignUpSection>
         )}
         {formStep === 3 ? (
