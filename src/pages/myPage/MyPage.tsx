@@ -39,7 +39,7 @@ function MyPage() {
     myDataInfo.wantPeriod = matchingData.want_long;
     myDataInfo.userMessage = matchingData.info;
   }
-  if (!isLoading) {
+  if (isLoading) {
     return (
       <PageContainer style={{ justifyContent: 'center' }}>
         <Loader />
