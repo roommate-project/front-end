@@ -44,7 +44,7 @@ function MyLikeList({ likeList }: myLikeListProp) {
     <MyLikeListGridBox len={likeList.length / 2}>
       {likeList.map((list, index) => (
         <MyLikeListBox
-          key={list.representImage + index}
+          key={index}
           onClick={event => lookDetailHandler(event, list.userId)}
         >
           <MyLikeListImg

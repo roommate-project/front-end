@@ -30,13 +30,16 @@ function SignUpEmailPage() {
       refetchOnWindowFocus: false,
       enabled: false,
       retry: 0,
-      onSuccess: () => navigation('/sign-up/email-auth'),
+      onSuccess: () => {
+        navigation('/sign-up/email-auth');
+      },
     }
   );
 
   const mutation = useMutation(fetchEmailValidation, {
     onSuccess: ({ data }, variable) => {
       if (data.code === 200) {
+        console.log(data);
         sessionStorage.setItem('email', variable.email);
         refetchSendEmail();
       } else if (data.code === 400) {
@@ -55,7 +58,7 @@ function SignUpEmailPage() {
   return (
     <SignUpPageContainer>
       <Title>
-        <RoommateLogo height={48} />
+        <RoommateLogo height={44} />
         <p> 로그인 시 사용할 이메일을 입력해주세요!</p>
       </Title>
       <Form onSubmit={handleSubmit(onValid)}>

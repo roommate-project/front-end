@@ -62,21 +62,19 @@ function NavigationBar() {
 
   const isVisible = () => {
     if (
-      location.pathname ===
-      ('/login' ||
-        '/login/email' ||
-        '/sign-up' ||
-        '/sign-up/email' ||
-        '/sign-up/email-auth' ||
-        '/sign-up/email-auth/last' ||
-        '/matching-filter')
+      location.pathname === '/login' ||
+      location.pathname === '/login/email' ||
+      location.pathname === '/sign-up' ||
+      location.pathname === '/sign-up/email' ||
+      location.pathname === '/sign-up/email-auth' ||
+      location.pathname === '/sign-up/email-auth/last' ||
+      location.pathname === '/register-house-info'
     ) {
       return false;
     }
     if (chatPage) {
-      return true;
-    }
-    return true;
+      return false;
+    } else return true;
   };
 
   return (

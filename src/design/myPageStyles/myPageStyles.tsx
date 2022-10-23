@@ -95,4 +95,5 @@ export const MyPageMenuButton = styled(DetailTabButton)`
 export const MypageInfoContainer = styled.div`
   padding: 0 20px;
   margin: 20px 0;
+  margin-bottom: 60px;
 `;

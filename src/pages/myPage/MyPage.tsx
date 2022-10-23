@@ -12,10 +12,14 @@ import MyHouseIntroduce from 'components/myPage/MyHouseIntroduce';
 import { getMypageData } from 'api/mypageApi';
 import { useQuery } from '@tanstack/react-query';
 import MyBasicInfo from 'components/myPage/MyBasicInfo';
+import Loader from 'components/loader/Loader';
+import { PageContainer } from 'design/commonStyles';
 
 function MyPage() {
   const [menuSelected, setMenuSelected] = useState(0);
-  const { data, isLoading } = useQuery(['getData'], () => getMypageData());
+  const { data, isLoading } = useQuery(['getData'], getMypageData, {
+    onSuccess: data => console.log(data.data),
+  });
   let userBasicData;
   let matchingData;
   let likedListData;
@@ -36,8 +40,13 @@ function MyPage() {
     myDataInfo.userMessage = matchingData.info;
   }
   if (isLoading) {
-    return <div>로딩중</div>;
+    return (
+      <PageContainer style={{ justifyContent: 'center' }}>
+        <Loader />
+      </PageContainer>
+    );
   }
+
   return (
     <MyPageContainer>
       <MyBasicInfo

@@ -45,6 +45,10 @@ export const NextBtn = styled.div`
 `;
 
 export const Title = styled.h1`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
   p {
     text-align: center;
     line-height: 32px;

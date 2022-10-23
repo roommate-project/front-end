@@ -24,10 +24,10 @@ export const MatchingInfoBox = styled.div`
   height: 20%;
   position: absolute;
   top: 0;
-  background: linear-gradient(to bottom, rgba(255, 73, 73, 0.3), transparent);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 `;
 
 export const MatchingUserInfo = styled.div`
@@ -43,10 +43,17 @@ export const MatchingUserInfo = styled.div`
   }
 `;
 
+export const IconBox = styled.span`
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
+`;
+
 export const MatchinglocationInfo = styled.div`
   color: ${props => props.theme.mainWhite};
   font-size: 18px;
   margin-right: 20px;
+  span {
+    margin-left: 5px;
+  }
 `;
 
 export const MatchingCircleBtnBox = styled.div`

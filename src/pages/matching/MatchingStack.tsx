@@ -3,6 +3,8 @@ import { MachingCardWrapper } from 'design/matchingStyles/MatchingPageStyles';
 import MachingCard from 'pages/matching/MatchingCard';
 import { fetchMatchingData } from 'api/matchingApi';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import Loader from 'components/loader/Loader';
+import { PageContainer } from 'design/commonStyles';
 
 interface IMatchingStackProps {
   children: any;
@@ -60,22 +62,26 @@ function MatchingStack({ children, filter }: IMatchingStackProps) {
     }
   };
 
+  if (isLoading) {
+    return (
+      <PageContainer style={{ justifyContent: 'center' }}>
+        <Loader />
+      </PageContainer>
+    );
+  }
+
   return (
     <MachingCardWrapper>
-      {isLoading ? (
-        <p>LOADING....</p>
-      ) : (
-        circularArray.map(data => (
-          <MachingCard
-            key={data.userId}
-            onMove={(direction: string | undefined) => handleMove(direction)}
-            fetchData={data}
-            fetchNextPage={fetchNextPage}
-          >
-            {children}
-          </MachingCard>
-        ))
-      )}
+      {circularArray.map(data => (
+        <MachingCard
+          key={data.userId}
+          onMove={(direction: string | undefined) => handleMove(direction)}
+          fetchData={data}
+          fetchNextPage={fetchNextPage}
+        >
+          {children}
+        </MachingCard>
+      ))}
     </MachingCardWrapper>
   );
 }

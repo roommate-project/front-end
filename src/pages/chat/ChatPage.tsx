@@ -35,8 +35,9 @@ import { AxiosError } from 'axios';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ImgInput } from 'design/commonStyles';
+import { ImgInput, PageContainer } from 'design/commonStyles';
 import { convertFileToBase64 } from 'utils/convertFileToBase64';
+import Loader from 'components/loader/Loader';
 
 interface IChatData {
   data: {
@@ -76,7 +77,7 @@ function ChatPage() {
     watch,
     formState: { isValid, dirtyFields },
   } = useForm<FormValue>({ mode: 'all' });
-  const { mutate, data } = useMutation<
+  const { mutate, data, isLoading } = useMutation<
     IChatData,
     AxiosError,
     string,
@@ -157,6 +158,14 @@ function ChatPage() {
       reset();
     }
   };
+
+  if (isLoading) {
+    return (
+      <PageContainer style={{ justifyContent: 'center' }}>
+        <Loader />
+      </PageContainer>
+    );
+  }
 
   return (
     <ChatPageContainer>

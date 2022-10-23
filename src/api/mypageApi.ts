@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { privateApi } from 'api/authApi';
+import { FormValue } from 'pages/signup/RegisterInfo';
 
 export const getMypageData = async () => {
   const response = await privateApi.get(
@@ -69,5 +70,17 @@ export const postUserHousePhotos = async (photo: File) => {
  */
 export const deleteHousePhoto = async (photoId: number) => {
   const response = await privateApi.delete(`/api/mypage/image/rest/${photoId}`);
+  return response;
+};
+
+export const postFirstRegisterHouseInfo = async (houseInfo: FormValue) => {
+  const response = await privateApi.post(`/api/mypage/info`, {
+    experience: houseInfo.experience,
+    want_long: houseInfo.want_long,
+    room: houseInfo.room,
+    cost: houseInfo.cost,
+    info: houseInfo.info,
+    houseInfo: houseInfo.houseInfo,
+  });
   return response;
 };

@@ -98,7 +98,7 @@ export const DetailContentTitle = styled.p`
   font-weight: 700;
 `;
 
-export const DetailContent = styled.p`
+export const DetailContent = styled.div`
   font-size: 16px;
   line-height: 28px;
   padding: 10px;

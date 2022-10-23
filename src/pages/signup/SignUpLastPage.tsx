@@ -6,7 +6,6 @@ import {
   SignUpImgUploader,
   ProfileImgSelect,
   ProfileThumbNailImg,
-  LocationSelect,
   GenderRadio,
   SignUpSection,
   SignUpAgeSelect,
@@ -19,22 +18,20 @@ import ProgressBar from 'components/progressBar/ProgressBar';
 import { useMutation } from '@tanstack/react-query';
 import { fetchEmailRegister } from 'api/signUpApi';
 import { useNavigate } from 'react-router-dom';
-import { locationData } from 'utils/locationData';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 import { Form, Input, InputLabel, Title } from 'design/commonStyles';
 import { ImgInput } from 'design/commonStyles';
+import { fetchEmailLogin } from 'api/loginApi';
 
-type FormValue = {
+interface FormValue {
   name: string;
   nickName: string;
   password: string;
   passwordCheck: string;
   representImage: FileList;
   age: string;
-  location: string;
   gender: string;
-  dormitory: string;
-};
+}
 
 function SignUpLastPage() {
   const {
@@ -49,13 +46,35 @@ function SignUpLastPage() {
   const profileImg = watch('representImage');
   const navegation = useNavigate();
 
+  //자동로그인
+  const loginMutation = useMutation(fetchEmailLogin, {
+    onSuccess: ({ data }) => {
+      if (data.code === 200) {
+        let accessToken = data.message.split(' ')[0];
+        let refreshToken = data.message.split(' ')[1];
+        sessionStorage.setItem('accessToken', accessToken);
+        sessionStorage.setItem('refreshToken', refreshToken);
+        sessionStorage.setItem('userId', data.id);
+        navegation('/register-house-info');
+      }
+    },
+  });
+
   const mutation = useMutation(fetchEmailRegister, {
     onSuccess: ({ data }) => {
       if (data.code === 200) {
-        alert('회원가입이 완료되었습니다.');
-        navegation('/');
+        const loginData = {
+          email: sessionStorage.getItem('email'),
+          password: sessionStorage.getItem('password'),
+        };
+        loginMutation.mutate(loginData);
+        alert(
+          '회원가입이 완료되었습니다. 원활한 서비스 이용을 위해 추가정보를 입력해주세요.'
+        );
       } else if (data.code === 400) {
         alert('중복된 이메일 입니다.');
+      } else if (data.code === 401) {
+        alert(data.message);
       } else {
         alert('회원가입에 실패하였습니다.');
       }
@@ -81,20 +100,21 @@ function SignUpLastPage() {
   };
 
   const onValid: SubmitHandler<FormValue> = data => {
-    mutation.mutate(data);
     console.log(data);
+    sessionStorage.setItem('password', data.password);
+    mutation.mutate(data);
   };
 
   return (
     <SignUpPageContainer>
       {formStep === 1 ? (
         <Title>
-          <RoommateLogo height={48} />
+          <RoommateLogo height={44} />
           <p>비밀번호는 영문, 숫자를 포함하여 8글자 이상으로 생성해주세요.</p>
         </Title>
       ) : formStep === 2 ? (
         <Title>
-          <RoommateLogo height={48} />
+          <RoommateLogo height={44} />
           <p>다른 룸메이트들에게 보여질 이름과 닉네임을 입력해주세요!</p>
         </Title>
       ) : null}
@@ -228,28 +248,6 @@ function SignUpLastPage() {
                 />
               </RadioLabel>
             </GenderRadio>
-            <InputLabel htmlFor="location">지역</InputLabel>
-            <LocationSelect
-              id="location"
-              {...register('location', { required: true })}
-              defaultValue={''}
-            >
-              <option value="" disabled hidden>
-                지역을 선택하세요
-              </option>
-              {locationData.map((data, index) => (
-                <option value={data} key={index}>
-                  {data}
-                </option>
-              ))}
-            </LocationSelect>
-            <InputLabel htmlFor="dormitory">기숙사</InputLabel>
-            <Input
-              id="dormitory"
-              type="dormitory"
-              {...register('dormitory', { required: true })}
-              placeholder="ex)숭실대학교 or 자취"
-            />
           </SignUpSection>
         )}
         {formStep === 3 ? (

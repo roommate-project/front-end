@@ -13,7 +13,7 @@ function SignUpMainPage() {
   return (
     <SignUpPageContainer>
       <Title>
-        <RoommateLogo height={48} />
+        <RoommateLogo height={44} />
         <p>
           룸메이트와 다툼은 이제 그만! 🙅🏻‍♀️ <br />
           <span>성향 기반 매칭 서비스 룸메이트</span>에서 <br />

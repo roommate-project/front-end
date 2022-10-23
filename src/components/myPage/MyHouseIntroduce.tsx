@@ -31,7 +31,7 @@ import {
 } from 'api/mypageApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-let roomCount = [...new Array(4)].map((_, i) => i + 1);
+const roomCount: Array<String> = ['기숙사', '1개', '2개', '3개', '3개 이상'];
 
 const costRange = [...new Array(10)].map((_, i) => (i + 1) * 10);
 
@@ -113,7 +113,7 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
     <MyIntroduceBackground>
       <MyIntroduceContentTitle>집 상세 정보</MyIntroduceContentTitle>
       <MyIntroduceContent>
-        저희 집은 방이{' '}
+        저희 집은 방이
         <MyIntroduceSelectBox
           name="roomCount"
           defaultValue={houseInfo.roomCount}
@@ -121,9 +121,9 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
             onChangeDatas(e, 'select');
           }}
         >
-          {roomCount.map(roomCount => (
-            <MyIntroduceOptionBox value={roomCount} key={roomCount}>
-              {roomCount < 4 ? `${roomCount}개` : '3개 이상'}
+          {roomCount.map((roomCount, index) => (
+            <MyIntroduceOptionBox value={index} key={index}>
+              {roomCount}
             </MyIntroduceOptionBox>
           ))}{' '}
         </MyIntroduceSelectBox>
@@ -138,8 +138,11 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
             onChangeDatas(e, 'select');
           }}
         >
-          {costRange.map(costRange => (
-            <MyIntroduceOptionBox value={costRange * 10000} key={costRange}>
+          {costRange.map((costRange, index) => (
+            <MyIntroduceOptionBox
+              value={costRange * 10000}
+              key={costRange + index}
+            >
               {costRange < 100000000 ? `${costRange} 만원` : '100만원 이상'}
             </MyIntroduceOptionBox>
           ))}{' '}
@@ -170,8 +173,8 @@ function MyHouseIntroduce({ houseInfo }: myHouseInfoProps) {
       </MyIntroduceContentTitle>
       <DetailImgWrapper>
         <Slider {...settings}>
-          {houseInfo.restImagesId.map(photo => (
-            <div key={photo.toString()}>
+          {houseInfo.restImagesId.map((photo, index) => (
+            <div key={photo.toString() + index}>
               <MypageHouseImage
                 src={`${
                   process.env.REACT_APP_SERVER_IP
