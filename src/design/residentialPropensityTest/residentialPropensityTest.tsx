@@ -27,7 +27,7 @@ export const TestQuestion = styled.p`
   margin: 30px;
 `;
 
-export const TestAnswerBox = styled('p')<{
+export const TestAnswerBox = styled.p<{
   answerType: boolean;
   selected: boolean;
 }>`

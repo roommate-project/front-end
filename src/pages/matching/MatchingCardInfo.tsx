@@ -1,4 +1,5 @@
 import {
+  IconBox,
   MatchingInfoBox,
   MatchinglocationInfo,
   MatchingUserInfo,
@@ -14,19 +15,23 @@ function MatchingCardInfo({ data }: any) {
   return (
     <MatchingInfoBox>
       <MatchingUserInfo>
-        {data.gender === 'male' ? (
-          <FontAwesomeIcon icon={faMars} />
-        ) : (
-          <FontAwesomeIcon icon={faVenus} />
-        )}
+        <IconBox>
+          {data.gender === 'male' ? (
+            <FontAwesomeIcon icon={faMars} />
+          ) : (
+            <FontAwesomeIcon icon={faVenus} />
+          )}
+        </IconBox>
         <span>
           {data.nickName}, {data.age}
         </span>
         <p>{`"${data.info}"`}</p>
       </MatchingUserInfo>
       <MatchinglocationInfo>
-        <FontAwesomeIcon icon={faLocationDot} />
-        {data.location}
+        <IconBox>
+          <FontAwesomeIcon icon={faLocationDot} />
+        </IconBox>
+        <span>{data.location}</span>
       </MatchinglocationInfo>
     </MatchingInfoBox>
   );
