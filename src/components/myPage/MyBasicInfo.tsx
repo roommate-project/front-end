@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   MyPageBasicInfo,
   MyPageBasicInfoBox,
   MyPageRepresentiveImg,
-  MyPageTopBackground,
   MyPageEditIcon,
   MyPagePhotoInput,
+  MyPageTopContainer,
+  ImgEditBtn,
 } from 'design/myPageStyles/myPageStyles';
 import { setGender } from 'utils/setGender';
 import {
@@ -48,10 +49,6 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
     location: location,
     gender: userBasicData.gender,
   });
-
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
 
   const mutation = useMutation(putUserRepresentPhoto, {
     onSuccess({ data }: any) {
@@ -110,28 +107,19 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
   };
 
   return (
-    <>
-      <MyPageTopBackground>
-        <form action="submit">
-          <MyPageRepresentiveImg src={userImg} alt="대표 이미지" />
+    <MyPageTopContainer>
+      <form action="submit" style={{ marginBottom: '20px' }}>
+        <MyPageRepresentiveImg src={userImg} alt="대표 이미지" />
+        <ImgEditBtn>
           <MyPageEditIcon icon={faCirclePlus} />
           <MyPagePhotoInput
             type="file"
             accept="image/jpg,image/png,image/jpeg,image/gif"
             onChange={saveFileImage}
           />
-        </form>
-      </MyPageTopBackground>
-      <div
-        style={{
-          marginTop: '35px',
-          textAlign: 'center',
-          fontSize: '12px',
-          marginBottom: '4px',
-        }}
-      >
-        이름 / 별명
-      </div>
+        </ImgEditBtn>
+      </form>
+      <p>이름 | 별명</p>
       <MyPageBasicInfo>
         <input
           type="text"
@@ -154,14 +142,16 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
           }}
         />
       </MyPageBasicInfo>
-      <MyPageBasicInfoBox marginTop={30}>
+      <MyPageBasicInfoBox>
         <MyIntroduceSelectBox
           name="gender"
           defaultValue={setGender(userBasicData.gender)}
           onChange={onChangeDatas}
         >
-          {genderType.map(gender => (
-            <MyIntroduceOptionBox>{setGender(gender)}</MyIntroduceOptionBox>
+          {genderType.map((gender, index) => (
+            <MyIntroduceOptionBox key={index}>
+              {setGender(gender)}
+            </MyIntroduceOptionBox>
           ))}
         </MyIntroduceSelectBox>
 
@@ -170,8 +160,8 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
           defaultValue={userBasicData.age}
           onChange={onChangeDatas}
         >
-          {ageArrage.map(age => (
-            <MyIntroduceOptionBox>{age}</MyIntroduceOptionBox>
+          {ageArrage.map((age, index) => (
+            <MyIntroduceOptionBox key={index}>{age}</MyIntroduceOptionBox>
           ))}
         </MyIntroduceSelectBox>
         <MyIntroduceSelectBox
@@ -179,12 +169,12 @@ function MyBasicInfo({ userBasicData, location }: myBasicInfoProps) {
           defaultValue={location}
           onChange={onChangeDatas}
         >
-          {loactionDataInSeoul.map(location => (
-            <MyIntroduceOptionBox>{location}</MyIntroduceOptionBox>
+          {loactionDataInSeoul.map((location, index) => (
+            <MyIntroduceOptionBox key={index}>{location}</MyIntroduceOptionBox>
           ))}
         </MyIntroduceSelectBox>
       </MyPageBasicInfoBox>
-    </>
+    </MyPageTopContainer>
   );
 }
 

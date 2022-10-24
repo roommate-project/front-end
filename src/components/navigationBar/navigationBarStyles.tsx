@@ -1,10 +1,11 @@
+import { HeaderContentsBox } from 'components/header/headerStyles';
 import styled from 'styled-components';
 
 interface IconStyled {
   isActive: boolean;
 }
 
-export const NavigationDiv = styled('nav')<{ visible: boolean }>`
+export const NavigationDiv = styled.nav<{ visible: boolean }>`
   width: 100%;
   height: 60px;
   background-color: ${props => props.theme.mainWhite};
@@ -15,20 +16,25 @@ export const NavigationDiv = styled('nav')<{ visible: boolean }>`
   justify-content: space-evenly;
 `;
 
-export const NavigationIcon = styled('span')<IconStyled>`
-  font-size: 22px;
-  color: ${props => props.isActive && props.theme.mainRed};
+export const NavContentsBox = styled(HeaderContentsBox)`
+  padding: 0 20px;
+  justify-content: space-between;
 `;
 
-export const NavigationIconTitle = styled('span')<IconStyled>`
+export const NavigationIcon = styled('span')<IconStyled>`
+  font-size: 22px;
+  color: ${props => props.isActive && props.theme.darkRed};
+`;
+
+export const NavigationIconTitle = styled.span<IconStyled>`
   font-size: 18px;
-  color: ${props => props.isActive && props.theme.mainBlack};
+  color: ${props => props.isActive && props.theme.darkRed};
 `;
 
 export const NavigationTabIconStyle = styled.div`
+  width: 100px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
   text-align: center;
   color: ${props => props.theme.mainGrey};
 `;

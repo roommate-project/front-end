@@ -4,12 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { BtnBox, Title } from 'design/commonStyles';
 import {
-  SocialSignUpBtn,
   EmailSignUpBtn,
   SignUpPageContainer,
 } from 'design/signupStyles/SignUpStyle';
-import kakaoImg from 'assets/kakaoImg.png';
-import naverImg from 'assets/naverImg.png';
 import { Link } from 'react-router-dom';
 import { ReactComponent as RoommateLogo } from 'assets/roommate.svg';
 
@@ -17,7 +14,7 @@ function LoginPage() {
   return (
     <SignUpPageContainer>
       <Title>
-        <RoommateLogo height={48} />
+        <RoommateLogo height={44} />
         <p>
           룸메이트와 다툼은 이제 그만! 🙅🏻‍♀️ <br />
           <span>성향 기반 매칭 서비스 룸메이트</span>에서 <br />
@@ -25,14 +22,6 @@ function LoginPage() {
         </p>
       </Title>
       <BtnBox>
-        <SocialSignUpBtn types={'kakao'}>
-          <img src={kakaoImg} />
-          카카오톡 로그인
-        </SocialSignUpBtn>
-        <SocialSignUpBtn types={'naver'}>
-          <img src={naverImg} />
-          네이버로 로그인
-        </SocialSignUpBtn>
         <Link to={'/login/email'}>
           <EmailSignUpBtn>
             <LoginIcon>

@@ -20,7 +20,7 @@ export const residentiailQuestionList = [
   {
     id: 4,
     question: '나는 청소를',
-    answer1: '매일 더러운게 눈에 보일 때 마다 한다.',
+    answer1: '매일 더러운게 보일 때마다 한다.',
     answer2: '횟수를 정해놓고 한다.',
   },
   {

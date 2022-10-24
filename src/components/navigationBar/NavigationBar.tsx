@@ -3,6 +3,7 @@ import {
   NavigationTabIconStyle,
   NavigationIcon,
   NavigationIconTitle,
+  NavContentsBox,
 } from 'components/navigationBar/navigationBarStyles';
 import {
   faMagnifyingGlass,
@@ -31,9 +32,9 @@ const NavigationTabIcon = ({
 }: NavigationProps) => {
   return (
     <Link to={path}>
-      <NavigationTabIconStyle>
+      <NavigationTabIconStyle onClick={onClickBtn}>
         <NavigationIcon isActive={isActive}>
-          <FontAwesomeIcon icon={icon} onClick={onClickBtn} />
+          <FontAwesomeIcon icon={icon} />
         </NavigationIcon>
         <NavigationIconTitle isActive={isActive}>{title}</NavigationIconTitle>
       </NavigationTabIconStyle>
@@ -61,39 +62,41 @@ function NavigationBar() {
 
   const isVisible = () => {
     if (
-      location.pathname ===
-      ('/login' ||
-        '/login/email' ||
-        '/sign-up' ||
-        '/sign-up/email' ||
-        '/sign-up/email-auth' ||
-        '/sign-up/email-auth/last' ||
-        '/matching-filter')
+      location.pathname === '/login' ||
+      location.pathname === '/login/email' ||
+      location.pathname === '/sign-up' ||
+      location.pathname === '/sign-up/email' ||
+      location.pathname === '/sign-up/email-auth' ||
+      location.pathname === '/sign-up/email-auth/last' ||
+      location.pathname === '/register-house-info'
     ) {
       return false;
     }
     if (chatPage) {
       return false;
-    }
-    return true;
+    } else return true;
   };
 
   return (
     <NavigationDiv visible={isVisible()}>
-      {tabInfo.map((info, index) => {
-        return (
-          <NavigationTabIcon
-            key={info.path}
-            path={info.path}
-            title={info.title}
-            icon={info.icon}
-            isActive={activePage[index]}
-            onClickBtn={() => {
-              isActive(index);
-            }}
-          />
-        );
-      })}
+      <NavContentsBox>
+        {chatPage
+          ? null
+          : tabInfo.map((info, index) => {
+              return (
+                <NavigationTabIcon
+                  key={info.path}
+                  path={info.path}
+                  title={info.title}
+                  icon={info.icon}
+                  isActive={activePage[index]}
+                  onClickBtn={() => {
+                    isActive(index);
+                  }}
+                />
+              );
+            })}
+      </NavContentsBox>
     </NavigationDiv>
   );
 }

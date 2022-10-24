@@ -43,6 +43,10 @@ privateApi.interceptors.response.use(
         } else if (response.data.code === 400) {
           alert(response.data.message);
           window.location.replace('/login');
+        } else if (response.data.code === 204) {
+          sessionStorage.clear();
+          alert('로그인 시간이 만료되었습니다. 재로그인 해주세요!');
+          window.location.replace('/login');
         } else {
           alert(response.data.message);
         }

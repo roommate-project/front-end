@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const PageContainer = styled.div`
+  position: relative;
   width: 100%;
   min-height: 100vh;
   height: auto;
@@ -8,6 +9,16 @@ export const PageContainer = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: ${props => props.theme.mainWhite};
+`;
+
+export const ImgInput = styled.input`
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 44px;
+  transform: scale(2.1);
+  line-height: 40px;
+  opacity: 0;
 `;
 
 export const SubmitBtn = styled.button<{ disabled: boolean }>`
@@ -34,6 +45,10 @@ export const NextBtn = styled.div`
 `;
 
 export const Title = styled.h1`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
   p {
     text-align: center;
     line-height: 32px;

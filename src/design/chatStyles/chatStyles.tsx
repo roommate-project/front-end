@@ -10,98 +10,153 @@ export const ChatPageContainer = styled.div`
   background-color: ${props => props.theme.mainWhite};
 `;
 
-export const ChatBackground = styled.div`
+export const ChatListContainer = styled.div`
+  position: relative;
+  overflow: auto;
+  height: calc(100vh - 110px);
+  top: 50px;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+  }
+`;
+
+export const ChatHeader = styled.div`
+  position: fixed;
   width: 100%;
-  height: 60px;
+  max-width: 76.8rem;
+  height: 48px;
+  display: flex;
+  background-color: ${props => props.theme.mainWhite};
+  z-index: 10;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ChatHeaderContents = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
-export const ChatFlexRowDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  border: solid 1px ${props => props.theme.mainGrey};
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  margin: 10px;
-`;
-
-export const ChatUserImg = styled.img`
+export const ChatUserImg = styled.img<{ isMe: boolean }>`
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  margin: 5px;
+  margin-right: 4px;
+  display: ${props => (props.isMe ? 'none' : 'block')};
 `;
 
 export const ChatMarginDiv = styled.div`
   margin: 5px;
 `;
 
-export const ChatContent = styled('p')<{ fontSize: number }>`
+export const ChatContent = styled.p<{ fontSize: number }>`
   font-size: ${props => props.fontSize}px;
 `;
 
-export const ChatFlexBox = styled.div`
+export const ChatFlexBox = styled.div<{ isMe: boolean }>`
+  position: relative;
   display: flex;
   width: 100%;
+  padding: 15px 20px;
+  align-items: ${props => (props.isMe ? 'flex-end' : 'flex-start')};
+  flex-direction: ${props => (props.isMe ? 'row-reverse' : 'row')};
+  gap: 5px;
+`;
+
+export const ChatBubble = styled('p')<{ isMe: boolean }>`
+  max-width: 70%;
+  height: auto;
+  background: ${props =>
+    props.isMe ? props.theme.mainGradient : props.theme.backgroundGrey};
+  border-radius: ${props =>
+    props.isMe ? '10px 10px 0 10px' : '0 10px 10px 10px'};
+  /*   border: ${props =>
+    props.isMe ? '' : `1px solid ${props.theme.mainGrey}`}; */
+  padding: 10px;
+  font-size: 16px;
+  color: ${props =>
+    props.isMe ? props.theme.mainWhite : props.theme.mainBlack};
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+`;
+
+export const ChatSendTime = styled.div`
+  font-size: 12px;
+  margin: auto 0 3px 0;
+`;
+
+export const ChatSendBox = styled.form`
+  display: flex;
+  position: fixed;
+  bottom: 10px;
+  max-width: 700px;
+  width: 90%;
+  height: 40px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 20px;
+  background-color: ${props => props.theme.backgroundGrey};
+  z-index: 1;
   align-items: center;
 `;
 
-export const ChatBox = styled('p')<{ isMe: boolean }>`
-  max-width: 40%;
-  height: auto;
-  margin: 10px;
-  background-color: ${props =>
-    props.isMe ? props.theme.mainWhite : props.theme.mainYellow};
-  border-radius: ${props =>
-    props.isMe ? '10px 10px 0 10px' : '0 10px 10px 10px'};
-  border: ${props => (props.isMe ? `1px solid ${props.theme.mainGrey}` : '')};
-  margin-left: ${props => (props.isMe ? 'auto' : 10)};
-  padding: 10px;
-`;
-
-export const ChatSendTime = styled('div')<{ isMe: boolean }>`
-  margin-left: ${props => (props.isMe ? 'auto' : 10)};
-  font-size: 12px;
-  margin-right: 10px;
-`;
-
-export const ChatReadStatus = styled.p`
-  font-size: 10px;
-`;
-
-export const ChatSendBox = styled.div`
-  display: flex;
-  border: 1px solid #000000;
-  margin: 5px;
-  position: fixed;
-  bottom: 80px;
-  max-width: 700px;
-  width: 90%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  border-radius: 15px;
-  background-color: ${props => props.theme.mainWhite};
-`;
-
 export const ChatSendInput = styled.input`
+  background-color: transparent;
   border: none;
-  padding: 8px;
-  width: 80%;
+  padding: 10px;
+  width: 90%;
   margin: 0 auto;
+  font-size: 16px;
   :focus {
     outline: none;
   }
 `;
 
 export const ChatSendIconButton = styled.button`
+  overflow: hidden;
   border: 0;
   outline: 0;
   background-color: transparent;
   cursor: pointer;
 `;
 
-export const ChatSendIcon = styled(FontAwesomeIcon)`
+export const ChatSendIcon = styled(FontAwesomeIcon)<{ $isActive?: boolean }>`
   font-size: 20px;
   margin: 5px;
+  color: ${props =>
+    props.$isActive ? props.theme.darkRed : 'rgb(133, 133, 133)'};
+`;
+
+export const ChatDate = styled.div`
+  position: relative;
+  display: flex;
+  width: 100%;
+  padding: 30px 20px;
+  font-size: 16px;
+  justify-content: center;
+`;
+
+export const EmptyChatRoomMessage = styled.h1<{ isEmpty: boolean }>`
+  display: ${props => (props.isEmpty ? 'flex' : 'none')};
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 110px);
+  font-size: 16px;
+`;
+
+export const PreviewImage = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  object-fit: cover;
 `;

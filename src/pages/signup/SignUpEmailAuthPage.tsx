@@ -57,8 +57,8 @@ function SignUpEmailAuthPage() {
   return (
     <SignUpPageContainer>
       <Title>
-        <RoommateLogo height={48} />
-        <p>{savedEmail}로 인증번호를 전송하였습니다. </p>
+        <RoommateLogo height={44} />
+        <p>{savedEmail}로 인증번호를 전송하였습니다.</p>
       </Title>
       <Form onSubmit={handleSubmit(onValid)}>
         <TimerContainer>
