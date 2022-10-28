@@ -74,27 +74,27 @@
 <br />
 <br />
 <h2>🛠 프론트엔드 기술 스택</h2>
-    <table align=center>
+    <table>
       <tr>
           <td>기술</td>
           <td>선택한 이유</td>
       </tr>
       <tr>
-          <td><img src="https://img.shields.io/badge/React-white?style={스타일}&logo=React&logoColor=61DAFB"/></td>
+          <td><img src="https://img.shields.io/badge/React-white?&logo=React&logoColor=61DAFB"/></td>
           <td>
           - 팀원 모두가 사용가능한 프레임워크<br />
           - 컴포넌트화를 통해 재사용성이 높음
           </td>
       </tr>
       <tr>
-          <td><img src="https://img.shields.io/badge/TypeScript-white?style={스타일}&logo=TypeScript&logoColor=3178C6"/></td>
+          <td><img src="https://img.shields.io/badge/TypeScript-white?&logo=TypeScript&logoColor=3178C6"/></td>
           <td>
           - 런타임 이전에 오류를 알 수 있음 <br />
           - 팀원들이 프로젝트를 통해 타입스크립트를 학습해보길 원함
           </td>
       </tr>
       <tr>
-          <td><img src="https://img.shields.io/badge/React Query-white?style={스타일}&logo=React Query&logoColor=FF4154"/></td>
+          <td><img src="https://img.shields.io/badge/React Query-white?&logo=React Query&logoColor=FF4154"/></td>
           <td>
           - 서버사이드 상태관리 용이<br />
           - 서버 데이터 캐싱을 통해 불필요한 요청 최소화<br />
@@ -102,7 +102,7 @@
           </td>
       </tr>
       <tr>
-          <td><img src="https://img.shields.io/badge/styled components-white?style={스타일}&logo=styled-components&logoColor=DB7093"/></td>
+          <td><img src="https://img.shields.io/badge/styled components-white?&logo=styled-components&logoColor=DB7093"/></td>
           <td>
           - 각자 다른 부분을 개발하기 때문에 class/id가 겹치는 문제를 최소화 <br />
           - css 커스텀 컴포넌트를 만들기 쉽고, 상속과 확장을 통해 재사용 용이<br />
@@ -110,7 +110,7 @@
           </td>
       </tr>
       <tr>
-          <td><img src="https://img.shields.io/badge/React Hook Form-white?style={스타일}&logo=React Hook Form&logoColor=EC5990"/></td>
+          <td><img src="https://img.shields.io/badge/React Hook Form-white?&logo=ReactHookForm&logoColor=EC5990"/></td>
           <td>
           - 코드 일관성 확보 및 단순화 <br />
           - 폼 상태관리 및 validation 용이 <br />
@@ -118,7 +118,7 @@
           </td>
       </tr>
       <tr>
-          <td><img src="https://img.shields.io/badge/React Router-white?style={스타일}&logo=React Router&logoColor=CA4245"/></td>
+          <td><img src="https://img.shields.io/badge/React Router-white?&logo=React Router&logoColor=CA4245"/></td>
           <td>- 새로고침없이 필요한 컴포넌트를 렌더링 하기 위함</td>
       </tr>
     </table>
