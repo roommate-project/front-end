@@ -30,7 +30,7 @@
 <br />
 <h2>⏯ 프로젝트 실행</h2>
 <ul>
-  <li><a href="43.200.244.125">여기를 눌러 실행하기</a></li>
+  <li><a href="http://3.39.4.45/">여기를 눌러 실행하기</a></li>
   <li>
   Git Hub으로 실행하기
 
@@ -142,6 +142,29 @@
     <li>매칭필터 구현</li>
     <li>채팅 구현</li>
   </ol>
+
+<br />
+<br />
+<h2>🤫 룸메이트 미리보기</h2>
+<br />
+1. 회원가입
+<img src="https://user-images.githubusercontent.com/100757599/198816169-7451cd75-1c00-491b-b7e3-790a1f5f9a0b.gif" />
+<br />
+2. 로그인
+<img src="https://user-images.githubusercontent.com/100757599/198816244-feeef8f5-7ed8-4c55-8aae-0a38d86bc29a.gif" />
+<br />
+3. 매칭성향테스트
+<img src="https://user-images.githubusercontent.com/100757599/198816274-d681d8a8-af9e-4a3c-a2a4-d3148b84f5f4.gif" />
+<br />
+4. 매칭페이지와 상세페이지
+<img src="https://user-images.githubusercontent.com/100757599/198816311-7660d2eb-56fe-45c0-8877-552808a901aa.gif" />
+<br />
+5. 채팅
+<img src="https://user-images.githubusercontent.com/100757599/198816318-4e942e83-f9f2-4c84-b63a-a168a915f3b0.gif" />
+<br />
+6. 마이페이지
+<img src="https://user-images.githubusercontent.com/100757599/198816341-042db0c4-613f-4b64-85da-e20cb00a7a6b.gif" />
+
 
 <br />
 <br />
